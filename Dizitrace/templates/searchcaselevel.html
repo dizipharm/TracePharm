@@ -1,0 +1,480 @@
+{% extends 'mainbase.html' %}
+{%block content%}
+<!DOCTYPE html>
+{%load static%}
+{%for i in res_token%}
+
+{%if i.organization_id == '3' %}
+      {%if i.role == '1' %}
+
+
+
+			<div class="content-wrapper">
+				<!-- Content Header (Page header) -->
+				<section class="content-header">
+					<h1>
+						Track & Trace <small>Click <b style="color:red">Track</b> current status or  <b style=" color:green">Trace</b> to know end to end journey of your product/Logistic Asset</small>
+					</h1>
+					<ol class="breadcrumb">
+						<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+						<li class="active"><a href="#">Search Product</a></li>
+						<li class="active"><a href="#">Track & Trace</a></li>
+					</ol>
+
+
+				</section>
+				<!--
+					<div class="bs-example" data-example-id="simple-jumbotron">
+					<div class="jumbotron">
+					</div>
+				</div>  -->
+				<!-- Main content -->
+				<section class="content">
+					<form >
+						<!-- Small boxes (Stat box) -->
+						<div class="row">
+							<div class="col-md-12 bg-light text-right"></div>
+
+							<div id="sel2"  class="col-lg-12" style="background-color: #fff; border:0.5px solid grey; padding-right: 5px;padding-left: 5px;">
+								<div class="card" style="height: 450px;">
+									<div class="card card-primary card-tabs">
+										<br>
+
+										<div class="card-header p-0" style="padding-right: 0px;padding-left: 0px;line-height: 1.5;" >
+											<ul class="nav nav-tabs" id="custom-tabs-one-tab"  role="tablist" ">
+                        <li class="nav-item" >
+													<a class="nav-link active" style="color:black;"  id="custom-tabs-one-pro-tab" data-toggle="pill" href="#custom-tabs-one-pro" role="tab" aria-controls="custom-tabs-one-pro" style=" font-size: 12px;  line-height: 0.5; margin-top : 8px; " aria-selected="true">Product Details</a>
+												</li>
+                        <li class="nav-item" >
+													<a class="nav-link " style="color:black;"  id="custom-tabs-one-home-tab" data-toggle="pill" href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" style=" font-size: 12px;  line-height: 0.5; margin-top : 8px; " aria-selected="true">Package Details</a>
+												</li>
+												<li class="nav-item">
+													<a class="nav-link" style="color:black; id="custom-tabs-one-profile-tab" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" style=" font-size: 12px;  line-height:0.5; margin-top:8px;" aria-selected="false">Entry Point Details</a>
+												</li>
+												<li class="nav-item">
+													<a class="nav-link" style="color:black; id="custom-tabs-one-messages-tab" data-toggle="pill" href="#custom-tabs-one-messages" role="tab" aria-controls="custom-tabs-one-messages" style=" font-size: 12px;  line-height: 0.5; margin-top : 8px; " aria-selected="false">Transaction Details</a>
+												</li>
+												<li class="nav-item">
+													<a class="nav-link" style="color:black; id="custom-tabs-one-settings-tab" data-toggle="pill" href="#custom-tabs-one-settings" role="tab" aria-controls="custom-tabs-one-settings" style=" font-size: 12px;  line-height: 0.5; margin-top : 8px; " aria-selected="false">Exit Point Details</a>
+												</li>
+
+											</ul>
+											<!-- /.card body Starts-->
+
+											<div class="card-body">
+												<div class="tab-content" id="custom-tabs-one-tabContent">
+
+
+
+													<div class="tab-pane fade" id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
+														<div class="card-body">
+															<!--  <h6 class="card-title" style="font-size:1rem;"><b><button class="btn btn-sm btn-default" type="button">Select Lot/Batch#</button></b></h6> -->
+
+                              <table class="table tt" id="identification_table">
+                                <thead>
+                                  <tr bgcolor="#021364">
+                                    <th width="50px"><input type="checkbox"></th>
+                                    <th class="d-flex border-0"></th>
+                                    <th style="width: 300px;color:whitesmoke;">GTIN </th>
+									   <th style="width: 310px;color:whitesmoke;">SSCC No</th>
+							<th style="width: 300px;color:whitesmoke;">No Of Inner Contents</th>
+									  <!-- <th style="width: 310px; color:whitesmoke;">Total SI No's</th> -->
+
+									<th style="width: 300px;color:whitesmoke;">Package Type</th>
+
+                              <th style="width: 310px;color:whitesmoke;">Packaging Time</th>
+
+
+                                  </tr>
+                                </thead>
+
+                                <tbody >
+
+                                  <tr>
+                                    <td class="p-2"><input type="checkbox"></td>
+                                    <td class="p-2"></td>
+                                    <td class="p-2"> {{response2.track.pallet_info.package_pallet_gtin}}</td>
+									  <td class="p-2"> {{response2.track.pallet_info.sscc}}</td>
+									  <td class="p-2">{{response2.track.pallet_info.inner_package_count}}</td>
+                                      <!-- <td class="p-2"> {{response2.inner_package_count}}</td> -->
+
+                                      <td class="p-2"> {{response2.track.pallet_info.package_type}}</td>
+
+                                      <td class="p-2"> {{response2.track.product_dispatch_info.packaging_time}}</td>
+
+                                  </tr>
+
+                                </tbody>
+                                </div>
+
+                              </table>
+
+
+
+																<!-- <div id="#"  class="col-lg-12" style="height: 310px; background-color: #fff; border:0.5px solid grey; padding-right: 5px;padding-left: 5px;"> -->
+																<div id="idshowlot" class="card" style="height: 310px; display:none" >
+																	<!-- <div class='container-fluid'> </div> -->
+																	<br>
+																	<ul class='htimeline' >
+																		<li class='step col-sm-7'>
+																			<div class='tasks container-fluid'>
+																				<div class='resource' data-name=''>
+																					<div class='task col-sm-4'>Lot Number</div>
+																					<div class='task col-sm-8'> &nbsp; <span id="idlot_number"></span></div>
+																					<div class='task col-sm-4'>Lot Quantity</div>
+																					<div class='task col-sm-8'> &nbsp; <span id="idlot_quantity"></span></div>
+																					<div class='task col-sm-4'>Base Pack Type</div>
+																					<div class='task col-sm-8'> &nbsp; <span id="idbase_pack_type"></span></div>
+																					<div class='task col-sm-4'>Product Code Type</div>
+																					<div class='task col-sm-8'> &nbsp; <span id="idproduct_code_type"></span></div>
+																					<div class='task col-sm-4'>Origination Date</div>
+																					<div class='task col-sm-8'> &nbsp; <span id="idorigination_date"></span></div>
+																					<div class='task col-sm-4'>Expiration Date</div>
+																					<div class='task col-sm-8'> &nbsp; <span id="idexpiration_date"></span></div>
+																					<div class='task col-sm-4'>Best Before Date</div>
+																					<div class='task col-sm-8'> &nbsp; <span id="idbest_before_date"></span></div>
+																					<div class='task col-sm-4'>Sell By Date</div>
+																					<div class='task col-sm-8'> &nbsp; <span id="idsell_by_date"></span></div>
+																					<div class='task col-sm-4'>Retest by date</div>
+																					<div class='task col-sm-8'> &nbsp; <span id="idretest_by_date"></span></div>
+																					<div class='task col-sm-4'>Packaged by date</div>
+																					<div class='task col-sm-8'> &nbsp; <span id="idorigination_date2"></span></div>
+																					<div class='task col-sm-4'>Packaged/Quality Check Status</div>
+																					<div class='task col-sm-8'> &nbsp; Samples Tested, Packaged into Pallets/Cases/Items </div>
+																				</div>
+																			</li>
+																			<h5 align = "centre"; ><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Lot/Batch Data Code <small>(GS1-128)</small></b></h5>
+																			<li class='col-sm-5'>
+																				<div align = "left"; class='task col-sm-4'> <span id="idbarcode"></span></div>
+																				<div align = "left"; class='task col-sm-8'> <span id="idbarcodemsg"></span></div>
+
+																			</li>
+																		</ul>
+																	</div>
+																	<!-- </div> -->
+																</div>
+															</div>
+															<div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
+																<div class="card-body">
+																	<!-- <h6 class="card-title" style="font-size:1rem;"><b><button class="btn btn-sm btn-default" type="button">Select SSCC#</button></b></h6> -->
+
+                                  <table class="table tt" id="identification_table">
+                                    <thead>
+                                      <tr bgcolor="#021364">
+                                        <th width="50px"><input type="checkbox"></th>
+                                        <th class="d-flex border-0">
+
+                                        </th>
+
+                                       <th style="width: 310px;color:whitesmoke;">Entry Point</th>
+                             <th style="width: 300px;color:whitesmoke;">Entry Point GLN</th>
+                              <th style="width: 300px;color:whitesmoke;">Orgin Address</th>
+                              <th style="width: 310px;color:whitesmoke;">Time Stamp</th>
+
+                                      </tr>
+                                    </thead>
+
+                                    <tbody >
+                                      <tr>
+                                        <td class="p-2"><input type="checkbox"></td>
+                                        <td class="p-2">
+
+                                        </td>
+
+                                        <td class="p-2">{{response2.track.product_dispatch_info.consigner}}</td>
+                       <td class="p-2">{{response2.track.product_dispatch_info.sender_loc_gln}}</td>
+                       <td class="p-2">{{response2.track.product_dispatch_info.sender_location}}</td>
+                       <td class="p-2">{{response2.track.owner.trans_timestmap}}</td>
+                                      </tr>
+
+                                      </tbody>
+															</table>
+																	</div>
+																</div>
+
+                                <div class="tab-pane fade" id="custom-tabs-one-pro" role="tabpanel" aria-labelledby="custom-tabs-one-pro-tab">
+                                  <div class="card-body">
+                                    <!-- 														<h6 class="card-title" style="font-size:1rem;"><b><button class="btn btn-sm btn-default" type="button">Select Pallet#</button></b></h6> -->
+
+                                    <table class="table tt" id="identification_table">
+                                      <thead>
+                                        <tr bgcolor="#021364">
+                                          <th width="50px"><input type="checkbox"></th>
+                                          <th class="d-flex border-0">
+
+                                          </th>
+
+                                          <th style="width: 310px; color:whitesmoke;">QR Code</th>
+                                         <th style="width: 310px; color:whitesmoke;">Company Name</th>
+                                                        <th style="width: 300px;color:whitesmoke;">Company GLN</th>
+                                         <th style="width: 300px;color:whitesmoke;">Product GTIN</th>
+                                                        <th style="width: 310px;color:whitesmoke;">Product Name</th>
+                                                        <th style="width: 310px;color:whitesmoke;">Brand Name</th>
+                                                        <th style="width: 310px;color:whitesmoke;">Dosage Form</th>
+                                         <th style="width: 310px;color:whitesmoke;">Strength</th>
+                                             <th style="width: 310px;color:whitesmoke;">Barcode</th>
+
+                                        </tr>
+                                      </thead>
+                                      <tbody >
+                                        <tr>
+                                          <td class="p-2"><input type="checkbox"></td>
+                                          <td class="p-2">
+
+                                          </td>
+
+                                          <td><img id='barcode' src=https://api.qrserver.com/v1/create-qr-code/?data="http://18.212.252.82:8000/"&amp;size=100x100 width='40' height='40' /></td>
+                                                									  <td class="p-2">{{response2.track.product.manufacturer_name}}</td>
+                                                                                      <td class="p-2">{{response2.track.product.manufacturer_gln}}</td>
+                                                                                    <td class="p-2">{{response2.track.product.product_code_gtin}}</td>
+                                                                                    <td class="p-2">{{response2.track.product.product_name}}</td>
+                                                                                   <td class="p-2">{{response2.track.product.brand_name}}</td>
+                                                                            		<td class="p-2">{{response2.track.product.product_code_type}}</td>
+                                                									  <td class="p-2">{{response2.track.product.strength}}</td>
+                                                									  <td><img src="http://bwipjs-api.metafloor.com/?bcid=code128&text={{response2.track.product.product_code_gtin}}"></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+
+
+                                    </div>
+                                  </div>
+
+
+																<div class="tab-pane fade" id="custom-tabs-one-messages" role="tabpanel" aria-labelledby="custom-tabs-one-messages-tab">
+																	<div class="card-body">
+																		<!-- 														<h6 class="card-title" style="font-size:1rem;"><b><button class="btn btn-sm btn-default" type="button">Select Pallet#</button></b></h6> -->
+
+                                    <table class="table tt" id="identification_table">
+                                      <thead>
+                                        <tr bgcolor="#021364">
+                                          <th width="50px"><input type="checkbox"></th>
+                                          <th class="d-flex border-0">
+
+                                          </th>
+
+                                          <th style="width: 310px;color:whitesmoke;">Transaction Status</th>
+                                  <th style="width: 300px;color:whitesmoke;">Event Time</th>
+
+                                  <th style="width: 300px;color:whitesmoke;">Current Location</th>
+                                  <th style="width: 310px;color:whitesmoke;">Temperature</th>
+                                  <th style="width: 310px;color:whitesmoke;">Humidity</th>
+
+
+                                        </tr>
+                                      </thead>
+                                      <tbody >
+                                        <tr>
+                                          <td class="p-2"><input type="checkbox"></td>
+                                          <td class="p-2">
+
+                                          </td>
+
+                                         <td class="p-2">{{response2.track.product_dispatch_info.order_status}}</td>
+                       <td class="p-2">{{response2.track.owner.trans_timestmap}}</td>
+                       <td class="p-2">{{response2.track.location.current_location}}</td>
+                       <td class="p-2">{{response2.track.location.temperature}}</td>
+                       <td class="p-2">{{response2.track.location.humidity}}</td>
+                        <td class="p-2"></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+
+
+																		</div>
+																	</div>
+																	<div class="tab-pane fade" id="custom-tabs-one-settings" role="tabpanel" aria-labelledby="custom-tabs-one-settings-tab">
+																		<div class="card-body">
+																			<!--dropdown input-->
+																			<!--															<h6 class="card-title" style="font-size:1rem;"><b><button class="btn btn-sm btn-default" type="button">Select Case#</button></b></h6> -->
+                                      <table class="table tt" id="identification_table">
+                                        <thead>
+                                          <tr bgcolor="#021364">
+                                            <th width="50px"><input type="checkbox"></th>
+                                            <th class="d-flex border-0">
+
+                                            </th>
+                                      <th style="width: 310px;color:whitesmoke;">Receiver Owner GLN</th>
+                                        <th style="width: 300px;color:whitesmoke;">Receiver Owner Name</th>
+                                              <th style="width: 300px;color:whitesmoke;">Receiver Owner Address</th>
+
+                                        <th style="width: 300px;color:whitesmoke;">SSCC No</th>
+
+                                    </tr>
+                                    </thead>
+                                    <tbody >
+                                      <tr>
+                                        <td class="p-2"><input type="checkbox"></td>
+                                        <td class="p-2">
+
+                                        </td>
+
+                                        <td class="p-2">{{response2.track.product_dispatch_info.dispatch_loc_gln}}</td>
+                            <td class="p-2">{{response2.track.product_dispatch_info.consignee}}</td>
+                               <td class="p-2">{{response2.track.product_dispatch_info.dispatch_location}}</td>
+
+                            <td class="p-2">{{response2.track.product_dispatch_info.sscc_no}}</td>
+    </tr>
+                                      </tbody>
+                                  </table>
+
+																			</div>
+																		</div>
+
+																	</div>
+																	<input type="hidden" name="ngtinid" value="<?php echo $ngtinid ?>" id="gtinid" />
+																</div>
+																<!-- /.card body ends-->
+
+															</div>
+														</div>
+													</div>
+
+												</div>
+												<!-- End - Second Box Selection options  -->
+											</div>
+
+											<div>
+												<!-- Small boxes (Ends box) -->
+											</form>
+										</section>
+									</div>
+									<script type='text/javascript'>
+										function getLotId(vlotid) {
+											//alert(vdivid);
+											var BASE_URL = "<?php echo base_url(); ?>";
+											var tempArray = <?php echo json_encode($tntlotdetails); ?>;
+											//alert(tempArray[vlotid].lot_number);
+											// 10 Batch Number(1-20) //23x Lot Number
+											document.getElementById('idlot_number').innerHTML = tempArray[vlotid].lot_number;
+											document.getElementById('idlot_quantity').innerHTML = tempArray[vlotid].lot_quantity;
+											document.getElementById('idbase_pack_type').innerHTML = tempArray[vlotid].base_pack_type;
+											document.getElementById('idproduct_code_type').innerHTML = tempArray[vlotid].product_code_type;
+											// 11 Production Date
+											document.getElementById('idorigination_date').innerHTML = tempArray[vlotid].origination_date;
+											document.getElementById('idorigination_date2').innerHTML = tempArray[vlotid].origination_date;
+											//13 Packaging Date
+											document.getElementById('idexpiration_date').innerHTML = tempArray[vlotid].expiration_date;
+											//17 Expiration Date
+											document.getElementById('idbest_before_date').innerHTML = tempArray[vlotid].best_before_date;
+											document.getElementById('idsell_by_date').innerHTML = tempArray[vlotid].sell_by_date;// 15 Sell by Date (Quality Control) YYMMDD
+											document.getElementById('idretest_by_date').innerHTML = tempArray[vlotid].retest_by_date;
+											// Generate Lot Details Barcode as per the GS-128
+											//https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Example
+											document.getElementById('idbarcode').innerHTML =
+											'<img  src="https://api.qrserver.com/v1/create-qr-code/?size=90x90&data=' + BASE_URL + '(01)' + tempArray[vlotid].product_code_gtin +'(10)'+ tempArray[vlotid].lot_number +'(11)'+tempArray[vlotid].origination_date+'(17)'+tempArray[vlotid].best_before_date+'&includetext">';
+											document.getElementById('idbarcodemsg').innerHTML = '<small style="line-height:10px;">&nbsp;&nbsp;&nbsp;&nbsp;(01) ' + tempArray[vlotid].product_code_gtin +'<br>&nbsp;&nbsp;&nbsp;&nbsp;(10) '+ tempArray[vlotid].lot_number +'<br>&nbsp;&nbsp;&nbsp;&nbsp;(11) '+tempArray[vlotid].origination_date+'<br>&nbsp;&nbsp;&nbsp;&nbsp;(17) '+tempArray[vlotid].best_before_date+'</small>'
+
+											//document.getElementById('idbarcode').innerHTML =  '<img alt="Barcoded value'+tempArray[vlotid].product_code_gtin+'"src="http://bwipjs-api.metafloor.com/?bcid=code128&text= ' + tempArray[vlotid].product_code_gtin + '&includetext">';
+
+										}
+										</script>
+
+										<script type="text/javascript">
+											function showDiv(vdivid) {
+												div = document.getElementById(vdivid);
+												if (div.style.display !== "none") {
+													div.style.display = "none";
+													} else {
+													div.style.display = "block";
+												}
+
+											}
+
+										</script>
+										<script type="text/javascript">
+											$(function() {
+
+
+												var BASE_URL = "<?php echo base_url(); ?>";
+												var vplaceholder = "<?php echo $vproduct_code_gtin; ?>";
+												//alert(vplaceholder);
+												$('#gtinid').select2({
+													placeholder: vplaceholder,
+													minimumInputLength: 1,
+													ajax: {
+														url: "#",
+														dataType: 'json',
+														delay: 250,
+														processResults: function (data) {
+															return {
+																results: data
+															};
+														},
+														cache: true
+													}
+												});
+												$('#mylotid').select2({
+												});
+												$('#mycaseid').select2({
+												});
+												$('#myssccid').select2({
+												});
+												$('#mypalletid').select2({
+												});
+												$('#pname').select2({
+												placeholder: "--Search Product Brand/Lable--",
+												minimumInputLength: 1,
+												ajax: {
+												url: "<?=base_url()?>productTnT/searchProductName",
+												dataType: 'json',
+												delay: 250,
+												processResults: function (data) {
+												return {
+												results: data
+												};
+												},
+												cache: true
+												}
+												});
+												$('#pono').select2({
+												placeholder: "--Search PO No--",
+												minimumInputLength: 1,
+												ajax: {
+												url: "<?=base_url()?>productTnT/searchGtinData",
+												dataType: 'json',
+												delay: 250,
+												processResults: function (data) {
+												return {
+												results: data
+												};
+												},
+												cache: true
+												}
+												});
+												$('#lotid').select2({
+												placeholder: "--Search Lot/Batch No--",
+												minimumInputLength: 1,
+												ajax: {
+												url: "<?=base_url()?>productTnT/searchGtinsLots/",
+												dataType: 'json',
+												delay: 250,
+												processResults: function (data) {
+												return {
+												results: data
+												};
+												},
+												cache: true
+												}
+												});
+												});
+												// this is to Refresh page
+												function tntdata(id)
+												{
+												if(id) {
+												$("#tntdata").on('submit', function() {
+												var form = $(this);
+												console.log(form);
+												// hide the modal
+												$("#sel2").modal('hide');
+												// hide the modal
+												$("#sel3").modal('hide');
+												return false;
+												});
+												}
+												}
+												</script>
+{%endif%}
+{%endif%}
+{%endfor%}
+{%endblock%}

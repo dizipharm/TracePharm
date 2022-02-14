@@ -1,0 +1,111 @@
+{% extends 'mainbase.html' %}
+{%block content%}
+{%load static%}
+{%csrf_token%}
+<style>
+.content {
+  max-width: 500px;
+  margin: auto;
+}
+.main{
+    color: blue;
+  }
+  table, th, td {
+  border: 1px solid black;
+  background-color:whitesmoke;
+}
+h1{
+
+}
+body{
+  background-color:#C0C0C0;
+}
+
+</style>
+<title>Dashboard</title>
+
+<body>
+  <div class="content">
+<center><h1 class="main">Accept Order</h1></center>
+<br>
+
+
+
+<br><br><br>
+
+<table>
+        <thead>
+          <tr>
+            <th>SSCC</th>
+            <th>Product Name</th>
+            <th>currentlocation </th>
+            <th>currentowner </th>
+            <th>Order Status</th>
+            <th>Accept Order</th>
+            <!-- <th style="width: 130px;">Mfg Date</th>
+        <th style="width: 130px;">Expiry Date</th>
+        <th style="width: 130px;">Status</th>
+        <th style="width: 130px;">Action</th> -->
+          </tr>
+        </thead>
+        <tbody>
+
+          {%for a in result %}
+          <form method="PUT"  action="/retailer_order_update/">
+          {%csrf_token%}
+          <tr>
+            <!-- <td>{{a.Sno}}</td> -->
+
+            <td>
+              <input type="" style="width: 150px" name="sscc_no" value="{{a.product_disp.sscc_no}}">
+
+            </td>
+            <td><input type="" style="width: 150px" name="current_location" value="{{a.product.product_name}}">
+            
+            </td>
+            <td><input type="" style="width: 150px" name="current_location" value="{{a.product_disp.location.current_location}}">
+            </td>
+            <td>
+              <input type="" style="width: 150px" name="asset_owner_now" value="{{a.product_disp.owner.asset_owner_now}}">
+            </td>
+            <td>
+              <input type="" style="width: 150px" name="order_status" value="{{a.product_disp.order_status}}">
+              <!-- <p align="center" style="width: 150px"> -->
+            </td>
+
+              <input type="hidden" style="width: 150px" name="transaction_type" value="{{a.product_disp.owner.transaction_type}}">
+
+
+              <input type="hidden" style="width: 150px" name="current_owner_contact" value="{{a.product_disp.owner.current_owner_contact}}">
+
+              <input type="hidden" style="width: 150px" name="current_owner_address" value="{{a.product_disp.owner.current_owner_address}}">
+
+
+            <td>
+
+                <input type="submit" class="button" value="Accept"/>
+            </td>
+
+            </form>
+            {%endfor%}
+          </tr>
+        </tbody>
+      </table>
+
+</div>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+</body>
+
+{%endblock%}

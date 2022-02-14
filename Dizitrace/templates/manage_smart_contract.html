@@ -1,0 +1,166 @@
+{% extends 'mainbase.html' %}
+{%block content%}
+<!DOCTYPE html>
+{%load static%}
+{%for i in res_token%}
+{%if i.organization_id == '1' %}
+
+
+      <head>
+        {%for message in messages%}
+        <script>
+        window.onload = function() {
+          alert('{{message}}');
+        }
+        </script>
+        {%endfor%}
+      </head>
+{%if i.role == '7' %}
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <h1>Published Contracts</h1>
+    <ol class="breadcrumb">
+      <li><a href="{%url 'dashboard1'%}"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li class="active">Manage Smart Contract</li>
+    </ol>
+  </section>
+<br>
+  <!-- Main content -->
+  <section class="content">
+    <!-- Small boxes (Stat box) -->
+    <div class="row">
+      <div class="col-md-12 col-xs-12">
+
+        <div class="box">
+          <div class="box-header">
+            <h3 class="box-title">Manage Orders</h3>
+          </div>
+
+          <!-- /.box-header -->
+          <div class="box-body">
+            <table id="manageTable" class="table table-bordered table-striped">
+              <thead>
+              <tr>
+                <th><input type="checkbox"></th>
+                <th>Contract ID</th>
+                <th>Purchase Order No</th>
+                <th>Contract Created Date</th>
+                <th>Contract Status</th>
+                <!-- <th>Download</th> -->
+                <th>Authorize</th>
+
+              </tr>
+              </thead>
+              {%for i in result%}
+                <tbody>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>{{i.id}}</td>
+                    <td>{{i.purchase_order}}</td>
+                    <td>{{i.contract_created_date}}</td>
+                    <td>{{i.status}}</td>
+                    <!-- <td><i class="fa fa-download"></i></td> -->
+                    <td>
+                      <a href="/edit_status/{{i.purchase_order}}/{{i.id}}"><i style="color:green" class='fa fa-pencil'></i></a>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      <a href="/delete_status/{{i.id}}"><i style="color:red;" class='fa fa-trash'></i></a>
+                    </td>
+                </tr>
+
+                </tbody>
+                {%endfor%}
+            </table>
+          </div>
+          <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+      </div>
+      <!-- col-md-12 -->
+    </div>
+    <!-- /.row -->
+
+
+  </section>
+  <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+{%endif%}
+{%if i.role == '3' %}
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <h1>Published Contracts</h1>
+    <ol class="breadcrumb">
+      <li><a href="{%url 'dashboard1'%}"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li class="active">Manage Smart Contract</li>
+    </ol>
+  </section>
+<br>
+  <!-- Main content -->
+  <section class="content">
+    <!-- Small boxes (Stat box) -->
+    <div class="row">
+      <div class="col-md-12 col-xs-12">
+
+        <div class="box">
+          <div class="box-header">
+            <h3 class="box-title">Manage Orders</h3>
+          </div>
+
+          <!-- /.box-header -->
+          <div class="box-body">
+            <table id="manageTable" class="table table-bordered table-striped">
+              <thead>
+              <tr>
+                <th><input type="checkbox"></th>
+                <th>Contract ID</th>
+                <th>Purchase Order No</th>
+                <th>Contract Created Date</th>
+                <th>Contract Status</th>
+                <!-- <th>Download</th> -->
+                <th>Authorize</th>
+
+              </tr>
+              </thead>
+              {%for i in result%}
+                <tbody>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>{{i.id}}</td>
+                    <td>{{i.purchase_order}}</td>
+                    <td>{{i.contract_created_date}}</td>
+                    <td>{{i.status}}</td>
+                    <!-- <td><i class="fa fa-download"></i></td> -->
+                    <td>
+                      <a href="/edit_status/{{i.purchase_order}}/{{i.id}}"><i style="color:green" class='fa fa-pencil'></i></a>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      <a href="/delete_status/{{i.id}}"><i style="color:red;" class='fa fa-trash'></i></a>
+                    </td>
+                </tr>
+
+                </tbody>
+                {%endfor%}
+            </table>
+          </div>
+          <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+      </div>
+      <!-- col-md-12 -->
+    </div>
+    <!-- /.row -->
+
+
+  </section>
+  <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+
+
+{%endif%}
+{%endif%}
+  {%endfor%}
+{%endblock%}

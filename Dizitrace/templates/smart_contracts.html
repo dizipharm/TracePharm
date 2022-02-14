@@ -1,0 +1,203 @@
+{% extends 'mainbase.html' %}
+{%block content%}
+<!DOCTYPE html>
+{%load static%}
+{%for i in res_token%}
+{%if i.organization_id == '1' %}
+
+<html>
+<head>
+	<!-- <meta charset="utf-8"> -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Smart Contract</title>
+	{%for message in messages%}
+	<script>
+	window.onload = function() {
+	  alert('{{message}}');
+	}
+	</script>
+	{%endfor%}
+</head>
+
+<style type="text/css">
+	body {
+  font-family: 'lato', sans-serif;
+  background: #fff;
+	height:120vh;
+}
+.request_form{
+	text-align: center;
+	width: 70%;
+	margin: 0 auto;
+}
+label{
+	padding-top:10px;
+}
+</style>
+  {%if i.role == '7' %}
+<body>
+<div class="content-wrapper">
+<section class="content-header">
+              		<h1>Smart Contract</h1>
+<br>
+
+              		<ol class="breadcrumb">
+                    <!-- <li><a href="<?php echo base_url('dashboard') ?>"><i class="fa fa-dashboard"></i> Home</a></li> -->
+              			<li><a href="{%url 'dashboard1'%}"><i class="fa fa-dashboard"></i> Home</a></li>
+                  	</ol>
+</section>
+
+ <div>
+	<form action="/smart_contract1/" method="post" enctype=multipart/form-data>
+		{%csrf_token%}
+
+		<!-- <button type="submit"><i class="fa fa-search"></i></button> -->
+</div>
+
+  <div class="col-sm-12">
+		<div class="col-sm-4">
+					<div class="form-row">
+						<label class="col control-label"> Contract Type</label><br>
+						<select class="col control-label" name="contract_type" id="contract_type" style="padding: 4px 4px;width:54%;">
+							<option class="col control-label" value="{{contract_type}}">{{contract_type}}</option>
+				</select><br>
+  													<label class="col control-label">Order Number</label>
+  													<div class="col control-label"><input name="purchase_orderno" value="{{resultpo.pack_info.purchase_order}}" readonly></div><br>
+  													<label class="col control-label">Product Name</label>
+  													<div class="col control-label"><input name="" value="{{resultpo.pack_info.product_name}}" readonly></div>
+  													<label class="col control-label">Product Description</label>
+  													<div class="col control-label"><input name="" value="{{resultpo.pack_info.product_discription}}" readonly></div>
+  													<label class="col control-label">Lot Number</label>
+  													<div class="col control-label"><input name="" value="{{resultpo.pack_info.lot_number}}" readonly></div>
+  													<label class="col control-label">Product GTIN</label>
+  													<div class="col control-label"><input name="" value="{{resultpo.pack_info.product_gtin}}" readonly></div>
+  													<label class="col control-label">Quantity</label>
+  													<div class="col control-label"><input name="" value="{{resultpo.pack_info.Quantity}}" readonly></div>
+  													<label class="col control-label">Package Type</label>
+  													<div class="col control-label"><input name="" value="{{resultpo.pack_info.package_type}}" readonly></div>
+
+  												</div>
+
+  									</div>
+
+  									<div class="col-sm-4">
+  												<div class="form-row">
+  													<label class="col control-label">Sender Name</label>
+  													<div class="col control-label"><input name="" value="{{resultpo.sender_information.company_name}}" readonly style="width:180%;"></div>
+  												<label class="col control-label">Sender Location</label>
+  												<div class="col control-label"><input name="" value="{{resultpo.sender_information.address}}" readonly style="width:180%;"></div>
+  												<label class="col control-label">Receiver Name</label>
+  												<div class="col control-label"><input name="" value="{{resultpo.reciver_information.comapny_name}}" readonly style="width:180%;"></div>
+  												<label class="col control-label">Receiver Address</label>
+  													<div class="col control-label"><input name="" value="{{resultpo.reciver_information.company_address}}" readonly style="width:180%;"></div>
+  													<label class="col control-label">Template</label>
+  													<div class="col control-label"><input name="" value="{{resultpo.controlled_conditions.temperature}}" readonly style="width:180%;"></div>
+  													<label class="col control-label">Humidity</label>
+  													<div class="col control-label"><input name="" value="{{resultpo.controlled_conditions.humidity}}" readonly style="width:180%;"></div><br>
+														<label class="col control-label">Transaction Status</label>
+														<div class="col control-label">
+															<input type="text" name="" value="{{resultpo.transaction_status.transaction_status}}" readonly style="width:180%;">
+															</div>
+															<br>
+															<div style="padding-left:160%;">
+																<input type="submit" name="" value="Create" class="button" onclick="" style="background:green;color:white;">
+															</div>
+  											</div>
+													</form>
+  								</div>
+                </div>
+
+<!-- {%if resultpo%}
+temparature:{{resultpo.controlled_conditions.temperature}}
+{%endif%} -->
+</div>
+<br><br>
+{%endif%}
+
+{%if i.role == '1' %}
+<body>
+<div class="content-wrapper">
+<section class="content-header">
+              		<h1>Smart Contract</h1>
+<br>
+
+              		<ol class="breadcrumb">
+                    <!-- <li><a href="<?php echo base_url('dashboard') ?>"><i class="fa fa-dashboard"></i> Home</a></li> -->
+              			<li><a href="{%url 'dashboard1'%}"><i class="fa fa-dashboard"></i> Home</a></li>
+                  	</ol>
+</section>
+
+ <div>
+	<form action="/smart_contract1/" method="post" enctype=multipart/form-data>
+		{%csrf_token%}
+
+		<!-- <button type="submit"><i class="fa fa-search"></i></button> -->
+</div>
+<br>
+  <div class="col-sm-12">
+		<div class="col-sm-4">
+					<div class="form-row">
+						<label class="col control-label"> Contract Type</label><br>
+						<select class="col control-label" name="contract_type" id="contract_type" style="padding: 4px 4px;width:54%;">
+							<option class="col control-label" value="{{contract_type}}">{{contract_type}}</option>
+				</select><br>
+  													<label class="col control-label">Order Number</label>
+  													<div class="col control-label"><input name="purchase_orderno" value="{{resultpo.pack_info.purchase_order}}" readonly></div><br>
+
+														<label class="col control-label">Product Name</label>
+  													<div class="col control-label"><input name="" value="{{resultpo.pack_info.product_name}}" readonly></div>
+
+														<label class="col control-label">Product Description</label>
+  													<div class="col control-label"><input name="" value="{{resultpo.pack_info.product_discription}}" readonly></div>
+
+														<label class="col control-label">Lot Number</label>
+  													<div class="col control-label"><input name="" value="{{resultpo.pack_info.lot_number}}" readonly></div>
+  													<label class="col control-label">Product GTIN</label>
+  													<div class="col control-label"><input name="" value="{{resultpo.pack_info.product_gtin}}" readonly></div>
+  													<label class="col control-label">Quantity</label>
+  													<div class="col control-label"><input name="" value="{{resultpo.pack_info.Quantity}}" readonly></div>
+  													<label class="col control-label">Package Type</label>
+  													<div class="col control-label"><input name="" value="{{resultpo.pack_info.package_type}}" readonly></div>
+
+  												</div>
+
+  									</div>
+
+  									<div class="col-sm-4">
+  												<div class="form-row">
+  													<label class="col control-label">Sender Name</label>
+  													<div class="col control-label"><input name="" value="{{resultpo.sender_information.company_name}}" readonly style="width:180%;"></div>
+  												<label class="col control-label">Sender Location</label>
+  												<div class="col control-label"><input name="" value="{{resultpo.sender_information.address}}" readonly style="width:180%;"></div>
+  												<label class="col control-label">Receiver Name</label>
+  												<div class="col control-label"><input name="" value="{{resultpo.reciver_information.comapny_name}}" readonly style="width:180%;"></div>
+  												<label class="col control-label">Receiver Address</label>
+  													<div class="col control-label"><input name="" value="{{resultpo.reciver_information.company_address}}" readonly style="width:180%;"></div>
+  													<label class="col control-label">Template</label>
+  													<div class="col control-label"><input name="" value="{{resultpo.controlled_conditions.temperature}}" readonly style="width:180%;"></div>
+  													<label class="col control-label">Humidity</label>
+  													<div class="col control-label"><input name="" value="{{resultpo.controlled_conditions.humidity}}" readonly style="width:180%;"></div><br>
+														<label class="col control-label">Transaction Status</label>
+														<div class="col control-label">
+															<input type="text" name="" value="{{resultpo.transaction_status.transaction_status}}" readonly style="width:180%;">
+															</div>
+															<br>
+															<div style="padding-left:160%;">
+																<input type="submit" name="" value="Create" class="button" onclick="" style="background:green;color:white;">
+															</div>
+  											</div>
+													</form>
+  								</div>
+                </div>
+
+<!-- {%if resultpo%}
+temparature:{{resultpo.controlled_conditions.temperature}}
+{%endif%} -->
+</div>
+
+{%endif%}
+
+{%endif%}
+  {%endfor%}
+{%endblock%}

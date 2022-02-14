@@ -1,0 +1,102 @@
+{% extends 'base_admin_dashboard.html' %}
+{%block content%}
+{%load static%}
+<style media="screen">
+  #experience { color:blue }
+  /* .row{background: url("http://vikingpacking.com/files/2017/06/Freight.jpg") no-repeat center center fixed;+moz-opacity: 0.9;+khtml-opacity: 0.9;opacity: 0.9;} */
+
+</style>
+
+
+<body>
+        <div class="row">
+
+                <div class="col-12 mt-4">
+                  <ul class="nav nav-tabs border-0" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                      <button class="nav-link active" id="tp1-tab" data-bs-toggle="tab" data-bs-target="#tp1" type="button" role="tab" aria-controls="tp1" aria-selected="true"><i class="bi bi-shuffle" data-bs-toggle="tooltip" data-bs-placement="top" title="Track"></i></button>
+                    </li>
+
+                  </ul>
+                  <div class="tab-content border bg-white" id="myTabContent">
+                    <div class="tab-pane fade show p-3 active overflow-auto" id="tp1" role="tabpanel" aria-labelledby="tp1-tab">
+                      <div class="d-flex flex-wrap mb-2">
+
+                      <!-- searchBy-start -->
+                      <div class="dropdown me-auto sortBtn">
+                          <!-- <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                          Search by
+                          </button>
+                          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <li><a class="dropdown-item" href="#">Product</a></li>
+                            <li><a class="dropdown-item" href="#">Location</a></li>
+                            <li><a class="dropdown-item" href="#">Owner</a></li>
+                            <li><a class="dropdown-item" href="#">Transaction</a></li>
+                          </ul> -->
+                      </div>
+
+                      <!-- searchBy-end -->
+
+
+
+                      <!-- <button type="button" class="btn btn-white me-2"><i class="bi bi-arrow-repeat" data-bs-toggle="tooltip" data-bs-placement="top" title="Refresh"></i></button>
+                      <button type="button" class="btn btn-white me-2"><i class="bi bi-printer" data-bs-toggle="tooltip" data-bs-placement="top" title="Print/PDF"></i></button>
+                      <button type="button" class="btn btn-white me-2"><i class="bi bi-file-earmark-excel" data-bs-toggle="tooltip" data-bs-placement="top" title="Export XLS"></i></button>
+                      <button type="button" class="btn btn-white"><i class="bi bi-box-arrow-in-down" data-bs-toggle="tooltip" data-bs-placement="top" title="Download"></i></button> -->
+                      </div>
+                      <form class="form-inline ml-auto" id="frmUsers" name="frmUsers" method="GET" action="/search/">
+                        <div class="col-md-12 text-center mt-3">
+                          <input  class="form-control" type="text" placeholder="Enter SSCC number" aria-label="Search" id=""
+                              name="search" style="width:20%" required />
+                              </div>
+                          <div >
+                              <button class="button btn  search-btn" type="submit" id="experience">Submit</button></div>
+                      </form>
+                      <table class="table tt">
+                        <thead>
+                          <tr>
+                            <!-- <th width="50px"><input type="checkbox"></th>
+                            <th class="d-flex border-0">
+                            <div class="dropdown">
+                              <button class="btn dropdown-toggle cD" type="button" id="db1" data-bs-toggle="dropdown" aria-expanded="false">
+                              <i class="bi bi-three-dots-vertical text-white"></i>
+                              </button> -->
+                              <!-- <ul class="dropdown-menu" aria-labelledby="db1">
+                                <li><a class="dropdown-item" href="#"><i class="bi bi-eye"></i> View Details</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="bi bi-printer"></i> Recall</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="bi bi-file-earmark-excel"></i> Export</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="bi bi-trash"></i> Delete</a></li>
+                              </ul> -->
+                            </div><!-- dropdown-end -->
+                            </th>
+
+                                                        <th style="width: 290px;">SSCC No</th>
+
+                                                <th style="width: 290px;">Packaging</th>
+                                                <!-- <th style="width: 200px;">Pallet Serial No</th> -->
+                                                <!-- <th style="width: 200px;">Case Serial No</th> -->
+                                                <th style="width: 300px;">Owner</th>
+                                                <th style="width: 300px;">Location</th>
+                                                <th style="width: 300px;">Transaction</th>
+                                                <th style="width: 300px;">Recall</th>
+                                                      </tr>
+                                                    </thead>
+                                                    <!-- <tbody>
+
+
+
+
+                    <div class="tab-pane fade" id="tp5" role="tabpanel" aria-labelledby="tp5-tab">
+                    ....
+                    </div><!--tp5-tabpane-end-->
+                    <div>
+
+
+                    </div>
+
+
+
+    </body>
+
+
+{%endblock%}

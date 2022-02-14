@@ -1,0 +1,359 @@
+{% extends 'mainbase.html' %}
+{%block content%}
+<!DOCTYPE html>
+{%load static%}
+{%for i in res_token%}
+{%if i.organization_id == '3' %}
+
+<style media="screen">
+
+
+.mt-100 {
+    margin-top: 150px
+}
+
+.modal-content {
+    border-radius: 0.7rem
+}
+
+@media(width:1024px) {
+    .modal-dialog {
+        max-width: 700px
+    }
+}
+
+.modal-title {
+    text-align: center;
+    font-size: 3vh;
+    font-weight: bold
+}
+
+h4 {
+    margin-left: auto
+}
+
+.modal-header {
+    border-bottom: none;
+    text-align: center;
+    padding-bottom: 0
+}
+
+h6 {
+    color: rgb(2, 55, 230);
+    margin-top: 2vh;
+    margin-bottom: 0;
+    font-size: 2vh
+}
+
+.modal-body {
+    padding: 2vh
+}
+
+.modal-footer {
+    border-top: none;
+    justify-content: center;
+    padding-top: 0
+}
+
+.row {
+    border-bottom: 1px solid rgba(0, 0, 0, .2);
+    padding: 2vh 0 2vh 0;
+    justify-content: space-between;
+    flex-wrap: unset;
+    margin: 0
+}
+
+/* ul {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around
+}
+
+ul li {
+    font-size: 2vh;
+    font-weight: bold;
+    line-height: 4vh
+} */
+
+.left {
+    float: left;
+    font-weight: normal;
+    color: rgb(126, 123, 123)
+}
+
+.right {
+    float: right;
+    text-align: right
+}
+
+.col {
+    padding-left: 0
+}
+
+@media(min-width:1025px) {
+    img {
+        width: 70%
+    }
+}
+
+.btn {
+    background-color: rgb(2, 55, 230);
+    border-color: rgb(2, 55, 230);
+    color: white;
+    width: 90%;
+    padding: 2vh;
+    margin-top: 0;
+    border-radius: 0.7rem;
+    box-shadow: none
+}
+
+.openmodal {
+    background-color: white;
+    color: black;
+    width: 30vw
+}
+
+:-moz-any-link:focus {
+    outline: none
+}
+
+button:active {
+    outline: none
+}
+
+button:focus {
+    outline: none
+}
+
+.btn:focus {
+    box-shadow: none
+}
+input{
+  border:none;
+  font-size:15px;
+}
+</style>
+
+<!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" type="text/javascript"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" type="text/javascript"></script> -->
+
+      <head>
+        {%for message in messages%}
+        <script>
+        window.onload = function() {
+          alert('{{message}}');
+        }
+        </script>
+        {%endfor%}
+      </head>
+{%if i.role == '7' %}
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <h1>Ordered Products/Cancell Products</h1>
+    <ol class="breadcrumb">
+      <li><a href="{%url 'dashboard1'%}"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li class="active">Orders List</li>
+    </ol>
+  </section>
+<br>
+  <!-- Main content -->
+  <section class="content">
+    <!-- Small boxes (Stat box) -->
+    <div class="row">
+      <div class="col-md-12 col-xs-12">
+
+        <div class="box">
+          <div class="box-header">
+            <h3 class="box-title">Orders</h3>
+          </div>
+
+          <!-- /.box-header -->
+          <div class="box-body">
+            <table id="manageTable" class="table table-bordered table-striped">
+              <thead>
+              <tr>
+                <!-- <th><input type="checkbox"></th> -->
+                <th>Order No</th>
+                <th>Ordered Date</th>
+                <th>Order Status</th>
+                <!-- <th>Quantity</th> -->
+                <th>Amount</th>
+                <!-- <th>Sender Address</th> -->
+                <th>Manage</th>
+
+              </tr>
+              </thead>
+              {%for result in result%}
+
+                <tbody>
+                <tr>
+                    <!-- <td><input type="checkbox"></td> -->
+                    <td>{{result.order_number}}</td>
+                    <td>{{result.order_date}}</td>
+                    <td>{{result.order_status}}</td>
+                    <!-- <td>{{result.quantity}}</td> -->
+                    <td>{{result.amount}}</td>
+                    <!-- <td>{{result.sender_address}}</td> -->
+                    <td>
+
+                      <button type="button" class="btn openmodal" style="width:35%;height:40px;">
+                        <a href="/dist_order_details/{{result.order_number}}">View</a>
+                      </button>
+                      <button type="button" class="btn openmodal" style="width:40%;height:40px;">
+                          <a href="/cancel_order/{{result.order_number}}/{{i.id}}">Cancel Order</a>
+                        </button>
+                    </td>
+              </tr>
+            </tbody>
+                {%endfor%}
+            </table>
+          </div>
+          <!-- /.box-body -->
+        </div>
+
+        <!-- /.box -->
+      </div>
+      <!--Pagination-->
+           <div class="container p-4">
+             <div class="pagination justify-content-center">
+                 <span class="step-links">
+                   {% if result.has_previous %}
+                       <a href="?page=1">&laquo; first</a>
+                       <a href="?page={{ result.previous_page_number }}">previous</a>
+                   {% endif %}
+
+                     <span class="current">
+                         Page {{ result.number }} of {{ result.paginator.num_pages }}
+                     </span>
+
+                   {% if result.has_next %}
+                       <a href="?page={{ result.next_page_number }}">next</a>
+                       <a href="?page={{ result.paginator.num_pages }}">last &raquo;</a>
+                   {% endif %}
+                 </span>
+                 </div>
+             </div>
+           <!--end of Pagination-->
+      <!-- col-md-12 -->
+    </div>
+    <!-- /.row -->
+
+
+  </section>
+  <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+
+<!-- <div class="container d-flex justify-content-center mt-100"> -->
+
+    <div class="modal fade" id="modal1" >
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" >
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title"> Order Number:&nbsp;&nbsp;&nbsp;<input type="text" id="purchase_order" name="" value="" > </h4> <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div> <!-- Modal body -->
+                <div class="modal-body" >
+                    <div class="container" style="width:100%;">
+                        <!-- <h6>Order Details</h6> -->
+                        <div class="row">
+                            <div class="col-xs-6"> <img class="img-fluid" src="https://tse1.mm.bing.net/th?id=OIP.IGt2ACTOvPD6bTQ9vG2uVQHaFW&pid=Api&P=0&w=228&h=165" style="width:150px;height:150px;"> </div>
+                            <div class="col-xs-6" style="padding-top: 2vh;">
+                              <ul class="right" type="none" style="display: flex;flex-direction: column;justify-content: space-around;padding: 0;">
+                             <!-- <li >Size: 11</li>
+                            <li >Color: Desert Sage</li> -->
+                                </ul>
+                            </div>
+                        </div>
+
+                        <h6>Order Details</h6>
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <ul type="none" style="display: flex;flex-direction: column;justify-content: space-around;padding: 0;">
+                                    <!-- <li class="left" style="justify-content: space-around;flex-direction: column;display: flex;padding: 0;font-size:16px;">Order number:</li> -->
+                                    <li class="left" style="justify-content: space-around;flex-direction: column;display: flex;padding: 0; font-size:16px;">Drug Name</li>
+                                    <li class="left" style="justify-content: space-around;flex-direction: column;display: flex;padding: 0; font-size:16px;">Gtin Number:</li>
+                                    <li class="left" style="justify-content: space-around;flex-direction: column;display: flex;padding: 0; font-size:16px;">Product Qty:</li>
+                                    <li class="left" style="justify-content: space-around;flex-direction: column;display: flex;padding: 0; font-size:16px;">Amount:</li>
+                                    <li class="left" style="justify-content: space-around;flex-direction: column;display: flex;padding: 0; font-size:16px;">Vendor Name:</li>
+
+                                </ul>
+                            </div>
+                            <div class="col-xs-6">
+                                <ul class="right" id="" type="none" style="display: flex;flex-direction: column;justify-content: space-around;padding: 0;">
+
+                                    <!-- <li class="right"  style="justify-content: space-around;flex-direction: column;display: flex;padding: 0;"><input type="text" id="purchase_order" name="" value="" style="width:350px;"></li> -->
+                                    <li class="right"  style="justify-content: space-around;flex-direction: column;display: flex;padding: 0;"><input type="text" id="" name="" value="" style="width:350px;"></li>
+                                    <li class="right"  style="justify-content: space-around;flex-direction: column;display: flex;padding: 0;"><input type="text" id="" name="" value="" style="width:350px;"></li>
+                                    <li class="right"  style="justify-content: space-around;flex-direction: column;display: flex;padding: 0;"><input type="text" id="quantiy" name="" value="" style="width:350px;"></li>
+                                    <li class="right"  style="justify-content: space-around;flex-direction: column;display: flex;padding: 0;"><input type="text" id="amount" name="" value="" style="width:350px;"></li>
+                                      <li class="right"  style="justify-content: space-around;flex-direction: column;display: flex;padding: 0;"><input type="text" id="" name="" value="" style="width:350px;"></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <h6>Shipment</h6>
+                        <div class="row" style="border-bottom: none">
+                            <div class="col-xs-6">
+                                <ul type="none">
+                                    <li class="left">Estimated arrival</li>
+
+                                </ul>
+                            </div>
+                            <div class="col-xs-6">
+                                <ul type="none">
+                                    <li class="right">27/1/2022</li>
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- Modal footer -->
+                <!-- <div class="modal-footer"> <button type="button" class="btn">Track order</button> </div> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+ <script>
+
+ async function purchaseorderno(purchase_order){
+   // var updatedid = $("#idget").val()
+   // var updatedid = document.getElementById("#idget");
+   var updateid = purchase_order
+
+   // console.log(updateid)
+   let url2 = "http://3.86.246.56:5000/api/micro/v1/product/viewOrdersList/" + updateid ;
+   // console.log(url2)
+   await $.get(url2, function(data, status){
+       data=JSON.stringify(data)
+       result = JSON.parse(data)
+       res1=result.order_list
+       res=res1[0]
+       console.log(res)
+       // res = JSON.parse(data)
+       // console.log(res.order_date)
+       $("#order_status").val(res.order_status)
+       // console.log(res.order_status)
+       $("#purchase_order").val(res.purchase_order)
+       $("#sender_address").val(res.sender_address)
+       $("#sender_name").val(res.sender_name)
+       $("#amount").val(res.amount)
+       $("#order_date").val(res.order_date)
+       // console.log(url2)
+       // console.log(obj1)
+   });
+
+ }
+
+</script>
+
+{%endif%}
+{%endif%}
+{%endfor%}
+{%endblock%}

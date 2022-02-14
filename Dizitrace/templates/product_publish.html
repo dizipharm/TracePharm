@@ -1,0 +1,520 @@
+{% extends 'mainbase.html' %}
+{%block content%}
+<!DOCTYPE html>
+{%load static%}
+{%for i in res_token%}
+{%if i.organization_id == '1' %}
+      {%if i.role == '7' %}
+
+      <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+/*******************************
+* MODAL AS LEFT/RIGHT SIDEBAR
+* Add "left" or "right" in modal parent div, after class="modal".
+* Get free snippets on bootpen.com
+*******************************/
+.modal.left .modal-dialog,
+.modal.right .modal-dialog {
+  position: fixed;
+  margin: auto;
+  width: 320px;
+  height: 100%;
+  -webkit-transform: translate3d(0%, 0, 0);
+      -ms-transform: translate3d(0%, 0, 0);
+       -o-transform: translate3d(0%, 0, 0);
+          transform: translate3d(0%, 0, 0);
+}
+
+.modal.left .modal-content,
+.modal.right .modal-content {
+  height: 100%;
+  overflow-y: auto;
+}
+
+.modal.left .modal-body,
+.modal.right .modal-body {
+  padding: 15px 15px 80px;
+}
+
+/*Left*/
+.modal.left.fade .modal-dialog{
+  left: -320px;
+  -webkit-transition: opacity 0.3s linear, left 0.3s ease-out;
+     -moz-transition: opacity 0.3s linear, left 0.3s ease-out;
+       -o-transition: opacity 0.3s linear, left 0.3s ease-out;
+          transition: opacity 0.3s linear, left 0.3s ease-out;
+}
+
+.modal.left.fade.in .modal-dialog{
+  left: 0;
+}
+
+/*Right*/
+.modal.right.fade .modal-dialog {
+  right: -320px;
+  -webkit-transition: opacity 0.3s linear, right 0.3s ease-out;
+     -moz-transition: opacity 0.3s linear, right 0.3s ease-out;
+       -o-transition: opacity 0.3s linear, right 0.3s ease-out;
+          transition: opacity 0.3s linear, right 0.3s ease-out;
+}
+
+.modal.right.fade.in .modal-dialog {
+  right: 0;
+}
+
+/* ----- MODAL STYLE ----- */
+.modal-content {
+  border-radius: 0;
+  border: none;
+}
+
+.modal-header {
+  border-bottom-color: #EEEEEE;
+  background-color: #FAFAFA;
+}
+
+/* ----- v CAN BE DELETED v ----- */
+body {
+background-color: #78909C;
+}
+
+.demo {
+padding-top: 60px;
+padding-bottom: 110px;
+}
+
+.btn-demo {
+margin: 15px;
+padding: 10px 15px;
+border-radius: 0;
+font-size: 16px;
+background-color: #FFFFFF;
+}
+
+.btn-demo:focus {
+outline: 0;
+}
+
+.demo-footer {
+position: fixed;
+bottom: 0;
+width: 100%;
+padding: 15px;
+background-color: #212121;
+text-align: center;
+}
+
+.demo-footer > a {
+text-decoration: none;
+font-weight: bold;
+font-size: 16px;
+color: #fff;
+}
+</style>
+
+      <script type="text/javascript">
+      var email =$('#sessionemailid').val()
+      sessionStorage.setItem("email", email);
+      <!-- alert(sessionStorage.getItem("email")) -->
+
+
+      function myFunction() {
+      alert("User Created Successfully");
+      }
+
+      </script>
+      <style>
+      body {
+      background-color:#e6e6ff;
+      }
+      </style>
+
+
+      <body class="loginPage">
+        <div class="content-wrapper">
+
+                  <section class="content-header">
+        <section class="content-header">
+        <!-- <h1>Search Product -
+          <small>Track & Trace</small>
+        </h1> -->
+        <ol class="breadcrumb">
+          <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+          <!-- <li><a href="<?php echo base_url('dashboard') ?>"><i class="fa fa-dashboard"></i> Home</a></li> -->
+          <!-- <li><a href="{%url 'dashboard1'%}"><i class="fa fa-dashboard"></i> Home</a></li> -->
+          <li><a href="{% url 'dashboard1'%}"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active"><a href="">Publish Product</a></li>
+        </ol>
+      </section>
+
+      <head>
+        <title>Bootstrap Example</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+      </head>
+
+
+      <div class="container" style="width:103%; margin-top: 40px">
+        <div class="row" style="background-color:white;>
+            <div class="col-md-12" style="background-color:white;">
+        <h2 class="text-uppercase" style="font-family: 'Nunito Sans', sans-serif;font-size: 18px;margin-bottom: 5px;margin-left: 15px;font-weight: bold;margin-top: 5px;">Publish Product</h2>
+
+        <p></p>
+        <!-- <table class="table table-striped"> -->
+          <table style="border: 1px solid black"; class="table table-striped">
+
+          <thead>
+            <tr>
+              <th>Product Name</th>
+              <th>Ndc Code</th>
+              <th>Brand Owner</th>
+              <th>Last Updated</th>
+              <th>Download</th>
+              <th>Status</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Azithromycin </td>
+              <td>0002-0800</td>
+              <td>Azax 500 Tablet</td>
+              <td> Wed, 15 Sep 2021 00:00:00 GMT</td>
+              <td><i class="bi bi-download">Download</i></td>
+              <td>Product status is Active</td>
+
+            </tr>
+            <tr>
+              <td>nicip </td>
+              <td>2302-0909</td>
+              <td>Azax 500 Tablet</td>
+              <td> Wed, 15 Sep 2021 00:00:00 GMT</td>
+              <td><i class="bi bi-download">Download</i></td>
+              <td>Product status is Active</td>
+
+            </tr>
+            <tr>
+              <td>paracitmol </td>
+              <td>0002-0800</td>
+              <td>Azax Tablet</td>
+              <td> Wed, 15 Sep 2021 00:00:00 GMT</td>
+              <td><i class="bi bi-download">Download</i></td>
+              <td>Product status is Active</td>
+
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+</div>
+</div>
+      </body>
+
+
+
+
+	<!-- Modal -->
+
+
+
+	<!-- Modal -->
+
+	<!-- <div class="modal right fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel4" style="background: rgba(0,0,0,0.75);backdrop-filter:blur(25px);">
+		<div class="modal-dialog" role="document" style="width:35%">
+			<div class="modal-content" style="width:100%">
+
+				<div class="modal-body">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h5 class="offcanvas-title" style="font-family: 'Nunito Sans', sans-serif;font-weight: bold;color: #d1d1d1;">Update User</h5>
+
+
+
+				<div class="modal-body">
+					<p> <div class="offcanvas-body" style="padding-top: 35px;">
+                    <form style="padding-top: 0px;padding-right: 0px;padding-bottom: 0px;padding-left: 0px;"><input class="form-control" type="text" placeholder="Username" style="margin-bottom: 15px;color: #adadad;background: #343434;border-style: none;"><input class="form-control" type="text" placeholder="First Name" style="margin-bottom: 5px;color: #adadad;background: #343434;border-style: none;"><input class="form-control" type="text" placeholder="Second Name" style="margin-bottom: 15px;color: #adadad;background: #343434;border-style: none;"><input class="form-control" type="tel" placeholder="Contact Number" style="margin-bottom: 5px;color: #adadad;background: #343434;border-style: none;"><input class="form-control" type="email" placeholder="Company Email" style="margin-bottom: 5px;color: #adadad;background: #343434;border-style: none;"><input class="form-control" type="email" placeholder="Personal Email" style="margin-bottom: 15px;color: #adadad;background: #343434;border-style: none;"><select class="form-select" style="color: #adadad;margin-bottom: 5px;background: #343434;border-style: none;">
+                            <option value="0">Select a role</option>
+                        </select><input class="form-control" type="password" placeholder="Password" style="margin-bottom: 5px;color: #adadad;background: #343434;border-style: none;"></form>
+                    <div style="margin-top: 15px;"><button class="btn btn-primary" type="button" style="border-radius: 2px;font-size: 14px;padding: 5px 13px;padding-bottom: 4px;padding-top: 4px;padding-right: 11px;padding-left: 11px;background: #009e49;font-family: 'Open Sans', sans-serif;border-style: none;border-color: #0f2b5b;"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icon-tabler-checks" style="margin-right: 3px;margin-top: 0px;margin-bottom: 1px;">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M7 12l5 5l10 -10"></path>
+                                <path d="M2 12l5 5m5 -5l5 -5"></path>
+                            </svg>UPDATE</button></div>
+                </div>	</p>
+				</div> -->
+
+			</div><!-- modal-content -->
+		</div><!-- modal-dialog -->
+	</div><!-- modal -->
+
+
+</div><!-- container -->
+
+
+      </section>
+      </div>
+      </body>
+
+      {%if i.role == '1' %}
+
+      <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+/*******************************
+* MODAL AS LEFT/RIGHT SIDEBAR
+* Add "left" or "right" in modal parent div, after class="modal".
+* Get free snippets on bootpen.com
+*******************************/
+.modal.left .modal-dialog,
+.modal.right .modal-dialog {
+  position: fixed;
+  margin: auto;
+  width: 320px;
+  height: 100%;
+  -webkit-transform: translate3d(0%, 0, 0);
+      -ms-transform: translate3d(0%, 0, 0);
+       -o-transform: translate3d(0%, 0, 0);
+          transform: translate3d(0%, 0, 0);
+}
+
+.modal.left .modal-content,
+.modal.right .modal-content {
+  height: 100%;
+  overflow-y: auto;
+}
+
+.modal.left .modal-body,
+.modal.right .modal-body {
+  padding: 15px 15px 80px;
+}
+
+/*Left*/
+.modal.left.fade .modal-dialog{
+  left: -320px;
+  -webkit-transition: opacity 0.3s linear, left 0.3s ease-out;
+     -moz-transition: opacity 0.3s linear, left 0.3s ease-out;
+       -o-transition: opacity 0.3s linear, left 0.3s ease-out;
+          transition: opacity 0.3s linear, left 0.3s ease-out;
+}
+
+.modal.left.fade.in .modal-dialog{
+  left: 0;
+}
+
+/*Right*/
+.modal.right.fade .modal-dialog {
+  right: -320px;
+  -webkit-transition: opacity 0.3s linear, right 0.3s ease-out;
+     -moz-transition: opacity 0.3s linear, right 0.3s ease-out;
+       -o-transition: opacity 0.3s linear, right 0.3s ease-out;
+          transition: opacity 0.3s linear, right 0.3s ease-out;
+}
+
+.modal.right.fade.in .modal-dialog {
+  right: 0;
+}
+
+/* ----- MODAL STYLE ----- */
+.modal-content {
+  border-radius: 0;
+  border: none;
+}
+
+.modal-header {
+  border-bottom-color: #EEEEEE;
+  background-color: #FAFAFA;
+}
+
+/* ----- v CAN BE DELETED v ----- */
+body {
+background-color: #78909C;
+}
+
+.demo {
+padding-top: 60px;
+padding-bottom: 110px;
+}
+
+.btn-demo {
+margin: 15px;
+padding: 10px 15px;
+border-radius: 0;
+font-size: 16px;
+background-color: #FFFFFF;
+}
+
+.btn-demo:focus {
+outline: 0;
+}
+
+.demo-footer {
+position: fixed;
+bottom: 0;
+width: 100%;
+padding: 15px;
+background-color: #212121;
+text-align: center;
+}
+
+.demo-footer > a {
+text-decoration: none;
+font-weight: bold;
+font-size: 16px;
+color: #fff;
+}
+</style>
+
+      <script type="text/javascript">
+      var email =$('#sessionemailid').val()
+      sessionStorage.setItem("email", email);
+      <!-- alert(sessionStorage.getItem("email")) -->
+
+
+      function myFunction() {
+      alert("User Created Successfully");
+      }
+
+      </script>
+      <style>
+      body {
+      background-color:#e6e6ff;
+      }
+      </style>
+
+
+      <body class="loginPage">
+        <div class="content-wrapper">
+
+                  <section class="content-header">
+        <section class="content-header">
+        <!-- <h1>Search Product -
+          <small>Track & Trace</small>
+        </h1> -->
+        <ol class="breadcrumb">
+          <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+          <!-- <li><a href="<?php echo base_url('dashboard') ?>"><i class="fa fa-dashboard"></i> Home</a></li> -->
+          <!-- <li><a href="{%url 'dashboard1'%}"><i class="fa fa-dashboard"></i> Home</a></li> -->
+          <li><a href="{% url 'dashboard1'%}"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active"><a href="{% url 'tracktrace'%}">Track & Trace</a></li>
+        </ol>
+      </section>
+
+      <head>
+        <title>Bootstrap Example</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+      </head>
+
+
+      <div class="container" style="width:103%; margin-top: 40px">
+        <div class="row" style="background-color:white;>
+            <div class="col-md-12" style="background-color:white;">
+        <h2 class="text-uppercase" style="font-family: 'Nunito Sans', sans-serif;font-size: 18px;margin-bottom: 5px;margin-left: 15px;font-weight: bold;margin-top: 5px;">Publish Product</h2>
+
+        <p></p>
+        <!-- <table class="table table-striped"> -->
+          <table style="border: 1px solid black"; class="table table-striped">
+
+          <thead>
+            <tr>
+              <th>Product Name</th>
+              <th>Ndc Code</th>
+              <th>Brand Owner</th>
+              <th>Last Updated</th>
+              <th>Download</th>
+              <th>Status</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Azithromycin </td>
+              <td>0002-0800</td>
+              <td>Azax 500 Tablet</td>
+              <td> Wed, 15 Sep 2021 00:00:00 GMT</td>
+              <td><i class="bi bi-download">Download</i></td>
+              <td>Product status is Active</td>
+
+            </tr>
+            <tr>
+              <td>nicip </td>
+              <td>2302-0909</td>
+              <td>Azax 500 Tablet</td>
+              <td> Wed, 15 Sep 2021 00:00:00 GMT</td>
+              <td><i class="bi bi-download">Download</i></td>
+              <td>Product status is Active</td>
+
+            </tr>
+            <tr>
+              <td>paracitmol </td>
+              <td>0002-0800</td>
+              <td>Azax Tablet</td>
+              <td> Wed, 15 Sep 2021 00:00:00 GMT</td>
+              <td><i class="bi bi-download">Download</i></td>
+              <td>Product status is Active</td>
+
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+</div>
+</div>
+      </body>
+
+
+
+
+	<!-- Modal -->
+
+
+
+	<!-- Modal -->
+
+	<!-- <div class="modal right fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel4" style="background: rgba(0,0,0,0.75);backdrop-filter:blur(25px);">
+		<div class="modal-dialog" role="document" style="width:35%">
+			<div class="modal-content" style="width:100%">
+
+				<div class="modal-body">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h5 class="offcanvas-title" style="font-family: 'Nunito Sans', sans-serif;font-weight: bold;color: #d1d1d1;">Update User</h5>
+
+
+
+				<div class="modal-body">
+					<p> <div class="offcanvas-body" style="padding-top: 35px;">
+                    <form style="padding-top: 0px;padding-right: 0px;padding-bottom: 0px;padding-left: 0px;"><input class="form-control" type="text" placeholder="Username" style="margin-bottom: 15px;color: #adadad;background: #343434;border-style: none;"><input class="form-control" type="text" placeholder="First Name" style="margin-bottom: 5px;color: #adadad;background: #343434;border-style: none;"><input class="form-control" type="text" placeholder="Second Name" style="margin-bottom: 15px;color: #adadad;background: #343434;border-style: none;"><input class="form-control" type="tel" placeholder="Contact Number" style="margin-bottom: 5px;color: #adadad;background: #343434;border-style: none;"><input class="form-control" type="email" placeholder="Company Email" style="margin-bottom: 5px;color: #adadad;background: #343434;border-style: none;"><input class="form-control" type="email" placeholder="Personal Email" style="margin-bottom: 15px;color: #adadad;background: #343434;border-style: none;"><select class="form-select" style="color: #adadad;margin-bottom: 5px;background: #343434;border-style: none;">
+                            <option value="0">Select a role</option>
+                        </select><input class="form-control" type="password" placeholder="Password" style="margin-bottom: 5px;color: #adadad;background: #343434;border-style: none;"></form>
+                    <div style="margin-top: 15px;"><button class="btn btn-primary" type="button" style="border-radius: 2px;font-size: 14px;padding: 5px 13px;padding-bottom: 4px;padding-top: 4px;padding-right: 11px;padding-left: 11px;background: #009e49;font-family: 'Open Sans', sans-serif;border-style: none;border-color: #0f2b5b;"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icon-tabler-checks" style="margin-right: 3px;margin-top: 0px;margin-bottom: 1px;">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M7 12l5 5l10 -10"></path>
+                                <path d="M2 12l5 5m5 -5l5 -5"></path>
+                            </svg>UPDATE</button></div>
+                </div>	</p>
+				</div> -->
+
+			</div><!-- modal-content -->
+		</div><!-- modal-dialog -->
+	</div><!-- modal -->
+
+
+</div><!-- container -->
+
+
+      </section>
+      </div>
+      </body>
+{%endif%}
+{%endif%}
+{%endif%}
+{%endfor%}
+{%endblock%}

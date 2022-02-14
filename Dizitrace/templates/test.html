@@ -1,0 +1,501 @@
+{% extends 'mainbase.html' %}
+{%block content%}
+<!DOCTYPE html>
+{%load static%}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+    <meta charset="utf-8">
+
+
+
+    <!-- Developed by Ravi Chand Matangi v 0.1.0 July 11, 2021 -->
+    <style>
+      #demobox {
+        background-color: #cfc;
+        width: 100px;
+        padding: 10px;
+        border: 1px solid green;
+      }
+      /* Set the size of the div element that contains the map */
+
+
+      .Timeline {
+        display: flex;
+        align-items: center;
+        height: 130px;
+      }
+      .Timeline1 {
+        display: flex;
+        align-items: center;
+        height: 190px;
+      }
+
+      .event1,
+      .event2,
+      .event3 {
+        position: relative;
+      }
+
+      .event1Bubble2 {
+        position: absolute;
+        /* background-color: #d7e4fd; */
+        background-color: rgb(214,214,214);
+        width: 440px;
+        height: 85px;
+        top: -100px;
+        left: -5px;
+        border-radius: 5px;
+        box-shadow: inset 0 0 5px rgba(158, 158, 158, 0.64);
+      }
+      .event1Bubble {
+        position: absolute;
+        /* background-color: #d7e4fd; */
+        background-color: rgb(214,214,214);
+        width: 330px;
+        height: 80px;
+        top: -100px;
+        left: -15px;
+        border-radius: 5px;
+        box-shadow: inset 0 0 5px rgba(158, 158, 158, 0.64);
+      }
+
+      .event2Bubble {
+        position: absolute;
+        background-color: rgb(214,214,214);
+        /* background-color: rgba(158, 158, 158, 0.1); */
+        width: 459px;
+        height: 80px;
+        left: -105px;
+        top: 33px;
+        border-radius: 5px;
+        box-shadow: inset 0 0 5px rgba(158, 158, 158, 0.64);
+      }
+
+      .event1Bubble:after,
+      .event1Bubble:before,
+      .event2Bubble:after,
+      .event2Bubble:before,
+      .event1Bubble2:after,
+      .event1Bubble2:before {
+        content: "";
+        position: absolute;
+        width: 0;
+
+        border-style: solid;
+        border-color: transparent;
+        border-bottom: 0;
+      }
+
+      .event1Bubble:before {
+        bottom: -10px;
+        left: 13px;
+        /* background-color: rgb(154,186,250); */
+        border-top-color: rgb(214,214,214);
+        border-width: 12px;
+      }
+      .event1Bubble2:before {
+        bottom: -10px;
+        left: 13px;
+        /* background-color: rgb(154,186,250); */
+        border-top-color: rgb(214,214,214);
+        border-width: 12px;
+      }
+
+      .event1Bubble:after {
+        bottom: -13px;
+        left: 13px;
+        border-top-color: rgb(214,214,214);
+        border-width: 12px;
+      }
+      .event1Bubble2:after {
+        bottom: -13px;
+        left: 13px;
+        border-top-color: rgb(214,214,214);
+        border-width: 12px;
+      }
+
+      .event2Bubble:before {
+        bottom: 80px;
+        left: 90px;
+        border-top-color: rgb(214,214,214);
+        border-width: 12px;
+        -webkit-transform: rotate(180deg);
+        -moz-transform: rotate(180deg);
+        -o-transform: rotate(180deg);
+        -ms-transform: rotate(180deg);
+        transform: rotate(180deg);
+      }
+
+      .event2Bubble:after {
+        bottom: 80px;
+        left: 90px;
+        border-top-color: rgb(214,214,214);
+        border-width: 13px;
+        -webkit-transform: rotate(180deg);
+        -moz-transform: rotate(180deg);
+        -o-transform: rotate(180deg);
+        -ms-transform: rotate(180deg);
+        transform: rotate(180deg);
+      }
+
+      .eventTime {
+        display: flex;
+      }
+
+      .DayDigit {
+        font-size: 10px;
+        font-family: "Arial Black", Gadget, sans-serif;
+        margin-left: 10px;
+        color: #4c4a4a;
+      }
+
+      .Day {
+        font-size: 13px;
+        margin-left: 5px;
+        font-weight: bold;
+        margin-top: 4px;
+        font-family: Arial, Helvetica, sans-serif;
+        color: #373986;
+      }
+      .Day3 {
+        font-size: 13px;
+        margin-left: 5px;
+        font-weight: bold;
+        margin-top: 4px;
+        max-width: 90px;
+        font-family: Arial, Helvetica, sans-serif;
+        color: #373986;
+      }
+
+
+      .MonthYear {
+        font-weight: 300;
+        line-height: 10px;
+        color: #071c48;
+        font-size: 11px;
+        font-family: arial;
+        letter-spacing: 0px;
+        text-align:left;
+        line-height: 13px;
+      }
+
+      .eventTitle {
+        font-family: "Arial Black", Gadget, sans-serif;
+        color: #a71930;
+        font-size: 9px;
+        text-transform: uppercase;
+        display: flex;
+        flex: 1;
+        align-items: center;
+        margin-left: 12px;
+        margin-top: -2px;
+      }
+
+      .time {
+        position: absolute;
+        font-family: Arial, Helvetica, sans-serif;
+        width: 50px;
+        font-size: 8px;
+        margin-top: -3px;
+        margin-left: -5px;
+        color: #9e9e9e;
+      }
+
+      .eventAuthor {
+        position: absolute;
+        font-family: Arial, Helvetica, sans-serif;
+        color: #9e9e9e;
+        font-size: 8px;
+        width: 100px;
+        top: -8px;
+        left: 63px;
+      }
+
+      .event2Author {
+        position: absolute;
+        font-family: Arial, Helvetica, sans-serif;
+        color: #9e9e9e;
+        font-size: 8px;
+        width: 100px;
+        top: 96px;
+        left: -32px;
+      }
+
+      .time2 {
+        position: absolute;
+        font-family: Arial, Helvetica, sans-serif;
+        width: 50px;
+        font-size: 8px;
+        margin-top: -31px;
+        margin-left: -5px;
+        color: #9e9e9e;
+      }
+
+      .now {
+        background-color: #FF0000;
+        color: white;
+        border-radius: 7px;
+        margin: 5px;
+        padding: 4px;
+        font-size: 10px;
+        font-family: Arial, Helvetica, sans-serif;
+        border: 2px solid white;
+        font-weight: bold;
+        box-shadow: 0 0 0 2px #004165;
+      }
+
+      .futureGray {
+        filter: grayscale(1);
+        -webkit-filter: grayscale(1);
+      }
+
+      .futureOpacity {
+        -webkit-filter: opacity(0.3);
+        filter: opacity(0.3);
+      }
+      div.a {
+      width: auto;
+      height: 200px;
+
+    }
+    </style>
+
+{%for i in res_token%}
+<!-- manufacturer dashboar role wise -->
+{%if i.organization_id == '1' %}
+      {%if i.role == '1' %}
+
+
+<!-- Content Wrapper. Contains page content -->
+
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <h1>
+      <i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp;Track
+
+          <b style="text-align: left; color: darkblue; font-size: 15px">Displaying information of SSCC No:- {{ssccid}}</b>
+
+
+    </h1>
+
+
+
+    <ol class="breadcrumb">
+      <li>
+        <a href="{% url 'dashboard1'%}"><i class="fa fa-dashboard"></i> Home</a>
+      </li>
+      <li class="active">
+        <a href="{% url 'tracktrace'%}">Track & Trace</a>
+      </li>
+      <!-- <li class="active"><a href="#">Track</a></li> -->
+    </ol>
+
+    <br />
+  </section>
+  <br>
+  <section class="Timeline1">
+    <!-- Small boxes (Stat box) <div class="container">	 -->
+    <div class="col-md-12 col-xs-12">
+
+      <div class="Timeline">
+
+        <h4><b>Origin</b></h4>
+        {%if resultprevioustransactioninfo0.event_type == "Advanced Shipping Notice" %}
+
+
+        <div class="event1">
+          <div class="eventAuthor"></div>
+          <svg height="20" width="20">
+            <circle cx="10" cy="11" r="5" fill="#004165" />
+          </svg>
+        </div>
+        <div><button type="button" class="btn btn-primary btn-circle" disabled="disabled">1</button></div>
+          {%else%}
+          <div class="event1">
+            <div class="eventAuthor"></div>
+            <svg height="20" width="20">
+              <circle cx="10" cy="11" r="5" fill="#004165" />
+            </svg>
+          </div>
+          {%endif%}
+        <svg height="5" width="150">
+          <line
+            x1="0"
+            y1="0"
+            x2="350"
+            y2="0"
+            style="stroke: #004165; stroke-width: 5"
+          />
+          Sorry, your browser does not support inline SVG.
+        </svg>
+        {%if resultprevioustransactioninfo1.event_type == "In Transit" %}
+        <div class="event2">
+          <svg height="20" width="20">
+            <circle cx="10" cy="11" r="5" fill="#004165" />
+          </svg>
+        </div>
+        <div><button type="button" class="btn btn-primary btn-circle" disabled="disabled">2</button></div>
+          {%else%}
+          <svg height="5" width="150">
+            <line
+              x1="0"
+              y1="0"
+              x2="350"
+              y2="0"
+              style="stroke: #004161; stroke-width: 1"
+            />
+            Sorry, your browser does not support inline SVG.
+          </svg>
+          <div class="event1">
+            <div class="eventAuthor"></div>
+            <svg height="20" width="20">
+              <circle cx="10" cy="11" r="5" fill="#004165" />
+            </svg>
+          </div>
+          <h4><b></b></h4>
+          {%endif%}
+          {%if resultprevioustransactioninfo2.event_type == "Delivered" %}
+
+
+        <svg height="5" width="150">
+          <line
+            x1="0"
+            y1="0"
+            x2="350"
+            y2="0"
+            style="stroke: #004165; stroke-width: 5"
+          />
+          Sorry, your browser does not support inline SVG.
+        </svg>
+        <div class="event1">
+          <div class="eventAuthor"></div>
+          <svg height="20" width="20">
+            <circle cx="10" cy="11" r="5" fill="#004165" />
+          </svg>
+        </div>
+
+        <div><button type="button" class="btn btn-primary btn-circle" disabled="disabled">3</button></div>
+        <h4><b></b></h4>
+          {%else%}
+          <svg height="5" width="150">
+            <line
+              x1="0"
+              y1="0"
+              x2="350"
+              y2="0"
+              style="stroke: #004161; stroke-width: 1"
+            />
+            Sorry, your browser does not support inline SVG.
+          </svg>
+          <div class="event1">
+            <div class="eventAuthor"></div>
+            <svg height="20" width="20">
+              <circle cx="10" cy="11" r="5" fill="#004165" />
+            </svg>
+          </div>
+          <h4><b></b></h4>
+          {%endif%}
+          {%if resultprevioustransactioninfo4.event_type == "In Transit" %}
+
+          <svg height="5" width="150">
+          <line
+            x1="0"
+            y1="0"
+            x2="350"
+            y2="0"
+            style="stroke: #004165; stroke-width: 5"
+          />
+          Sorry, your browser does not support inline SVG.
+          </svg>
+          <div class="event1">
+          <div class="eventAuthor"></div>
+          <svg height="20" width="20">
+            <circle cx="10" cy="11" r="5" fill="#004165" />
+          </svg>
+          </div>
+
+          <div><button type="button" class="btn btn-primary btn-circle" disabled="disabled">4</button></div>
+          <h4><b></b></h4>
+          {%else%}
+          <svg height="5" width="150">
+            <line
+              x1="0"
+              y1="0"
+              x2="350"
+              y2="0"
+              style="stroke: #004161; stroke-width: 1"
+            />
+            Sorry, your browser does not support inline SVG.
+          </svg>
+          <div class="event1">
+            <div class="eventAuthor"></div>
+            <svg height="20" width="20">
+              <circle cx="10" cy="11" r="5" fill="#004165" />
+            </svg>
+          </div>
+          <h4><b></b></h4>
+          {%endif%}
+          {%if resultprevioustransactioninfo5.event_type == "Delivered" %}
+
+          <svg height="5" width="150">
+          <line
+            x1="0"
+            y1="0"
+            x2="350"
+            y2="0"
+            style="stroke: #004165; stroke-width: 5"
+          />
+          Sorry, your browser does not support inline SVG.
+          </svg>
+          <div class="event1">
+          <div class="eventAuthor"></div>
+          <svg height="20" width="20">
+            <circle cx="10" cy="11" r="5" fill="#004165" />
+          </svg>
+          </div>
+
+          <div><button type="button" class="btn btn-primary btn-circle" disabled="disabled">5</button></div>
+          <h4><b>Destination</b></h4>
+          {%else%}
+          <svg height="5" width="150">
+            <line
+              x1="0"
+              y1="0"
+              x2="350"
+              y2="0"
+              style="stroke: #004161; stroke-width: 1"
+            />
+            Sorry, your browser does not support inline SVG.
+          </svg>
+          <div class="event1">
+            <div class="eventAuthor"></div>
+            <svg height="20" width="20">
+              <circle cx="10" cy="11" r="5" fill="#004165" />
+            </svg>
+          </div>
+          <h4><b>Destination</b></h4>
+          {%endif%}
+
+      </div>
+    </div>
+
+  </section>
+  <br>
+  <section >
+
+    <div >
+
+      {{m | safe}}
+
+    </div>
+  </section>
+  <!-- /.content -->
+</div>
+
+
+{%endif%}
+{%endif%}
+{%endfor%}
+{%endblock%}

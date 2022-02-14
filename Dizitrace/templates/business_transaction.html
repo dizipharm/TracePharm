@@ -1,0 +1,141 @@
+{% extends 'mainbase.html' %}
+{%block content%}
+<!DOCTYPE html>
+{%load static%}
+{%for i in res_token%}
+{%if i.organization_id == '1' %}
+      {%if i.role == '7' %}
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Transaction Statement</title>
+</head>
+
+<style type="text/css">
+	body {
+  font-family: 'lato', sans-serif;
+  background: #fff;
+  height:100vh;
+  overflow:hidden;
+
+}
+.reciept {
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+th {
+    background-color: #95A5A6;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .tr {
+    background-color: #ffffff;
+    box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.1);
+  }
+
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+.button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  align-content: center;
+}
+input[type=text] {
+  width: 30%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+}
+
+/* Removes the clear button from date inputs */
+input[type="date"]::-webkit-clear-button {
+    display: none;
+}
+
+/* Removes the spin button */
+input[type="date"]::-webkit-inner-spin-button {
+    display: none;
+}
+
+/* Always display the drop down caret */
+input[type="date"]::-webkit-calendar-picker-indicator {
+    color: #2c3e50;
+}
+
+/* A few custom styles for date inputs */
+input[type="date"] {
+    appearance: none;
+    -webkit-appearance: none;
+    color: #95a5a6;
+    font-family: "Helvetica", arial, sans-serif;
+    font-size: 18px;
+    border:1px solid #ecf0f1;
+    background:#ecf0f1;
+    padding:5px;
+    display: inline-block !important;
+    visibility: visible !important;
+}
+
+input[type="date"], focus {
+    color: #95a5a6;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+}
+
+.request_form{
+
+	text-align: center;
+	width: 70%;
+	margin: 0 auto;
+
+}
+</style>
+<body>
+<div class="content-wrapper">
+<section class="content-header">
+              		<h1>Business Transaction Statement
+<!--              			<small>Track & Trace</small>-->
+              		</h1>
+              		<ol class="breadcrumb">
+                    <!-- <li><a href="<?php echo base_url('dashboard') ?>"><i class="fa fa-dashboard"></i> Home</a></li> -->
+              			<li><a href="{%url 'dashboard1'%}"><i class="fa fa-dashboard"></i> Home</a></li>
+                    <li class="active"><a href="">Business Statement</a></li>
+              			<!-- <li class="active"><a href="<?php echo base_url('productTnT/') ?>">Search Product</a></li> -->
+              		</ol>
+</section>
+
+	<div class="request_form">
+		<form action="/business_transactions/" method="post">
+      {%csrf_token%}
+			<input type="text" name="productno" placeholder="Please Enter Purchase Order" required style="width:35%;height:10px;">&nbsp;&nbsp;
+      <button type="submit" onclick="showDiv()">submit</button>
+		</form>
+	</div>
+
+
+
+
+</div>
+
+
+</body>
+</html>
+{%endif%}
+{%endif%}
+  {%endfor%}
+{%endblock%}

@@ -1,0 +1,207 @@
+{% extends 'mainbase.html' %}
+{%block content%}
+<!DOCTYPE html>
+{%load static%}
+{%for i in res_token%}
+{%if i.organization_id == '1' %}
+      {%if i.role == '7' %}
+
+
+<style type="text/css">
+	body {
+  font-family: 'lato', sans-serif;
+  background: #fff;
+  height:100vh;
+  overflow:hidden;
+
+}
+.reciept {
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+th {
+    background-color: #95A5A6;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .tr {
+    background-color: #ffffff;
+    box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.1);
+  }
+
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+.button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  align-content: center;
+}
+input[type=text] {
+  width: 30%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+}
+
+/* Removes the clear button from date inputs */
+input[type="date"]::-webkit-clear-button {
+    display: none;
+}
+
+/* Removes the spin button */
+input[type="date"]::-webkit-inner-spin-button {
+    display: none;
+}
+
+/* Always display the drop down caret */
+input[type="date"]::-webkit-calendar-picker-indicator {
+    color: #2c3e50;
+}
+
+/* A few custom styles for date inputs */
+input[type="date"] {
+    appearance: none;
+    -webkit-appearance: none;
+    color: #95a5a6;
+    font-family: "Helvetica", arial, sans-serif;
+    font-size: 18px;
+    border:1px solid #ecf0f1;
+    background:#ecf0f1;
+    padding:5px;
+    display: inline-block !important;
+    visibility: visible !important;
+}
+
+input[type="date"], focus {
+    color: #95a5a6;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+}
+
+.request_form{
+
+	text-align: center;
+	width: 70%;
+	margin: 0 auto;
+
+}
+</style>
+<body>
+<div class="content-wrapper">
+
+<section class="content-header">
+  <section class="content-header">
+
+  <ol class="breadcrumb">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <!-- <li><a href="<?php echo base_url('dashboard') ?>"><i class="fa fa-dashboard"></i> Home</a></li> -->
+    <!-- <li><a href="{%url 'dashboard1'%}"><i class="fa fa-dashboard"></i> Home</a></li> -->
+    <li><a href="{% url 'dashboard1'%}"><i class="fa fa-dashboard"></i> Home</a></li>
+  <li class="active"><a href="">Business Transaction</a></li>
+  </ol>
+
+              		<h1>Business Transaction
+<!--              			<small>Track & Trace</small>-->
+              		</h1>
+
+</section>
+
+  <div id="sel2"  class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="padding-right: 5px;padding-left: 50px;">
+    <div class="card" >
+      <div class="card-body">
+        <!-- <h6 class="card-title" style="font-size:1rem;"><b><button id="one" class="btn btn-sm btn-primary btn-block" type="button">Purchase Order Number</button></b></h6> -->
+        <div class="search-container">
+
+          <form action="/purchase_order/" method="POST"  name="purchase_order"  enctype=multipart/form-data>
+            {%csrf_token%}
+            <div class="form-group">
+          <input type="text" name="purchase_order" placeholder="     --Purchase Order Number--" style="width:280px;height:10px;">
+            <button type="submit"  onclick="ValidateGtinInput();"><i class="fa fa-search"></i></button>
+
+          </form>	<p></p>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<br><br><br><br>
+
+	<div style="padding-left:50px;">
+<!-- <div class="reciept" id="reciept" style="display:none;" > -->
+
+	<table style="width:70%;height:80%;">
+
+		<tr>
+			<th colspan="2">Product Identifier</th>
+			<th colspan="5">{{result.product_information.gtin_number}}</th>
+		</tr>
+		<tr>
+			<th colspan="2">Manufactured By</th>
+			<th colspan="5">Product information</th>
+		</tr>
+		<tr>
+			<td colspan="2">{{result.manufacturer_info.comapany_name}}<br>{{result.manufacturer_info.address}}</td>
+			<td colspan="5"> Product : {{result.product_information.product_name}} <br>Lot Number : {{result.product_information.lot_number}} <br>NDC : {{result.product_information.product_ndc_number}}</td>
+		</tr>
+		<tr>
+			<th>Received Date</th>
+			<th>Transaction</th>
+			<th>Recieved by</th>
+			<th>Sent By</th>
+			<th>Sent Date</th>
+			<th>Verification</th>
+			<th>Digital Signature</th>
+		</tr>
+
+		<tr>
+
+			<td>{{result.order_recived_date.recived_date}}</td>
+			<td>{{result.transaction_current_status.transaction_status}}</td>
+			<td>{{result.owner_reciver.reciver_name}}</td>
+			<td>{{result.owner_sender.sender_name}}</td>
+			<td>{{result.order_sent_date.sent_date}}</td>
+			<td>Not Required</td>
+			<td>Present</td>
+		</tr>
+
+
+	</table>
+<div style="padding-left:62%;">
+  <button onclick="print_current_page()"><svg xmlns="http://www.w3.org/2000/svg" width="70" height="30" fill="currentColor" class="bi bi-printer" viewBox="0 0 16 16">
+    <path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z"/>
+    <path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2H5zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4V3zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2H5zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1z"/>
+  </svg></button>
+</div>
+</div>
+
+</body>
+<br><br><br><br><br><br><br>
+<script type="text/javascript">
+
+// 	function showDiv() {
+//    document.getElementById('reciept').style.display = "block";
+// }
+function print_current_page() {
+            window.print();
+        }
+</script>
+{%endif%}
+{%endif%}
+  {%endfor%}
+{%endblock%}

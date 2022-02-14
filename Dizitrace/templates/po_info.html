@@ -1,0 +1,574 @@
+{% extends 'mainbase.html' %}
+{%block content%}
+<!DOCTYPE html>
+{%load static%}
+
+
+
+
+
+      <script src="https://code.jquery.com/jquery-2.1.1.min.js" type="text/javascript"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+      <!-- Content Wrapper. Contains page content -->
+      <!-- Developed by Ravi Chand Matangi v 0.1.0 July 11, 2021-->
+      <script src="https://bossanova.uk/jsuites/v3/jsuites.js"></script>
+      <link rel="stylesheet" href="https://bossanova.uk/jsuites/v3/jsuites.css" type="text/css" />
+      <style>
+        .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+        color: #555;
+        cursor: default;
+        background-color: #d2d6de;
+        border: 1px solid #ddd;
+        border-bottom-color: transparent;
+        }
+
+
+      </style>
+      <style>
+        html {font-family: helvetica, arial;}
+        .htimeline { list-style: none; padding: 0; margin: 20px 0 0; }
+        /*		.htimeline .step { float: left; border-top-style: solid; border-top-width: 5px; position: relative; margin-bottom: 15px; text-align: left; padding: 3px 0 5px 10px; background-color: #ddd; color: #333; height: 160px; vertical-align: middle; border-right: solid 1px #bbb; transition: all 0.5s ease;} */
+        .htimeline .step:nth-child(odd) { background-color: #ccc; }
+        .htimeline .step:first-child { border-left: solid 1px #ccc; }
+        .htimeline .step:hover { background-color: #ccc; border-bottom-width: 6px; }
+        .htimeline .step > div { margin: 0 5px; font-size: 14px; vertical-align: top; padding: 0;}
+        .htimeline .step.green { border-top-color: #348F50;}
+        .htimeline .step.orange { border-top-color: #F09819;}
+        .htimeline .step.red { border-top-color: #C04848;}
+        .htimeline .step.blue { border-top-color: #49a09d;}
+        .htimeline .step.darkblue { border-top-color: #337ab7;}
+        /* .htimeline .step::before { width: 15px; height: 1d5px; border-radius: 150px; content: ' '; background-color: white; position: absolute; top: -10px; left: 0px; border-style: solid; border-width: 3px; transition: all 0.5s ease;} */
+        /*.htimeline .step:hover::before { width: 20px; height: 20px; bottom: -12px; } */
+        .htimeline .step.green::before {border-color: #348F50;}
+        .htimeline .step.orange::before {border-color: #F09819;}
+        .htimeline .step.red::before {border-color: #C04848;}
+        .htimeline .step.blue::before {border-color: #49a09d;}
+        .htimeline .step.darkblue { border-top-color: #337ab7;}
+        .htimeline .step::after { content: attr(data-date); position: absolute; top: -20px; left: 17px; font-size: 11px; font-style: italic; color: #888}
+        /*TASKS*/
+        .htimeline .step .tasks { margin-top: 12px; }
+        .htimeline .step .tasks .resource {position: relative; height: 60px;}
+        .htimeline .step .tasks .resource::before { position: absolute; bottom: 2px; left: -5px; content: attr(data-name); font-size: 10px; font-style: italic; color: #888}
+        .htimeline .step .tasks .task { overflow: hidden; font-size: 10px; padding: 3px; border: solid 1px white; border-radius: 4px; min-height: 20px;}
+        .htimeline .step.green .tasks .task { background-color: #348F50; color: white; }
+        .htimeline .step.orange .tasks .task { background-color: #F09819; color: white; }
+        .htimeline .step.red .tasks .task { background-color: #C04848; color: white; }
+        .htimeline .step.blue .tasks .task { background-color: #49a09d; color: white; }
+        .htimeline .step.darkblue .tasks .task { background-color: #337ab7; color: white; }
+        #div1 {
+        display: inline-block;
+        }
+        #div2 {
+        display: inline-block;
+        }
+      </style>
+      <script type="text/javascript">
+          function ValidateTextBox() {
+              if (document.getElementById("txtName").value.trim() == "") {
+                  alert("Please enter Name!");
+                  return false;
+              }
+          };
+
+
+      </script>
+      {%for i in res_token%}
+
+      {%if i.organization_id == '1' %}
+            {%if i.role == '1' %}
+
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <h1>
+            Track & Trace <small>Click <b style="color:red">Track</b> current status or  <b style=" color:green">Trace</b> to know end to end journey of your product/Logistic Asset</small>
+          </h1>
+          <ol class="breadcrumb">
+            <li><a href="{% url 'dashboard1'%}"><i class="fa fa-dashboard"></i> Home</a></li>
+            <!-- <li class="active"><a href="{% url 'tracktrace'%}">Search Product</a></li> -->
+            <li><a href="{% url 'tracktrace'%}">Search Product</a></li>
+            <li class="active"><a href="">SSCC Info</a></li>
+          </ol>
+
+        </section>
+        <!--
+          <div class="bs-example" data-example-id="simple-jumbotron">
+          <div class="jumbotron">
+          </div>
+        </div>  -->
+        <!-- Main content -->
+        <section class="content">
+          <form >
+            <!-- Small boxes (Stat box) -->
+            <div class="row">
+              <div class="col-md-12 bg-light text-right"></div>
+              <!-- Start-First Box Selection options  -->
+              <div id="sel1"  class="col-lg-4" style="background-color: #fff; border:0.5px solid grey; padding-right: 0px;padding-left: 5px;">
+                <div class="card" style="height: 555px;">
+                  <div class="card card-default card-tabs">
+                    <img align = "right"; style="border:0.5px solid grey; position: float; z-index: 1;" width="120"; height= "120"; src= "{{result.image_1}}"/>
+                    <h5 class="card-title"><span class="label label-default	">Your Selected PO Number Details</span></h5>
+                    <div class="form-group">
+
+
+                        <input type="text" class="itemName form-control" style="width:180px"   value="{{result.sscc_no}}" disabled>
+                        <!-- <option id="inputgtin" value="">{{gnum}}</option> -->
+
+
+                      <!-- <select id="gtinid" name="ngtinid" class="itemName form-control" style="width:180px" value="" disabled ></select> -->
+                    </div>
+                    <hr style="background-color: #fff; border:0.1px solid grey;">
+                    <h5 align = "left";><b>Supplier’s Catalogue/ Master Data</b></h5>
+                    <section>
+						<div class='container-fluid'>
+							<img width="150"; height= "50"; alt="" src="http://bwipjs-api.metafloor.com/?bcid=code128&text={{result.sscc_no}}&includetext">
+                    </div>
+
+                    <ul class='htimeline' style="padding-top:0px;">
+                      <li class='step col-sm-12'>
+                        <div class='tasks container-fluid'>
+                          <div class='resource' data-name=''>
+                            <div class='task col-sm-5' style="font-size:90%">GTIN Number</div>
+                            <div class='task col-sm-7' style="font-size:90%">&nbsp;{{result.gtin}}</div>
+							  <div class='task col-sm-5' style="font-size:90%">Brand Name</div>
+                            <div class='task col-sm-7' style="font-size:90%">&nbsp;{{result.brand_name}}</div>
+                            <div class='task col-sm-5' style="font-size:90%">Product Name</div>
+                            <div class='task col-sm-7' style="font-size:90%">&nbsp;{{result.product_name}}</div>
+<!--							<div class='task col-sm-5' style="font-size:90%">Lot Number</div>-->
+<!--                            <div class='task col-sm-7' style="font-size:90%">&nbsp;{{result.lot_number}}</div>-->
+<!--							<div class='task col-sm-5' style="font-size:90%">Manufacturing Date</div>-->
+<!--                            <div class='task col-sm-7' style="font-size:90%">&nbsp;{{result.mfg_date}}</div>-->
+<!--							<div class='task col-sm-5' style="font-size:90%">Expiry Date</div>-->
+<!--                            <div class='task col-sm-7' style="font-size:90%">&nbsp;{{result.exp_date}}</div>-->
+
+                          </div>
+                        </div>
+                      <br/></li>
+                    </ul>
+                    </section>
+                  </div>
+
+                </div>
+
+              </div>
+              <!-- End - First Box Selection options  -->
+
+
+
+              <!-- Start-Second Box Selection options  -->
+               <div id="sel2"  class="col-lg-8" style="background-color: #fff; border:0.5px solid grey; padding-right: 5px;padding-left: 5px;">
+                <div class="card" style="height: 555px;">
+                  <div class="card card-primary card-tabs">
+                    <h5 class="card-title"><span class="label label-primary" style="font-size:13px;">Providing Information Of Purchase Order No</span></h5>
+                    <span style='float:right; padding-bottom: 8px;' ><a class='btn btn-danger' href='/tracknew/{{ssccno}}'> <i class='fa fa-map-marker' aria-hidden='true'></i>&nbsp; Track&nbsp;</a>&nbsp; &nbsp; &nbsp;</span>
+                    <!--
+                    <div class="form-group">
+                            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <button id="btn1" title="Click here to Track" name="tnttype" value="100" class="btn btn-danger btn-md float-right"  type="submit" style="margin-top : 8px; line-height: 1.3; font-size: 14px; "  ><i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp; Track&nbsp;</button>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
+                    </div> -->
+
+
+                    <div class="card-header p-0" style="padding-right: 0px;padding-left: 0px;line-height: 1.5;" >
+
+                      <ul class='htimeline' style="padding-top:20px;">
+                        <li class='step col-sm-7'>
+                          <div class='tasks container-fluid'>
+                            <div class='resource' data-name=''>
+                              <div class='task col-sm-5' style="font-size:90%">SSCC No</div>
+                              <div class='task col-sm-7' style="font-size:90%">&nbsp;{{result.sscc_no}}</div>
+                                <div class='task col-sm-5' style="font-size:90%">Lot Number</div>
+                              <div class='task col-sm-7' style="font-size:90%">{{result.lot_number}}</div>
+                                <div class='task col-sm-5' style="font-size:90%">Manufacturing Date</div>
+                              <div class='task col-sm-7' style="font-size:90%">{{result.mfg_date}}</div>
+                                <div class='task col-sm-5' style="font-size:90%">Expiry Date</div>
+                              <div class='task col-sm-7' style="font-size:90%">{{result.exp_date}}</div>
+  							  <div class='task col-sm-5' style="font-size:90%">Package Type</div>
+                              <div class='task col-sm-7' style="font-size:90%">&nbsp;{{result.package_type}}</div>
+                              <div class='task col-sm-5' style="font-size:90%">Package Pallet S.No</div>
+                              <div class='task col-sm-7' style="font-size:90%">&nbsp;{{result.package_sn}}</div>
+  							<div class='task col-sm-5' style="font-size:90%">Package Shape</div>
+                              <div class='task col-sm-7' style="font-size:90%">&nbsp;{{result.shape}}</div>
+  							<div class='task col-sm-5' style="font-size:90%">Package Height/Weight</div>
+                              <div class='task col-sm-7' style="font-size:90%">&nbsp;{{result.height}}/{{result.package_gross_weight}}</div>
+                              <div class='task col-sm-5' style="font-size:90%">Package temperature</div>
+                              <div class='task col-sm-7' style="font-size:90%">&nbsp;{{result.humidity}}</div>
+  							<div class='task col-sm-5' style="font-size:90%">Package Width</div>
+                              <div class='task col-sm-7' style="font-size:90%">&nbsp;{{result.width}}</div>
+                              <div class='task col-sm-5' style="font-size:90%">Package dimensions</div>
+                							<div class='task col-sm-7' style="font-size:90%">&nbsp;{{result.total_dimensions}}</div>
+                <div class='task col-sm-5' style="font-size:90%">Package Depth</div>
+  							<div class='task col-sm-7' style="font-size:90%">&nbsp;{{result.depth}}</div>
+                <div class='task col-sm-5' style="font-size:90%">Package Color</div>
+  							<div class='task col-sm-7' style="font-size:90%">&nbsp;{{result.colour}}</div>
+                <div class='task col-sm-5' style="font-size:90%">Package Status</div>
+  							<div class='task col-sm-7' style="font-size:90%">&nbsp;{{result.status}}</div>
+
+                            </div>
+                          </div>
+                        <br/></li>
+                      </ul>
+
+
+                      <h5>SSCC Data Code <small>(GS1-128)</small></h5>
+
+                                           <div align = 'left'; class='task col-sm-4'><img  src='https://api.qrserver.com/v1/create-qr-code/?size=90x90&data=http://www.tracepharm.io:5000/api/v1.0.0/exp/package_details/{{result.sscc_no}}'>
+                                             <div align = 'left'; >
+                         	                  <small style='line-height:10px;'>&nbsp;&nbsp;&nbsp;&nbsp;(01){{result.gtin}}<br>&nbsp;&nbsp;&nbsp;&nbsp;(00){{result.sscc_no}}</small></div>
+                                          </div>
+                                           </div>
+
+
+                                          <div style="padding-top:350px;padding-left:520px;">
+                                          <p>  <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal" style="background:#00002e;">Show Video</button>
+
+                                            <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal1" style="background:#00002e;">Show File</button>
+                                          </p>
+                                          </div> <!-- <video width="240" height="180" controls ><source src="{{result.video}}" type="video/mp4"><b>{{result.video}}</b></video> -->
+                                             <br>
+                                             <!-- <iframe id="iframe_pdf" src="{{ result.file }}" style="width:300px; height:140px;" frameborder="0"></iframe> -->
+
+
+
+
+
+
+
+
+
+						<br>
+
+														<br>
+
+														</div>
+														<!-- </div> -->
+													</div>
+										</div>
+
+									</div>
+								</div>
+
+					</div>
+													<!-- /.card body ends-->
+				</div>
+				</div>
+			</div>
+
+			</div>
+									<!-- End - Second Box Selection options  -->
+
+									<!-- Small boxes (Ends box) -->
+								</form>
+							</section>
+						</div>
+
+            <!-- Modal -->
+              <div class="modal fade" id="myModal" role="dialog">
+                <div class="modal-dialog">
+
+                  <!-- Modal content-->
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                      <h4 class="modal-title">Video Evidence</h4>
+                    </div>
+                    <div class="modal-body">
+                     <video width="540" height="250" controls ><source src="{{result.video}}" type="video/mp4"><b>{{result.video}}</b></video>
+                    </div>
+                    <div class="modal-footer">
+                      <a href="{{result.video}}" target="_blank" download><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+<path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+<path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+</svg>
+                      </a>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal1" role="dialog">
+<div class="modal-dialog">
+
+<!-- Modal content-->
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal">&times;</button>
+<h4 class="modal-title">Evidence File</h4>
+</div>
+<div class="modal-body">
+<iframe id="invisible" src="{{ result.file }}" style="width:570px; height:240px;" frameborder="0" download></iframe>
+</div>
+<div class="modal-footer">
+<a href="{{result.file}}" target="_blank" download><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+<path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+<path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+</svg>
+</a>   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+</div>
+</div>
+
+</div>
+</div>
+
+
+
+
+
+
+      {%endif%}
+
+      {%if i.role == '7' %}
+
+    <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+    <h1>
+      Track & Trace <small>Click <b style="color:red">Track</b> current status or  <b style=" color:green">Trace</b> to know end to end journey of your product/Logistic Asset</small>
+    </h1>
+    <ol class="breadcrumb">
+      <li><a href="{% url 'dashboard1'%}"><i class="fa fa-dashboard"></i> Home</a></li>
+      <!-- <li class="active"><a href="{% url 'tracktrace'%}">Search Product</a></li> -->
+      <li><a href="{% url 'tracktrace'%}">Search Product</a></li>
+      <li class="active"><a href="">Purchase Order Info</a></li>
+    </ol>
+
+    </section>
+    <!--
+    <div class="bs-example" data-example-id="simple-jumbotron">
+    <div class="jumbotron">
+    </div>
+    </div>  -->
+    <!-- Main content -->
+    <section class="content">
+    <form >
+      <!-- Small boxes (Stat box) -->
+      <div class="row">
+        <div class="col-md-12 bg-light text-right"></div>
+        <!-- Start-First Box Selection options  -->
+        <div id="sel1"  class="col-lg-4" style="background-color: #fff; border:0.5px solid grey; padding-right: 0px;padding-left: 5px;">
+          <div class="card" style="height: 555px;">
+            <div class="card card-default card-tabs">
+              <img align = "right"; style="border:0.5px solid grey; position: float; z-index: 1;" width="120"; height= "120"; src= "{{result.image_1}}"/>
+              <h5 class="card-title"><span class="label label-default	">Your Selected SSCC Number Details</span></h5>
+              <div class="form-group">
+
+
+                  <input type="text" class="itemName form-control" style="width:180px"   value="{{pono}}" disabled>
+                  <!-- <option id="inputgtin" value="">{{gnum}}</option> -->
+
+
+                <!-- <select id="gtinid" name="ngtinid" class="itemName form-control" style="width:180px" value="" disabled ></select> -->
+              </div>
+              <hr style="background-color: #fff; border:0.1px solid grey;">
+              <h5 align = "left";><b>Supplier’s Catalogue/ Master Data</b></h5>
+              <section>
+      <div class='container-fluid'>
+        <img width="150"; height= "50"; alt="" src="http://bwipjs-api.metafloor.com/?bcid=code128&text={{result.sscc_no}}&includetext">
+              </div>
+
+              <ul class='htimeline' style="padding-top:0px;">
+                <li class='step col-sm-12'>
+                  <div class='tasks container-fluid'>
+                    <div class='resource' data-name=''>
+                      <div class='task col-sm-5' style="font-size:90%">GTIN Number</div>
+                      <div class='task col-sm-7' style="font-size:90%">&nbsp;{{result.gtin}}</div>
+          <div class='task col-sm-5' style="font-size:90%">Brand Name</div>
+                      <div class='task col-sm-7' style="font-size:90%">&nbsp;{{result.brand_name}}</div>
+                      <div class='task col-sm-5' style="font-size:90%">Product Name</div>
+                      <div class='task col-sm-7' style="font-size:90%">&nbsp;{{result.product_name}}</div>
+<!--        <div class='task col-sm-5' style="font-size:90%">Lot Number</div>-->
+<!--                      <div class='task col-sm-7' style="font-size:90%">&nbsp;{{result.lot_number}}</div>-->
+<!--        <div class='task col-sm-5' style="font-size:90%">Manufacturing Date</div>-->
+<!--                      <div class='task col-sm-7' style="font-size:90%">&nbsp;{{result.mfg_date}}</div>-->
+<!--        <div class='task col-sm-5' style="font-size:90%">Expiry Date</div>-->
+<!--                      <div class='task col-sm-7' style="font-size:90%">&nbsp;{{result.exp_date}}</div>-->
+
+                    </div>
+                  </div>
+                <br/></li>
+              </ul>
+              </section>
+            </div>
+
+          </div>
+
+        </div>
+        <!-- End - First Box Selection options  -->
+
+
+
+        <!-- Start-Second Box Selection options  -->
+         <div id="sel2"  class="col-lg-8" style="background-color: #fff; border:0.5px solid grey; padding-right: 5px;padding-left: 5px;">
+          <div class="card" style="height: 555px;">
+            <div class="card card-primary card-tabs">
+              <h5 class="card-title"><span class="label label-primary" style="font-size:13px;">Providing Transactional Evidence Of SSCC No</span></h5>
+              <span style='float:right; padding-bottom: 8px;' ><a class='btn btn-danger' href='/po_track/{{pono}}'> <i class='fa fa-map-marker' aria-hidden='true'></i>&nbsp; Track&nbsp;</a>&nbsp; &nbsp; &nbsp;</span>
+              <!--
+              <div class="form-group">
+                      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <button id="btn1" title="Click here to Track" name="tnttype" value="100" class="btn btn-danger btn-md float-right"  type="submit" style="margin-top : 8px; line-height: 1.3; font-size: 14px; "  ><i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp; Track&nbsp;</button>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
+              </div> -->
+
+
+              <div class="card-header p-0" style="padding-right: 0px;padding-left: 0px;line-height: 1.5;" >
+
+                <ul class='htimeline' style="padding-top:20px;">
+                  <li class='step col-sm-7'>
+                    <div class='tasks container-fluid'>
+                      <div class='resource' data-name=''>
+                        <div class='task col-sm-5' style="font-size:90%">Purchase Order No</div>
+                              <div class='task col-sm-7' style="font-size:90%">&nbsp;{{pono}}</div>
+                              <div class='task col-sm-5' style="font-size:90%">SSCC No</div>
+                                    <div class='task col-sm-7' style="font-size:90%">&nbsp;{{result.sscc_no}}</div>
+                                <div class='task col-sm-5' style="font-size:90%">Lot Number</div>
+                              <div class='task col-sm-7' style="font-size:90%">{{result.lot_number}}</div>
+                                <div class='task col-sm-5' style="font-size:90%">Manufacturing Date</div>
+                              <div class='task col-sm-7' style="font-size:90%">{{result.mfg_date}}</div>
+                                <div class='task col-sm-5' style="font-size:90%">Expiry Date</div>
+                              <div class='task col-sm-7' style="font-size:90%">{{result.exp_date}}</div>
+            <div class='task col-sm-5' style="font-size:90%">Package Type</div>
+                        <div class='task col-sm-7' style="font-size:90%">&nbsp;{{result.package_type}}</div>
+                        <div class='task col-sm-5' style="font-size:90%">Package Pallet S.No</div>
+                        <div class='task col-sm-7' style="font-size:90%">&nbsp;{{result.package_sn}}</div>
+          <div class='task col-sm-5' style="font-size:90%">Package Shape</div>
+                        <div class='task col-sm-7' style="font-size:90%">&nbsp;{{result.shape}}</div>
+          <div class='task col-sm-5' style="font-size:90%">Package Height/Weight</div>
+                        <div class='task col-sm-7' style="font-size:90%">&nbsp;{{result.height}}/{{result.package_gross_weight}}</div>
+                        <div class='task col-sm-5' style="font-size:90%">Package Weight</div>
+                                      <div class='task col-sm-7' style="font-size:90%">&nbsp;{{result.humidity}}</div>
+          <div class='task col-sm-5' style="font-size:90%">Package Width</div>
+                        <div class='task col-sm-7' style="font-size:90%">&nbsp;{{result.width}}</div>
+                        <div class='task col-sm-5' style="font-size:90%">Package dimensions</div>
+                        <div class='task col-sm-7' style="font-size:90%">&nbsp;{{result.total_dimensions}}</div>
+          <div class='task col-sm-5' style="font-size:90%">Package Depth</div>
+          <div class='task col-sm-7' style="font-size:90%">&nbsp;{{result.depth}}</div>
+          <div class='task col-sm-5' style="font-size:90%">Package Color</div>
+          <div class='task col-sm-7' style="font-size:90%">&nbsp;{{result.colour}}</div>
+          <div class='task col-sm-5' style="font-size:90%">Package Status</div>
+          <div class='task col-sm-7' style="font-size:90%">&nbsp;{{result.status}}</div>
+
+                      </div>
+                    </div>
+                  <br/></li>
+                </ul>
+
+
+                <h5>PO Data Code <small>(GS1-128)</small></h5>
+
+                                     <div align = 'left'; class='task col-sm-4'><img  src='https://api.qrserver.com/v1/create-qr-code/?size=90x90&data=http://www.tracepharm.io:5000/api/v1.0.0/exp/package_details/{{result.sscc_no}}'>
+                                       <div align = 'left'; >
+                                      <small style='line-height:10px;'>&nbsp;&nbsp;&nbsp;&nbsp;(01){{result.gtin}}<br>&nbsp;&nbsp;&nbsp;&nbsp;(00){{result.sscc_no}}</small></div>
+                                    </div>
+                                     </div>
+
+
+                                    <!-- <div style="padding-top:350px;padding-left:520px;">
+                                    <p>  <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal" style="background:#00002e;">Show Video</button>
+
+                                      <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal1" style="background:#00002e;">Show File</button>
+                                    </p>
+                                    </div>  -->
+                                    <!-- <video width="240" height="180" controls ><source src="{{result.video}}" type="video/mp4"><b>{{result.video}}</b></video> -->
+                                       <br>
+                                       <!-- <iframe id="iframe_pdf" src="{{ result.file }}" style="width:300px; height:140px;" frameborder="0"></iframe> -->
+
+
+
+
+
+
+
+
+
+      <br>
+
+                      <br>
+
+                      </div>
+                      <!-- </div> -->
+                    </div>
+              </div>
+
+            </div>
+          </div>
+
+    </div>
+                    <!-- /.card body ends-->
+    </div>
+    </div>
+    </div>
+
+    </div>
+            <!-- End - Second Box Selection options  -->
+
+            <!-- Small boxes (Ends box) -->
+          </form>
+        </section>
+      </div>
+
+      <!-- Modal -->
+        <div class="modal fade" id="myModal" role="dialog">
+          <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Video Evidence</h4>
+              </div>
+              <div class="modal-body">
+               <video width="540" height="250" controls ><source src="{{result.video}}" type="video/mp4"><b>{{result.video}}</b></video>
+              </div>
+              <div class="modal-footer">
+                <a href="{{result.video}}" target="_blank" download><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+    <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+    <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+    </svg>
+                </a>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal1" role="dialog">
+    <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+    <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <h4 class="modal-title">Evidence File</h4>
+    </div>
+    <div class="modal-body">
+    <iframe id="invisible" src="{{ result.file }}" style="width:570px; height:240px;" frameborder="0" download></iframe>
+    </div>
+    <div class="modal-footer">
+    <a href="{{result.file}}" target="_blank" download><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+    <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+    <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+    </svg>
+    </a>   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    </div>
+    </div>
+
+    </div>
+    </div>
+
+
+    {%endif%}
+
+      {%endif%}
+
+
+									{%endfor%}
+
+{%endblock%}

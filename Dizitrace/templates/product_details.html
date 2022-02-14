@@ -1,0 +1,346 @@
+{% extends 'mainbase.html' %}
+{%block content%}
+<!DOCTYPE html>
+{%load static%}
+{%for i in res_token%}
+{%if i.organization_id == '3' %}
+      {%if i.role == '7' %}
+
+<head>
+  <style>
+    .left-column {
+  width: 45%;
+  position: relative;
+}
+
+.right-column {
+  width: 35%;
+  margin-top: 10px;
+}
+/* Basic Styling */
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 15px;
+  display: flex;
+}
+/* Left Column */
+.left-column img {
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.left-column img.active {
+  opacity: 1;
+}
+/* Product Description */
+.product-description {
+  border-bottom: 1px solid #E1E8EE;
+  margin-bottom: 20px;
+  padding-top:5px;
+}
+.product-description span {
+  font-size: 12px;
+  color: #358ED7;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+.product-description h1 {
+  font-weight: 300;
+  font-size: 52px;
+  color: #43484D;
+  letter-spacing: -2px;
+}
+.product-description p {
+  font-size: 16px;
+  font-weight: 300;
+  color: #86939E;
+  line-height: 24px;
+}
+.product-color {
+  margin-bottom: 30px;
+}
+
+.color-choose div {
+  display: inline-block;
+}
+
+.color-choose input[type=&amp;quot;radio&amp;quot;] {
+  display: none;
+}
+
+.color-choose input[type=&amp;quot;radio&amp;quot;] + label span {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  margin: -1px 4px 0 0;
+  vertical-align: middle;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.color-choose input[type=&amp;quot;radio&amp;quot;] + label span {
+  border: 2px solid #FFFFFF;
+  box-shadow: 0 1px 3px 0 rgba(0,0,0,0.33);
+}
+
+.color-choose input[type=&amp;quot;radio&amp;quot;]#red + label span {
+  background-color: #C91524;
+}
+.color-choose input[type=&amp;quot;radio&amp;quot;]#blue + label span {
+  background-color: #314780;
+}
+.color-choose input[type=&amp;quot;radio&amp;quot;]#black + label span {
+  background-color: #323232;
+}
+
+.color-choose input[type=&amp;quot;radio&amp;quot;]:checked + label span {
+  background-image: url(images/check-icn.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+}
+/* Cable Configuration */
+.cable-choose {
+  margin-bottom: 20px;
+}
+
+.cable-choose button {
+  border: 2px solid #E1E8EE;
+  border-radius: 6px;
+  padding: 13px 20px;
+  font-size: 14px;
+  color: #5E6977;
+  background-color: #fff;
+  cursor: pointer;
+  transition: all .5s;
+}
+
+.cable-choose button:hover,
+.cable-choose button:active,
+.cable-choose button:focus {
+  border: 2px solid #86939E;
+  outline: none;
+}
+
+.cable-config {
+  border-bottom: 1px solid #E1E8EE;
+  margin-bottom: 20px;
+}
+
+.cable-config a {
+  color: #358ED7;
+  text-decoration: none;
+  font-size: 12px;
+  position: relative;
+  margin: 10px 0;
+  display: inline-block;
+}
+.cable-config a:before {
+  content: &amp;quot;?&amp;quot;;
+  height: 15px;
+  width: 15px;
+  border-radius: 50%;
+  border: 2px solid rgba(53, 142, 215, 0.5);
+  display: inline-block;
+  text-align: center;
+  line-height: 16px;
+  opacity: 0.5;
+  margin-right: 5px;
+}
+/* Product Price */
+.product-price {
+  display: flex;
+  align-items: center;
+}
+
+.product-price span {
+  font-size: 26px;
+  font-weight: 300;
+  color: #43474D;
+  margin-right: 8px;
+}
+
+.cart-btn {
+  display: inline-block;
+  background-color: #7DC855;
+  border-radius: 6px;
+  font-size: 16px;
+  color: #FFFFFF;
+  text-decoration: none;
+  padding: 12px 30px;
+  transition: all .5s;
+}
+.cart-btn:hover {
+  background-color: #64af3d;
+}
+/* Responsive */
+@media (max-width: 940px) {
+  .container {
+    flex-direction: column;
+    margin-top: 60px;
+  }
+
+  .left-column,
+  .right-column {
+    width: 100%;
+  }
+
+  .left-column img {
+    width: 300px;
+    right: 0;
+    top: -65px;
+    left: initial;
+  }
+}
+
+@media (max-width: 535px) {
+  .left-column img {
+    width: 220px;
+    top: -85px;
+  }
+}
+  </style>
+  {%for message in messages%}
+  <script>
+  window.onload = function() {
+    alert('{{message}}');
+  }
+  </script>
+  {%endfor%}
+</head>
+<body>
+  <div class="content-wrapper">
+      <main class="container">
+
+        <!-- Left Column / Headphones Image -->
+        <div class="left-column">
+            <img data-image="red" class="active" src="{{result.product_image}}" alt="" style="width:400px;height:400px;">
+        </div>
+
+
+        <!-- Right Column -->
+        <div class="right-column" >
+
+          <!-- Product Description -->
+          <div class="product-description" >
+            <span>About Product</span>
+            <h1>{{result.product_name}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>
+              <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" >
+            More Information</button> -->
+          </span>
+          </h1>
+            <p>Product Description :{{result.product_discription}} and Patient need to take these instructions : {{result.patient_instruction}}</p>
+          </div>
+            <h3>Unit Price</h3>
+              <span style="color:red;font-size:20px;">$&nbsp;{{result.product_price}}</span>
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" style="margin-left: 400px;margin-top:-400px;">
+              More Information</button>
+          <!-- Product Configuration -->
+          <div class="product-configuration">
+
+            <!-- Cable Configuration -->
+            <div class="cable-config" style="padding-top:0px;">
+              <h1 style="color:blue;"><u>Company Name</u></h1>
+
+              <div class="cable-choose">
+                <h3>{{result.supplier_name}}</h3>
+              </div>
+
+
+              <p><h4 style="color:blue;">Product Form</h4>{{result.product_form}} And the Strength was {{result.strength}}</p>
+            </div>
+          </div>
+
+          <!-- Product Pricing -->
+          <div class="product-price">
+            <!-- <span>Unit Price</span>
+            <span>{{result.product_price}}</span>
+            <br> -->
+            <!-- <a href="/product_cart/{{result.product_id}}/{{i.id}}" class="cart-btn">Add to cart</a> -->
+
+            <a href="/product_cart/{{result.supplier_id}}/{{result.gtin}}/{{i.id}}" class="cart-btn">Add to cart</a>
+            <a href="/product_list/" style="color:blue;font-size:16px;padding-left:100px;">Back to Product List</a>
+
+
+          </div>
+        </div>
+      </main>
+      <br>
+      </div>
+
+      <script>
+        $(document).ready(function() {
+
+  $('.color-choose input').on('click', function() {
+      var headphonesColor = $(this).attr('data-image');
+
+      $('.active').removeClass('active');
+      $('.left-column img[data-image = ' + headphonesColor + ']').addClass('active');
+      $(this).addClass('active');
+  });
+
+});
+      </script>
+
+      <!-- The Modal -->
+      <div class="modal" id="myModal">
+        <div class="modal-dialog">
+          <div class="modal-content" style="background:#ebebeb">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title">More FDA Information of the Product</h4>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <p><b>Labler Name:</b><span>{{result.labler_name}}</span></p>
+                <p><b>Last Updated datetime:</b><span>{{result.last_updated_datetime}}</span></p>
+                <p><b>Mfg Name:</b><span>{{result.openfda_manufacturer_name}}</span></p>
+                <p><b>Ingredients Name:</b><span>{{result.Ingredients_name}}</span></p>
+                <p><b>Generic Name:</b><span>{{result.generic_name}}</span></p>
+                <p><b>Brand Name:</b><span>{{result.brand_name_base}}</span></p>
+                <p><b>Product OTC:</b><span>{{result.is_prod_otc}}</span></p>
+                <p><b>Marketing Category:</b><span>{{result.marketing_category}}</span></p>
+                <p><b>Marketing Start date:</b><span>{{result.marketing_start_date}}</span></p>
+                <p><b>Listing Expiration date:</b><span>{{result.listing_expiration_date}}</span></p>
+                <p><b>Ingredients:</b><span>{{result.Ingredients_name}}</span></p>
+                <p><b>Application Number:</b><span>{{result.application_number}}</span></p>
+                <p><b>Gtin:</b><span>{{result.gtin}}</span></p>
+                <p><b>Is Orginica Packages:</b><span>{{result.is_original_packager}}</span></p>
+                <p><b>Route:</b><span>{{result.route}}</span></p>
+                <p><b>Spl set id:</b><span>{{result.spl_set_id}}</span></p>
+                <p><b>Upc:</b><span>{{result.upc}}</span></p>
+                <p><b>Unii:</b><span>{{result.unii}}</span></p>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <!-- <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button> -->
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      </body>
+
+
+
+{%endif%}
+{%endif%}
+{%endfor%}
+{%endblock%}

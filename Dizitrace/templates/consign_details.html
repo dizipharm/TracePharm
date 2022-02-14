@@ -1,0 +1,172 @@
+{% extends 'mainbase.html' %}
+{%block content%}
+<!DOCTYPE html>
+{%load static%}
+{%for i in res_token%}
+{%if i.organization_id == '1' %}
+
+<html>
+<head>
+	<!-- <meta charset="utf-8"> -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Smart Contract</title>
+	{%for message in messages%}
+	<script>
+	window.onload = function() {
+	  alert('{{message}}');
+	}
+	</script>
+	{%endfor%}
+</head>
+
+<style type="text/css">
+	body {
+  font-family: 'lato', sans-serif;
+  background: #fff;
+	height:120vh;
+}
+.request_form{
+	text-align: center;
+	width: 70%;
+	margin: 0 auto;
+}
+label{
+	padding-top:10px;
+}
+</style>
+  {%if i.role == '7' %}
+<body>
+<div class="content-wrapper">
+<section class="content-header">
+              		<h1>Consignment</h1>
+<br>
+
+              		<ol class="breadcrumb">
+                    <!-- <li><a href="<?php echo base_url('dashboard') ?>"><i class="fa fa-dashboard"></i> Home</a></li> -->
+              			<li><a href="{%url 'dashboard1'%}"><i class="fa fa-dashboard"></i> Home</a></li>
+                  	</ol>
+</section>
+
+ <div>
+	 {%for a in result%}
+	<!-- <form action="/conform_consign/{{a.purchase_order}}" method="post" enctype=multipart/form-data> -->
+	<form action="/conform_consign/" method="post" enctype=multipart/form-data>
+		{%csrf_token%}
+
+		<!-- <button type="submit"><i class="fa fa-search"></i></button> -->
+</div>
+  <div class="col-sm-12">
+		<div class="col-sm-4">
+					<div class="form-row">
+
+				<label class="col control-label">SSCC Number</label>
+				<div class="col control-label"><input type="text" name="ssccno"   ></div>
+				<label class="col control-label">GRAI</label>
+				<div class="col control-label"><input type="text" name="grai"  ></div>
+				<label class="col control-label">GIAI</label>
+				<div class="col control-label"><input type="text" name="giai"  ></div>
+				<label class="col control-label">Container Dimensions</label>
+				<div class="col control-label"><input type="text" name="container_dimensions" value=""  ></div>
+
+  													<label class="col control-label">Package Dimentions</label>
+  													<div class="col control-label"><input name="package_dimensions" value="" ></div><br>
+														<label class="col control-label">Package Net Weight</label>
+														<div class="col control-label"><input name="package_netweight" value="" ></div><br>
+														<label class="col control-label">Pallet List</label>
+														<select  class="itemName form-control" name="palletid"  style="width:190px"  required>
+															<option value="">--- Select Pallet ---</option>
+
+															{% for c in resultpallet %}
+															<option value={{c.id}}>{{c.package_pallet_sn}}</option>
+															{% endfor %}
+
+																												</select>
+													</div>
+
+  									</div>
+
+  									<div class="col-sm-4">
+  												<div class="form-row">
+															<label class="col control-label">Package Gross Weight</label>
+														<div class="col control-label"><input name="package_grossweight" value="" ></div>
+														<label class="col control-label">Purchase Order No</label>
+														<div class="col control-label"><input name="purchase_order_no" value="{{a.purchase_order}}" readonly></div>
+														<label class="col control-label">Product Order Date</label>
+														<div class="col control-label"><input name="purchase_orderdate" value="{{a.order_date}}" readonly></div>
+														<label class="col control-label">Order Quantity</label>
+														<div class="col control-label"><input name="quantity" value="{{a.quantity}}" ></div>
+														<!-- <label class="col control-label">Sale Order</label>
+														<div class="col control-label"><input name="sale_order" value="{{a.purchase_order}}" ></div> -->
+
+  													<label class="col control-label">Package Type</label>
+  													<div class="col control-label"><input name="package_type" value=""  ></div>
+														<label class="col control-label">Lsp Provider</label>
+														<select  class="itemName form-control" name="lsp_provider"  style="width:190px"  required>
+															<option value="">--- Select Lsp Provider ---</option>
+
+															{% for b in resultlsp %}
+															<option value={{b.id}}>{{b.company_name}}</option>
+															{% endfor %}
+
+                                                        </select>
+
+
+															</div>
+
+  											</div>
+
+									<div class="col-sm-4">
+												<div class="form-row">
+													<label class="col control-label">Package Inside Units</label>
+													<div class="col control-label"><input name="package_inside_units" value=""  ></div>
+													<label class="col control-label">Package Inside Selable Units</label>
+													<div class="col control-label"><input name="package_inside_sellableunits" value=""   ></div>
+													<!-- <label class="col control-label">Delivery Date</label>
+														<div class="col control-label"><input name="" value="{{resultpo.reciver_information.company_address}}"  "></div> -->
+														<label class="col control-label">Invoice No</label>
+														<div class="col control-label"><input name="invoice" value=""  ></div>
+														<label class="col control-label">Sender Name</label>
+														<div class="col control-label"><input name="" value="{{a.sender_name}}"  ></div>
+														<label class="col control-label">Sender Address</label>
+														<div class="col control-label"><input name="" value="{{a.sender_address}}"  ></div>
+														<label class="col control-label">Receiver Name</label>
+														<div class="col control-label"><input name="" value="{{a.delivery_name}}"  ></div>
+														<label class="col control-label">Receiver Address</label>
+														<div class="col control-label"><input name="" value="{{a.delivery_address}}"  ></div>
+
+
+														<br>
+
+														<input type="hidden" name="from_owner" value="{{a.from_owner_id}}">
+														<input type="hidden" name="to_owner" value="{{a.to_owner_id}}">
+
+														<input type="hidden" name="from_address" value="{{a.from_address_id}}">
+														<input type="hidden" name="to_address" value="{{a.to_address_id}}">
+														<input type="hidden" name="lsp_address" value="{{a.sender_address}}">
+														<input type="hidden" name="lot_id" value="1">
+														<input type="hidden" name="recall" value="NA">
+														<input type="hidden" name="owner" value="NA">
+														<input type="hidden" name="packaging_time" value="NA">
+														<div style="">
+															<!-- <button type="submit" name="button">Submit</button> -->
+															<button type="submit" style="background:green;width:30%;">
+				                        submit
+				                      </button>
+														</div>
+											</div>
+												</form>
+								</div>
+{%endfor%}
+                </div>
+
+
+</div>
+<br><br>
+{%endif%}
+
+
+
+{%endif%}
+  {%endfor%}
+{%endblock%}

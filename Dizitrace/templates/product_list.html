@@ -1,0 +1,121 @@
+{% extends 'mainbase.html' %}
+{%block content%}
+<!DOCTYPE html>
+{%load static%}
+{%for i in res_token%}
+{%if i.organization_id == '3' %}
+      {%if i.role == '7' %}
+
+<style media="screen">
+
+.column :hover{
+
+  -ms-flex-wrap: wrap; /* IE10 */
+  flex-wrap: wrap;
+  padding: 0 4px;
+  background-color:#ECEFF1;
+  color:blue;
+  /* top: 50%;
+ left: 50%;
+ -webkit-transform: translate(-50%, -50%);
+ -ms-transform: translate(-50%, -50%);
+ transform: translate(-50%, -50%);
+ text-align: center; */
+
+}
+
+
+</style>
+<head>
+  {%for message in messages%}
+  <script>
+  window.onload = function() {
+    alert('{{message}}');
+  }
+  </script>
+  {%endfor%}
+</head>
+
+
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+      <body>
+          <div class="content-wrapper">
+            <br>
+            <form action="/search_product/" method="POST"   name="search_product" enctype=multipart/form-data>
+              {%csrf_token%}
+        <div class="form-group pull-left" style="padding-left:100px;">
+            <!-- <input type="text" name="search_product" class="search form-control" placeholder="What you looking for?"> -->
+          Search Product :  <input type="text" name="search_product"  placeholder="What you looking for?">
+            <button type="submit" id="myBtn" onkeypress="return enterKeyPressed(event)" onclick="ValidateGtinInput();"><i class="fa fa-search"></i></button>
+        </div>
+      </form>
+        <br>
+        <table class="table table-responsive" id="userTbl" style="width:900px;">
+
+            {%for a in result%}
+            <tbody class="column" style="width:200px;">
+
+            <tr>
+                <td><a  href="/product_data/{{a.gtin}}"><img src="{{a.product_image_url}}" style="width:200px;height:90px;"></a></td>
+                <td>
+
+                  <p style="font-size:14px;">Brand Name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{a.brand_name}}</p>
+                  <p style="font-size:14px;">Product NDC:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{a.product_ndc}}</p>
+                  <!-- <p style="font-size:12px;">Product NDC:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{a.product_ndc}}</p> -->
+                  <p style="font-size:14px;">Unit Price:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$ &nbsp;{{a.product_price}}</p>
+                </td>
+
+            </tr>
+
+            </tbody>
+            {%endfor%}
+        </table>
+        <!--Pagination-->
+             <div class="container p-4">
+               <div class="pagination justify-content-center">
+                   <span class="step-links">
+                     {% if result.has_previous %}
+                         <a href="?page=1">&laquo; first</a>
+                         <a href="?page={{ result.previous_page_number }}">previous</a>
+                     {% endif %}
+
+                       <span class="current">
+                           Page {{ result.number }} of {{ result.paginator.num_pages }}
+                       </span>
+
+                     {% if result.has_next %}
+                         <a href="?page={{ result.next_page_number }}">next</a>
+                         <a href="?page={{ result.paginator.num_pages }}">last &raquo;</a>
+                     {% endif %}
+                   </span>
+                   </div>
+               </div>
+             <!--end of Pagination-->
+      </body>
+</div>
+
+      <script>
+      $(document).ready(function(){
+          $('.search').on('keyup',function(){
+              var searchTerm = $(this).val().toLowerCase();
+              $('#userTbl tbody tr').each(function(){
+                  var lineStr = $(this).text().toLowerCase();
+                  if(lineStr.indexOf(searchTerm) === -1){
+                      $(this).hide();
+                  }else{
+                      $(this).show();
+                  }
+              });
+          });
+      });
+
+
+
+      </script>
+
+{%endif%}
+{%endif%}
+{%endfor%}
+{%endblock%}

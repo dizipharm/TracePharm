@@ -1,0 +1,242 @@
+{% extends 'mainbase.html' %}
+{%block content%}
+<!DOCTYPE html>
+{%load static%}
+{%for i in res_token%}
+{%if i.organization_id == '1' %}
+
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Smart Contract</title>
+</head>
+
+<style type="text/css">
+	body {
+  font-family: 'lato', sans-serif;
+  background: #fff;
+}
+.request_form{
+	text-align: center;
+	width: 70%;
+	margin: 0 auto;
+}
+p{
+    display: none;
+}
+</style>
+{%if i.role == '7' %}
+<body>
+<div class="content-wrapper">
+<section class="content-header">
+              		<h1>Smart Contract
+<!--              			<small>Track & Trace</small>-->
+              		</h1>
+              		<ol class="breadcrumb">
+                    <!-- <li><a href="<?php echo base_url('dashboard') ?>"><i class="fa fa-dashboard"></i> Home</a></li> -->
+              			<li><a href="{%url 'dashboard1'%}"><i class="fa fa-dashboard"></i> Home</a></li>
+                  	</ol>
+</section>
+<br><br>
+<div>
+
+  <form action="/smart_contracts/" method="post">
+    {%csrf_token%}
+    <label for="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Please Select Contract Type</label>
+    <br>
+    <select name="contract_type" required  style="padding: 4px 4px;margin-left:30px;width:17%;">
+      <option value="">----Contract Type ----</option>
+      {%for a in result%}
+   <option   value="{{a}}" >{{a}}</option>
+{%endfor%}
+</select>
+<button id="show" type="button"  name="button">Submit</button>
+<br><br><br><br><br><br>
+  <p>
+    <label for="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Purchase Order Number</label>
+    <input type="text" name="po_number" value="" placeholder="             ---Enter Po Number---" required style="width:22%">
+    <button type="submit"><i class="fa fa-search"></i></button>
+  </p>
+  </form>
+</div>
+<br>
+	<!-- <div class="request_form">
+    <form action="/smart_contract/" method="POST" enctype=multipart/form-data>
+      {%csrf_token%}
+			<select name="contract_type" id="contract_type" style="padding: 4px 5px;margin-left:10px;">
+        <option value="">---- Please Select Your Contract Type ----</option>
+        {%for a in result%}
+     <option value={{a}}>{{a}}</option>
+  {%endfor%}
+  </select>
+			<button type="submit"><i class="fa fa-search"></i></button>
+		</form>
+	</div> -->
+  <br>
+
+
+<!-- {%if resultpo%}
+temparature:{{resultpo.controlled_conditions.temperature}}
+{%endif%} -->
+</div>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+  $("#show").click(function(){
+    $("p").show();
+  });
+});
+
+async function cctype(){
+  var type = $("#ctype").val()
+}
+</script>
+</html>
+<br><br><br>
+{%endif%}
+{%if i.role == '3' %}
+<body>
+<div class="content-wrapper">
+<section class="content-header">
+              		<h1>Smart Contract
+<!--              			<small>Track & Trace</small>-->
+              		</h1>
+              		<ol class="breadcrumb">
+                    <!-- <li><a href="<?php echo base_url('dashboard') ?>"><i class="fa fa-dashboard"></i> Home</a></li> -->
+              			<li><a href="{%url 'dashboard1'%}"><i class="fa fa-dashboard"></i> Home</a></li>
+                  	</ol>
+</section>
+<br><br>
+<div>
+
+  <form action="/smart_contracts/" method="post">
+    {%csrf_token%}
+    <label for="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Please Select Contract Type</label>
+    <br>
+    <select name="contract_type" required  style="padding: 4px 4px;margin-left:30px;width:17%;">
+      <option value="">----Contract Type ----</option>
+      {%for a in result%}
+   <option   value="{{a}}" >{{a}}</option>
+{%endfor%}
+</select>
+<button id="show" type="button"  name="button">Sumbit</button>
+<br><br><br><br><br><br>
+  <p>
+    <label for="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Purchase Order Number</label>
+    <input type="text" name="po_number" value="" placeholder="             ---Enter Po Number---" required style="width:22%">
+    <button type="submit"><i class="fa fa-search"></i></button>
+  </p>
+  </form>
+</div>
+<br>
+	<!-- <div class="request_form">
+    <form action="/smart_contract/" method="POST" enctype=multipart/form-data>
+      {%csrf_token%}
+			<select name="contract_type" id="contract_type" style="padding: 4px 5px;margin-left:10px;">
+        <option value="">---- Please Select Your Contract Type ----</option>
+        {%for a in result%}
+     <option value={{a}}>{{a}}</option>
+  {%endfor%}
+  </select>
+			<button type="submit"><i class="fa fa-search"></i></button>
+		</form>
+	</div> -->
+  <br>
+
+
+<!-- {%if resultpo%}
+temparature:{{resultpo.controlled_conditions.temperature}}
+{%endif%} -->
+</div>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+  $("#show").click(function(){
+    $("p").show();
+  });
+});
+
+async function cctype(){
+  var type = $("#ctype").val()
+}
+</script>
+</html>
+<br><br><br>
+{%endif%}
+{%if i.role == '1' %}
+
+<body>
+<div class="content-wrapper">
+<section class="content-header">
+            <h1>Smart Contract
+<!--              			<small>Track & Trace</small>-->
+            </h1>
+            <ol class="breadcrumb">
+              <!-- <li><a href="<?php echo base_url('dashboard') ?>"><i class="fa fa-dashboard"></i> Home</a></li> -->
+              <li><a href="{%url 'dashboard1'%}"><i class="fa fa-dashboard"></i> Home</a></li>
+              </ol>
+</section>
+<br><br>
+<div>
+
+<form action="/smart_contracts/" method="post">
+{%csrf_token%}
+<label for="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Please Select Contract Type</label>
+<br>
+<select name="contract_type" required   style="padding: 4px 4px;margin-left:30px;width:17%;">
+<option value="">----Contract Type ----</option>
+{%for a in result%}
+<option   value="{{a}}" >{{a}}</option>
+{%endfor%}
+</select>
+<button id="show" type="button"  name="button">Sumbit</button>
+<br><br><br><br><br><br>
+<p>
+<label for="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Purchase Order Number</label>
+<input type="text" name="po_number" value="" placeholder="             ---Enter Po Number---" required style="width:22%">
+<button type="submit"><i class="fa fa-search"></i></button>
+</p>
+</form>
+</div>
+<br>
+<!-- <div class="request_form">
+<form action="/smart_contract/" method="POST" enctype=multipart/form-data>
+{%csrf_token%}
+<select name="contract_type" id="contract_type" style="padding: 4px 5px;margin-left:10px;">
+  <option value="">---- Please Select Your Contract Type ----</option>
+  {%for a in result%}
+<option value={{a}}>{{a}}</option>
+{%endfor%}
+</select>
+<button type="submit"><i class="fa fa-search"></i></button>
+</form>
+</div> -->
+<br>
+
+
+<!-- {%if resultpo%}
+temparature:{{resultpo.controlled_conditions.temperature}}
+{%endif%} -->
+</div>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+$("#show").click(function(){
+$("p").show();
+});
+});
+
+async function cctype(){
+var type = $("#ctype").val()
+}
+</script>
+</html>
+<br><br><br>
+{%endif%}
+{%endif%}
+  {%endfor%}
+{%endblock%}

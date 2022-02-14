@@ -1,0 +1,207 @@
+{% extends 'mainbase.html' %}
+{%block content%}
+<!DOCTYPE html>
+{%load static%}
+{%for i in res_token%}
+{%if i.organization_id == '1' %}
+      {%if i.role == '7' %}
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Transaction Statement</title>
+</head>
+
+<style type="text/css">
+	body {
+  font-family: 'lato', sans-serif;
+  background: #fff;
+  height:100vh;
+  overflow:hidden;
+
+}
+.reciept {
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+th {
+    background-color: #95A5A6;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .tr {
+    background-color: #ffffff;
+    box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.1);
+  }
+
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+.button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  align-content: center;
+}
+input[type=text] {
+  width: 30%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+}
+
+/* Removes the clear button from date inputs */
+input[type="date"]::-webkit-clear-button {
+    display: none;
+}
+
+/* Removes the spin button */
+input[type="date"]::-webkit-inner-spin-button {
+    display: none;
+}
+
+/* Always display the drop down caret */
+input[type="date"]::-webkit-calendar-picker-indicator {
+    color: #2c3e50;
+}
+
+/* A few custom styles for date inputs */
+input[type="date"] {
+    appearance: none;
+    -webkit-appearance: none;
+    color: #95a5a6;
+    font-family: "Helvetica", arial, sans-serif;
+    font-size: 18px;
+    border:1px solid #ecf0f1;
+    background:#ecf0f1;
+    padding:5px;
+    display: inline-block !important;
+    visibility: visible !important;
+}
+
+input[type="date"], focus {
+    color: #95a5a6;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+}
+
+.request_form{
+
+	text-align: center;
+	width: 70%;
+	margin: 0 auto;
+}
+@media print {
+    #printbtn {
+        display :  none;
+    }
+    #printbtn1 {
+        display :  none;
+    }
+    #printbtn2 {
+        display :  none;
+    }
+}
+</style>
+<body>
+<div class="content-wrapper">
+<section class="content-header">
+              		<h1>Business Transaction Statement
+<!--              			<small>Track & Trace</small>-->
+              		</h1>
+              		<ol class="breadcrumb">
+                    <!-- <li><a href="<?php echo base_url('dashboard') ?>"><i class="fa fa-dashboard"></i> Home</a></li> -->
+              			<li><a href="{%url 'dashboard1'%}"><i class="fa fa-dashboard"></i> Home</a></li>
+                    <li class="active"><a href="">Business Statement</a></li>
+              			<!-- <li class="active"><a href="<?php echo base_url('productTnT/') ?>">Search Product</a></li> -->
+              		</ol>
+</section>
+
+	<div class="request_form">
+		<form action="/business_transactions/" method="post">
+      {%csrf_token%}
+			<input type="text" name="productno" id="printbtn1" placeholder="Please Enter Purchase Order" value="{{product_no}}" required style="width:35%;height:10px;">&nbsp;&nbsp;
+      <button type="submit" id="printbtn2" onclick="showDiv()">submit</button>
+		</form>
+	</div>
+
+	<br>
+{%if result%}
+	<div>
+<div class="reciept" id="reciept" style="padding-left:30px;" >
+
+<!-- <div style="pedding-top:0px;"> -->
+  <table>
+    <tr>
+      <th colspan="7" style="text-align: center;font-size:17px;"><b>Transaction Statement</b></th>
+
+    </tr>
+    <tr>
+      <th colspan="2" style="font-size:15px">Sending Party Details</th>
+      <th colspan="5" style="font-size:15px">Receiving Party Details</th>
+    </tr>
+    <br><tr>
+      <td colspan="2">{{result.sender_information.organisation_name}}<br>{{result.sender_information.address}}</td>
+      <br><td colspan="5">{{result.reciver_information.organisation_name}}<br>{{result.reciver_information.address}}</td>
+    </tr>
+    <tr>
+  <td colspan="7"><br><p>This Transaction statement refers to the <b style="color:blue">PO:{{result.statement_information.purchase_order_number}} </b>which is dispatched from our premises on (<b style="color:blue">{{result.statement_information.dispatched_date}}</b>)
+<br>
+ Product in referred order are completely manufactured by us and we are the primary owner.<br>
+ We affirm that we did not ship a suspect or illegitimate product<br>
+ Our product authentication and supply chain security systems comply with DSCSA<br>
+ We neither knowingly provided false transaction information nor tried to alter the transaction history<br>
+<br>
+<br>
+<br>
+Quality Assurance</p></td>
+    </tr>
+
+  </table>
+  <div style="padding-left:750px;">
+    <button id="printbtn" onclick="print_current_page()"><svg xmlns="http://www.w3.org/2000/svg" width="70" height="30" fill="currentColor" class="bi bi-printer" viewBox="0 0 16 16">
+      <path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z"/>
+      <path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2H5zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4V3zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2H5zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1z"/>
+    </svg></button>
+
+    <!-- <a href="{{result.video}}" target="_blank" download><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-printer" viewBox="0 0 16 16">
+    <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+    <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+    </svg>
+    </a> -->
+  </div>
+</div>
+</div>
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<script type="text/javascript">
+
+	function showDiv() {
+   document.getElementById('reciept').style.display = "block";
+}
+
+function print_current_page() {
+            window.print();
+        }
+</script>
+</div>
+
+{%endif%}
+</body>
+</html>
+{%endif%}
+{%endif%}
+  {%endfor%}
+{%endblock%}

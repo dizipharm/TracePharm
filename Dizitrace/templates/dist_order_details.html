@@ -1,0 +1,241 @@
+{% extends 'mainbase.html' %}
+{%block content%}
+<!DOCTYPE html>
+{%load static%}
+{%for i in res_token%}
+{%if i.organization_id == '3' %}
+
+<style media="screen">
+
+
+.mt-100 {
+    margin-top: 150px
+}
+
+.modal-content {
+    border-radius: 0.7rem
+}
+
+@media(width:1024px) {
+    .modal-dialog {
+        max-width: 700px
+    }
+}
+
+.modal-title {
+    text-align: center;
+    font-size: 3vh;
+    font-weight: bold
+}
+
+h4 {
+    margin-left: auto
+}
+
+.modal-header {
+    border-bottom: none;
+    text-align: center;
+    padding-bottom: 0
+}
+
+h6 {
+    color: rgb(2, 55, 230);
+    margin-top: 2vh;
+    margin-bottom: 0;
+    font-size: 2vh
+}
+
+.modal-body {
+    padding: 2vh
+}
+
+.modal-footer {
+    border-top: none;
+    justify-content: center;
+    padding-top: 0
+}
+
+.row {
+    border-bottom: 1px solid rgba(0, 0, 0, .2);
+    padding: 2vh 0 2vh 0;
+    justify-content: space-between;
+    flex-wrap: unset;
+    margin: 0
+}
+
+/* ul {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around
+}
+
+ul li {
+    font-size: 2vh;
+    font-weight: bold;
+    line-height: 4vh
+} */
+
+.left {
+    float: left;
+    font-weight: normal;
+    color: rgb(126, 123, 123)
+}
+
+.right {
+    float: right;
+    text-align: right
+}
+
+.col {
+    padding-left: 0
+}
+
+@media(min-width:1025px) {
+    img {
+        width: 70%
+    }
+}
+
+.btn {
+    background-color: rgb(2, 55, 230);
+    border-color: rgb(2, 55, 230);
+    color: white;
+    width: 90%;
+    padding: 2vh;
+    margin-top: 0;
+    border-radius: 0.7rem;
+    box-shadow: none
+}
+
+.openmodal {
+    background-color: white;
+    color: black;
+    width: 30vw
+}
+
+:-moz-any-link:focus {
+    outline: none
+}
+
+button:active {
+    outline: none
+}
+
+button:focus {
+    outline: none
+}
+
+.btn:focus {
+    box-shadow: none
+}
+</style>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" type="text/javascript"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" type="text/javascript"></script>
+
+      <head>
+        {%for message in messages%}
+        <script>
+        window.onload = function() {
+          alert('{{message}}');
+        }
+        </script>
+        {%endfor%}
+      </head>
+{%if i.role == '7' %}
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <h1>Item Details</h1>
+    <ol class="breadcrumb">
+      <li><a href="{%url 'dashboard1'%}"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li class="active">Orders List</li>
+      <li class="active">Order Item Details</li>
+
+    </ol>
+  </section>
+<br>
+  <!-- Main content -->
+  <section class="content">
+    <!-- Small boxes (Stat box) -->
+    <div class="row">
+      <div class="col-md-12 col-xs-12">
+
+        <div class="box">
+          <div class="box-header">
+            <h3 class="box-title">Item Details</h3>
+          </div>
+
+
+          <!-- /.box-header -->
+          <div class="box-body">
+            <table id="manageTable" class="table table-bordered table-striped">
+              <thead>
+              <tr>
+                <!-- <th><input type="checkbox"></th> -->
+                <th>Order No</th>
+                <th>Drug Name</th>
+                <!-- <th>Strength</th> -->
+                <!-- <th>Order Status</th> -->
+                <th>Gtin Number</th>
+                <th>Quantity</th>
+                <th>Amount</th>
+                <th>Vendor Name</th>
+                <th>Estimated Arrival</th>
+                <!-- <th>Manage</th> -->
+              </tr>
+              </thead>
+              {%for result in result%}
+              <!-- <form action="/asn_status/" method="post"> -->
+
+            {%csrf_token%}
+
+                <tbody>
+                <tr>
+                    <!-- <td><input type="checkbox"></td> -->
+                    <td>{{result.order_number}}</td>
+                      <td>{{result.product_name}}</td>
+
+
+                    <td>{{result.gtin}}</td>
+                    <td>{{result.quantity}}</td>
+                    <td>{{result.amount}}</td>
+                    <td>{{result.vendor_name}}</td>
+                    <td>10/2/2022</td>
+                    <!-- <td>  <button type="button" class="btn openmodal" style="width:70%;height:40px;">
+                        <a href="/cancel_order/{{result.order_number}}/{{i.id}}" style="color:black;">Cancel Order</a>
+                      </button></td> -->
+              </tr>
+            </tbody>
+            
+                {%endfor%}
+            </table>
+            <!-- </form> -->
+          </div>
+
+          <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+      </div>
+      <!-- col-md-12 -->
+    </div>
+    <!-- /.row -->
+
+
+  </section>
+  <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+
+<!-- <div class="container d-flex justify-content-center mt-100"> -->
+
+
+</div>
+
+{%endif%}
+{%endif%}
+{%endfor%}
+{%endblock%}

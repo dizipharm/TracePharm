@@ -1,0 +1,995 @@
+{% extends 'mainbase.html' %}
+{%block content%}
+<!DOCTYPE html>
+{%load static%}
+
+<style>
+#one:hover {
+  cursor: default;
+}
+</style>
+  <body>
+
+{%csrf_token%}
+
+
+    {%for i in res_token%}
+    <!-- manufacturer dashboar role wise -->
+    {%if i.organization_id == '1' %}
+          {%if i.role == '1' %}
+          <script src="https://code.jquery.com/jquery-2.1.1.min.js" type="text/javascript"></script>
+              <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+              <!-- Content Wrapper. Contains page content -->
+              <!-- Developed by Ravi Chand Matangi v 0.1.0 July 11, 2021 -->
+              <div class="content-wrapper">
+                  <!-- Content Header (Page header) -->
+                  <section class="content-header">
+              		<h1>Search Product -
+              			<small>Track & Trace</small>
+              		</h1>
+              		<ol class="breadcrumb">
+                    <!-- <li><a href="<?php echo base_url('dashboard') ?>"><i class="fa fa-dashboard"></i> Home</a></li> -->
+              			<li><a href="{%url 'dashboard1'%}"><i class="fa fa-dashboard"></i> Home</a></li>
+                    <li class="active"><a href="">Search Product</a></li>
+              			<!-- <li class="active"><a href="<?php echo base_url('productTnT/') ?>">Search Product</a></li> -->
+              		</ol>
+              	</section>
+                  <!-- Main content -->
+                  <section class="content">
+              		<!-- Small boxes (Stat box) -->
+              		<p><b>Choose the product to Track&Trace using one of the options below...</b></p>
+              		<!--
+              			<div class="col-md-12 bg-light text-right">
+              			<a href="<?php echo base_url('productTnT/trace') ?>"><button type="button" class="btn btn-warning btn-md float-right" type="submit"><i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp; Trace&nbsp;</button></a>&nbsp;
+              			<a href="<?php echo base_url('productTnT/track') ?>"><button class="btn btn-success btn-md float-right" type="submit" ><i class="glyphicon glyphicon-screenshot"></i>&nbsp;Track&nbsp;</button></a>
+
+              		</div>  -->
+              		<!-- Small boxes (Stat box) -->
+              		<div class="row">
+              			<div id="sel1" class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="border:0.5px solid white; padding-right: 5px;padding-left: 15px;">
+              				<div class="card" style="height: 410px;">
+              					<div class="card-body">
+
+                            <h6 class="card-title" style="font-size:1rem;"><b><button id="one" class="btn btn-sm btn-primary btn-block" type="button">Find Product Identification Number</button></b></h6>
+
+              						<div class="search-container">
+
+                  <form action="/searchlevel/" method="POST"   name="searchlevel" enctype=multipart/form-data>
+                    {%csrf_token%}
+                    <div class="form-group">
+                  <select id="gtinid"   name="searchlevel"  class="itemName form-control" style="width:280px" size ="40" required>
+                    <option value="">Please Enter GTIN</option>
+                        {%for a in result2%}
+                         <option value={{a}}>{{a}}</option>
+                      {%endfor%}
+                  </select>
+                    <button type="submit" id="myBtn" onkeypress="return enterKeyPressed(event)" onclick="ValidateGtinInput();"><i class="fa fa-search"></i></button>
+
+                  </form>
+
+                              <!-- <form role="form" method="GET" action="/searchlevel/" id="tntdata">
+              								<div class="form-group">
+                                <input  class="it{{result2}}emName form-control" type="text"  aria-label="Search" id=""
+                                    name="searchlevel"  style="width:280px" placeholder="--Enter SSCC Number--" required/><button id="chkgtin" type="submit" onclick="return ValidateGtinInput()"><i class="fa fa-search"></i></button>
+                                </form> -->
+
+                                <script>
+                                  $("#gtinid").select2({
+                                    placeholder:"--- Search GTIN Number ---",
+                    minimumInputLength: 1,
+                });
+
+
+// document.onkeypress = keyPress;
+// function keyPress(event){
+//   var x = event || window.event;
+//   var key = (x.keyCode || x.which);
+//   if(key == 13 || key == 3){
+//     // myFunc1();
+//    document.searchlevel.submit();
+//   }
+// }
+
+
+   function enterKeyPressed(event) {
+      if (event.keyCode == 13 || key == 3) {
+         console.log("Enter key is pressed");
+         return true;
+      } else {
+         return false;
+      }
+   }
+
+
+
+                                </script>
+                                <p></p>
+                                <p></p>
+
+                                <small>
+                                  <b>Active NDC Count: {{result3.gtin_list}}</b>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                                    <b>In-active NDC Count: 0 </b>
+                                  <br><br>
+              										<p>Search Product Identification</p>
+              										<p> 14 digit GS-1 Global Trade Identificaiton Number</p>
+              										<p> Results: Found/ Not Found </p>
+              										<p> or This helps to narrow down your search </p>
+              										<p> You can also search with Lot /Serial /SSCC </p>
+              										<p> GTIN+Lot  </p>
+              										<p> GTIN+Lot+S/N (Item)</p>
+                                    <p> GTIN+S/N (Item)</p>
+              									<p> GTIN+SSCC (Pallet/Case) </p></small>
+              								</div>
+              							</form>
+              						</div>
+              					</div>
+              				</div>
+              			</div>
+              			<div id="sel2"  class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="border:0.5px solid white; padding-right: 5px;padding-left: 5px;">
+              				<div class="card" style="height: 410px;">
+              					<div class="card-body">
+              						<h6 class="card-title" style="font-size:1rem;"><b><button id="one" class="btn btn-sm btn-primary btn-block" type="button">Find Product Brand/Label Name</button></b></h6>
+              						<div class="search-container">
+
+                            <form action="/sscc_info/" method="POST"  name="sscc_info"  enctype=multipart/form-data>
+                              {%csrf_token%}
+                              <div class="form-group">
+                            <select id="sscclistinfo"   name="sscc_info"  class="itemName form-control" style="width:280px" size ="40" required>
+                              <option value="">Please Enter GTIN</option>
+                                  {%for a in sscclist%}
+                                   <option value={{a}}>{{a}}</option>
+                                {%endfor%}
+                            </select>
+                              <button type="submit" id="myBtn" onclick="ValidateGtinInput();"><i class="fa fa-search"></i></button>
+
+                            </form>	<p></p>
+              								<p></p>
+              								<small>
+              									<p>Search Product by Brand/Label </p>
+              								</small>
+              							</div>
+              						</div>
+              					</div>
+              				</div>
+              			</div>
+
+                    <script>
+                                          $("#sscclistinfo").select2({
+                                            placeholder:"--- Search SSCC Number ---",
+                                        minimumInputLength: 1,
+                                        });
+
+                                        document.onkeypress = keyPress;
+
+                        function keyPress(e){
+                          var y = e || window.event;
+                          var key = (y.keyCode || y.which);
+                          if(key == 13 || key == 3){
+                            // myFunc2();
+                           document.sscc_info.submit();
+                          }
+                        }
+                                        </script>
+
+              			<div id="sel3"  class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="border:0.5px solid white; padding-right: 15px;padding-left: 5px;">
+              				<div class="card" style="height: 410px;">
+              					<div class="card-body">
+              						<h6 class="card-title" style="font-size:1.5rem;"><b><button id="one" class="btn btn-sm btn-primary btn-block" type="button">Find Purchase Orders/Order Between Date Range</button></b></h6>
+              						<div class="search-container">
+                                        <form action="/po_info/" method="POST"   enctype=multipart/form-data>
+                              {%csrf_token%}
+                              <div class="form-group">
+                            <select id="po_listinfo"   name="po_info"  class="itemName form-control" style="width:280px" size ="40" required>
+                              <option value="">Please Enter PO</option>
+                                  {%for a in polist%}
+                                   <option value={{a}}>{{a}}</option>
+                                {%endfor%}
+                            </select>
+                              <button type="submit" id="myPo" onclick="ValidatePoInput();"><i class="fa fa-search"></i></button>
+
+                            </form>
+<!--              							<div class="form-group">-->
+<!--              								<select id="pono" name="pono" class="itemName form-control" style="width:280px" ></select>-->
+<!--              								<button type="button"><i class="fa fa-search"></i></button>-->
+              								<p></p>
+              								<p></p>
+              								<small>
+              									<p>Search Purchase Orders, If you know PO No <br> or you can select orders between two dates</p>
+              								</small>
+              							</div>
+              						</div>
+              					</div>
+              				</div>
+              			</div>
+       <script>
+                                          $("#po_listinfo").select2({
+                                            placeholder:"--- Search PO Number ---",
+                                        minimumInputLength: 1,
+                                        });
+                                        </script>
+
+              		</section>
+              		<!-- /.content -->
+              </div>
+              <script type="text/javascript">
+              	function ValidationEvent() {
+              		var vwhid = document.getElementById("pname").value;
+              		alert(vwhid);
+              	}
+              	$(function() {
+                  var BASE_URL = "";
+              		// var BASE_URL = "<?php echo base_url(); ?>";
+              		var placeholder = "--Search GTIN--";
+
+              		// $('#gtinid').select2({
+              		// 	placeholder: placeholder,
+              		// 	minimumInputLength: 1,
+              		// 	ajax: {
+                  //     url: "",
+                  //     // url: "<?=base_url()?>productTnT/searchGtin",
+              		// 		dataType: 'json',
+              		// 		delay: 250,
+              		// 		processResults: function (data) {
+              		// 			return {
+              		// 				results: data
+              		// 			};
+              		// 		},
+              		// 		cache: true				}
+              		// 		});
+
+              				$('#pname').select2({
+              				placeholder: "--Search Product Brand/Label--",
+              				minimumInputLength: 1,
+              				ajax: {
+                      url: "",
+                      // url: "<?=base_url()?>productTnT/searchProductName",
+              				dataType: 'json',
+              				delay: 250,
+              				processResults: function (data) {
+              				return {
+              				results: data
+              				};
+              				},
+              				cache: true
+              				}
+              				});
+
+
+
+
+              				// this is to Refresh page
+
+              				function tntdata(id)
+              				{
+              				if(id) {
+              				$("#tntdata").on('submit', function() {
+
+              				var form = $(this);
+              				console.log(form);
+              				// hide the modal
+              				$("#sel2").modal('hide');
+
+              				// hide the modal
+              				$("#sel3").modal('hide');
+
+              				return false;
+              				});
+              				}
+              				}
+
+              				</script>
+
+          {%endif%}
+
+          {%if i.role == '7' %}
+          <script src="https://code.jquery.com/jquery-2.1.1.min.js" type="text/javascript"></script>
+              <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+              <!-- Content Wrapper. Contains page content -->
+              <!-- Developed by Ravi Chand Matangi v 0.1.0 July 11, 2021 -->
+              <div class="content-wrapper">
+                  <!-- Content Header (Page header) -->
+                  <section class="content-header">
+                  <h1>Search Product -
+                    <small>Track & Trace</small>
+                  </h1>
+                  <ol class="breadcrumb">
+                    <!-- <li><a href="<?php echo base_url('dashboard') ?>"><i class="fa fa-dashboard"></i> Home</a></li> -->
+                    <li><a href="{%url 'dashboard1'%}"><i class="fa fa-dashboard"></i> Home</a></li>
+                    <li class="active"><a href="">Search Product</a></li>
+                    <!-- <li class="active"><a href="<?php echo base_url('productTnT/') ?>">Search Product</a></li> -->
+                  </ol>
+                </section>
+                  <!-- Main content -->
+                  <section class="content">
+                  <!-- Small boxes (Stat box) -->
+                  <p><b>Choose the product to Track&Trace using one of the options below...</b></p>
+                  <!--
+                    <div class="col-md-12 bg-light text-right">
+                    <a href="<?php echo base_url('productTnT/trace') ?>"><button type="button" class="btn btn-warning btn-md float-right" type="submit"><i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp; Trace&nbsp;</button></a>&nbsp;
+                    <a href="<?php echo base_url('productTnT/track') ?>"><button class="btn btn-success btn-md float-right" type="submit" ><i class="glyphicon glyphicon-screenshot"></i>&nbsp;Track&nbsp;</button></a>
+
+                  </div>  -->
+                  <!-- Small boxes (Stat box) -->
+                  <div class="row">
+                    <div id="sel1" class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="border:0.5px solid white; padding-right: 5px;padding-left: 15px;">
+                      <div class="card" style="height: 410px;">
+                        <div class="card-body">
+
+                            <h6 class="card-title" style="font-size:1rem;"><b><button id="one" class="btn btn-sm btn-primary btn-block" type="button">Find Product Identification Number</button></b></h6>
+
+                          <div class="search-container">
+
+                  <form action="/searchlevel/" method="POST"   name="searchlevel" enctype=multipart/form-data>
+                    {%csrf_token%}
+                    <div class="form-group">
+                  <select id="gtinid"   name="searchlevel"  class="itemName form-control" style="width:280px" size ="40" required>
+                    <option value="">Please Enter GTIN</option>
+                        {%for a in result2%}
+                         <option value={{a}}>{{a}}</option>
+                      {%endfor%}
+                  </select>
+                    <button type="submit" id="myBtn" onkeypress="return enterKeyPressed(event)" onclick="ValidateGtinInput();"><i class="fa fa-search"></i></button>
+
+                  </form>
+
+                              <!-- <form role="form" method="GET" action="/searchlevel/" id="tntdata">
+                              <div class="form-group">
+                                <input  class="it{{result2}}emName form-control" type="text"  aria-label="Search" id=""
+                                    name="searchlevel"  style="width:280px" placeholder="--Enter SSCC Number--" required/><button id="chkgtin" type="submit" onclick="return ValidateGtinInput()"><i class="fa fa-search"></i></button>
+                                </form> -->
+
+                                <script>
+                                  $("#gtinid").select2({
+                                    placeholder:"--- Search GTIN Number ---",
+                    minimumInputLength: 1,
+                });
+
+
+          // document.onkeypress = keyPress;
+          // function keyPress(event){
+          //   var x = event || window.event;
+          //   var key = (x.keyCode || x.which);
+          //   if(key == 13 || key == 3){
+          //     // myFunc1();
+          //    document.searchlevel.submit();
+          //   }
+          // }
+
+
+          function enterKeyPressed(event) {
+          if (event.keyCode == 13 || key == 3) {
+          console.log("Enter key is pressed");
+          return true;
+          } else {
+          return false;
+          }
+          }
+
+
+
+                                </script>
+                                <p></p>
+                                <p></p>
+
+                                <small>
+                                  <b>Active GTIN Count: {{result3.gtin_list}}</b>&emsp;&emsp;&emsp;&emsp;&emsp;
+                                    <b>In-active GTIN Count: 0 </b>
+                                  <br><br>
+                                  <p>Search Product Identification</p>
+                                  <p> 14 digit GS-1 Global Trade Identificaiton Number</p>
+                                  <p> Results: Found/ Not Found </p>
+                                  <p> or This helps to narrow down your search </p>
+                                  <p> You can also search with Lot /Serial /SSCC </p>
+                                  <p> GTIN+Lot  </p>
+                                  <p> GTIN+Lot+S/N (Item)</p>
+                                    <p> GTIN+S/N (Item)</p>
+                                <p> GTIN+SSCC (Pallet/Case) </p></small>
+                              </div>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div id="sel2"  class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="border:0.5px solid white; padding-right: 5px;padding-left: 5px;">
+                      <div class="card" style="height: 410px;">
+                        <div class="card-body">
+                          <h6 class="card-title" style="font-size:1rem;"><b><button id="one" class="btn btn-sm btn-primary btn-block" type="button">Find Product Brand/Label Name</button></b></h6>
+                          <div class="search-container">
+
+                            <form action="/sscc_info/" method="POST"  name="sscc_info"  enctype=multipart/form-data>
+                              {%csrf_token%}
+                              <div class="form-group">
+                            <select id="sscclistinfo"   name="sscc_info"  class="itemName form-control" style="width:280px" size ="40" required>
+                              <option value="">Please Enter GTIN</option>
+                                  {%for a in sscclist%}
+                                   <option value={{a}}>{{a}}</option>
+                                {%endfor%}
+                            </select>
+                              <button type="submit" id="myBtn" onclick="ValidateGtinInput();"><i class="fa fa-search"></i></button>
+
+                            </form>	<p></p>
+                              <p></p>
+                              <small>
+                                <p>Search Product by Brand/Label </p>
+                              </small>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <script>
+                                          $("#sscclistinfo").select2({
+                                            placeholder:"--- Search SSCC Number ---",
+                                        minimumInputLength: 1,
+                                        });
+
+                                        document.onkeypress = keyPress;
+
+                        function keyPress(e){
+                          var y = e || window.event;
+                          var key = (y.keyCode || y.which);
+                          if(key == 13 || key == 3){
+                            // myFunc2();
+                           document.sscc_info.submit();
+                          }
+                        }
+                                        </script>
+
+                    <div id="sel3"  class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="border:0.5px solid white; padding-right: 15px;padding-left: 5px;">
+                      <div class="card" style="height: 410px;">
+                        <div class="card-body">
+                          <h6 class="card-title" style="font-size:1.5rem;"><b><button id="one" class="btn btn-sm btn-primary btn-block" type="button">Find Purchase Orders/Order Between Date Range</button></b></h6>
+                          <div class="search-container">
+                                        <form action="/po_info/" method="POST"  name="po_info"  enctype=multipart/form-data>
+                              {%csrf_token%}
+                              <div class="form-group">
+                            <select id="po_listinfo"   name="po_info"  class="itemName form-control" style="width:280px" size ="40" required>
+                              <option value="">Please Enter PO</option>
+                                  {%for a in polist%}
+                                   <option value={{a}}>{{a}}</option>
+                                {%endfor%}
+                            </select>
+                              <button type="submit" id="myPo" onclick="ValidatePoInput();"><i class="fa fa-search"></i></button>
+
+                            </form>
+                              <p></p>
+                              <p></p>
+                              <small>
+                                <p>Search Purchase Orders, If you know PO No <br> or you can select orders between two dates</p>
+                              </small>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+       <script>
+                                          $("#po_listinfo").select2({
+                                            placeholder:"--- Search PO Number ---",
+                                        minimumInputLength: 1,
+                                        });
+                                        </script>
+                  </section>
+                  <!-- /.content -->
+              </div>
+              <script type="text/javascript">
+                function ValidationEvent() {
+                  var vwhid = document.getElementById("pname").value;
+                  alert(vwhid);
+                }
+                $(function() {
+                  var BASE_URL = "";
+                  // var BASE_URL = "<?php echo base_url(); ?>";
+                  var placeholder = "--Search GTIN--";
+
+                  // $('#gtinid').select2({
+                  // 	placeholder: placeholder,
+                  // 	minimumInputLength: 1,
+                  // 	ajax: {
+                  //     url: "",
+                  //     // url: "<?=base_url()?>productTnT/searchGtin",
+                  // 		dataType: 'json',
+                  // 		delay: 250,
+                  // 		processResults: function (data) {
+                  // 			return {
+                  // 				results: data
+                  // 			};
+                  // 		},
+                  // 		cache: true				}
+                  // 		});
+
+                      $('#pname').select2({
+                      placeholder: "--Search Product Brand/Label--",
+                      minimumInputLength: 1,
+                      ajax: {
+                      url: "",
+                      // url: "<?=base_url()?>productTnT/searchProductName",
+                      dataType: 'json',
+                      delay: 250,
+                      processResults: function (data) {
+                      return {
+                      results: data
+                      };
+                      },
+                      cache: true
+                      }
+                      });
+
+
+
+                      function tntdata(id)
+                      {
+                      if(id) {
+                      $("#tntdata").on('submit', function() {
+
+                      var form = $(this);
+                      console.log(form);
+                      // hide the modal
+                      $("#sel2").modal('hide');
+
+                      // hide the modal
+                      $("#sel3").modal('hide');
+
+                      return false;
+                      });
+                      }
+                      }
+
+                      </script>
+
+          {%endif%}
+
+    {%endif%}
+
+    {%if i.organization_id == '3' %}
+          {%if i.role == '1' %}
+          <script src="https://code.jquery.com/jquery-2.1.1.min.js" type="text/javascript"></script>
+              <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+              <!-- Content Wrapper. Contains page content -->
+              <!-- Developed by Ravi Chand Matangi v 0.1.0 July 11, 2021 -->
+              <div class="content-wrapper">
+                  <!-- Content Header (Page header) -->
+                  <section class="content-header">
+              		<h1>Search Product -
+              			<small>Track & Trace</small>
+              		</h1>
+              		<ol class="breadcrumb">
+                    <!-- <li><a href="<?php echo base_url('dashboard') ?>"><i class="fa fa-dashboard"></i> Home</a></li> -->
+              			<li><a href="{%url 'dashboard1'%}"><i class="fa fa-dashboard"></i> Home</a></li>
+                    <li class="active"><a href="">Search Product</a></li>
+              			<!-- <li class="active"><a href="<?php echo base_url('productTnT/') ?>">Search Product</a></li> -->
+              		</ol>
+              	</section>
+                  <!-- Main content -->
+                  <section class="content">
+              		<!-- Small boxes (Stat box) -->
+              		<p><b>Choose the product to Track&Trace using one of the options below...</b></p>
+              		<!--
+              			<div class="col-md-12 bg-light text-right">
+              			<a href="<?php echo base_url('productTnT/trace') ?>"><button type="button" class="btn btn-warning btn-md float-right" type="submit"><i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp; Trace&nbsp;</button></a>&nbsp;
+              			<a href="<?php echo base_url('productTnT/track') ?>"><button class="btn btn-success btn-md float-right" type="submit" ><i class="glyphicon glyphicon-screenshot"></i>&nbsp;Track&nbsp;</button></a>
+
+              		</div>  -->
+              		<!-- Small boxes (Stat box) -->
+              		<div class="row">
+              			<div id="sel1" class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="border:0.5px solid white; padding-right: 5px;padding-left: 15px;">
+              				<div class="card" style="height: 410px;">
+              					<div class="card-body">
+              						<h6 class="card-title" style="font-size:1rem;"><b><button class="btn btn-sm btn-primary btn-block" type="button">Find Product Identification Number</button></b></h6>
+              						<div class="search-container">
+
+                  <form action="/searchlevel/" method="POST" enctype=multipart/form-data>
+                    {%csrf_token%}
+                    <div class="form-group">
+                  <select id="gtinid"  name="searchlevel"  class="itemName form-control" style="width:280px" size ="40" required>
+                    <option value="">Please Enter GTIN</option>
+                        {%for a in result%}
+                         <option value={{a}}>{{a}}</option>
+                      {%endfor%}
+                  </select>
+                    <button type="submit" onclick="ValidateGtinInput();"><i class="fa fa-search"></i></button>
+
+                  </form>
+
+                              <!-- <form role="form" method="GET" action="/searchlevel/" id="tntdata">
+              								<div class="form-group">
+                                <input  class="itemName form-control" type="text"  aria-label="Search" id=""
+                                    name="searchlevel"  style="width:280px" placeholder="--Enter SSCC Number--" required/><button id="chkgtin" type="submit" onclick="return ValidateGtinInput()"><i class="fa fa-search"></i></button>
+                                </form> -->
+
+                                <script>
+                                  $("#gtinid").select2({
+                                    placeholder:"--- Search GTIN Number ---",
+                    minimumInputLength: 1,
+                });
+
+                                </script>
+                                <p></p>
+                                <p></p>
+
+                                <small>
+                                  <b>Active GTIN Count : {{result1}}</b>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                                    <b>In-active GTIN Count : {{result3}}</b>
+                                  <br><br>
+              										<p>Search Product Identification</p>
+              										<p> 14 digit GS-1 Global Trade Identificaiton Number</p>
+              										<p> Results: Found/ Not Found </p>
+              										<p> or This helps to narrow down your search </p>
+              										<p> You can also search with Lot /Serial /SSCC </p>
+              										<p> GTIN+Lot  </p>
+              										<p> GTIN+Lot+S/N (Item)</p>
+                                    <p> GTIN+S/N (Item)</p>
+              									<p> GTIN+SSCC (Pallet/Case) </p></small>
+              								</div>
+              							</form>
+              						</div>
+              					</div>
+              				</div>
+              			</div>
+              			<div id="sel2"  class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="border:0.5px solid white; padding-right: 5px;padding-left: 5px;">
+              				<div class="card" style="height: 410px;">
+              					<div class="card-body">
+              						<h6 class="card-title" style="font-size:1rem;"><b><button class="btn btn-sm btn-primary btn-block" type="button">Find Product Brand/Label Name</button></b></h6>
+              						<div class="search-container">
+              							<div class="form-group">
+              								<select id="pname" name="pname" class="itemName form-control" style="width:280px" ></select>
+              								<button type="submit" onclick="ValidationEvent();" ><i class="fa fa-search"></i></button>
+              								<p></p>
+              								<p></p>
+              								<small>
+              									<p>Search Product by Brand/Label </p>
+              								</small>
+              							</div>
+              						</div>
+              					</div>
+              				</div>
+              			</div>
+              			<div id="sel3"  class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="border:0.5px solid white; padding-right: 15px;padding-left: 5px;">
+              				<div class="card" style="height: 410px;">
+              					<div class="card-body">
+              						<h6 class="card-title" style="font-size:1.5rem;"><b><button class="btn btn-sm btn-primary btn-block" type="button">Find Purchase Orders/Order Between Date Range</button></b></h6>
+              						<div class="search-container">
+              					              <form action="/po_info/" method="POST"  name="po_info"  enctype=multipart/form-data>
+                              {%csrf_token%}
+                              <div class="form-group">
+                            <select id="po_listinfo"   name="po_info"  class="itemName form-control" style="width:280px" size ="40" required>
+                              <option value="">Please Enter PO</option>
+                                  {%for a in polist%}
+                                   <option value={{a}}>{{a}}</option>
+                                {%endfor%}
+                            </select>
+                              <button type="submit" id="myPo" onclick="ValidatePoInput();"><i class="fa fa-search"></i></button>
+
+                            </form>
+              								<p></p>
+              								<p></p>
+              								<small>
+              									<p>Search Purchase Orders, If you know PO No <br> or you can select orders between two dates</p>
+              								</small>
+              							</div>
+              						</div>
+              					</div>
+              				</div>
+              			</div>
+       <script>
+                                          $("#po_listinfo").select2({
+                                            placeholder:"--- Search PO Number ---",
+                                        minimumInputLength: 1,
+                                        });
+                                        </script>
+              		</section>
+              		<!-- /.content -->
+              </div>
+              <script type="text/javascript">
+              	function ValidationEvent() {
+              		var vwhid = document.getElementById("pname").value;
+              		alert(vwhid);
+              	}
+              	$(function() {
+                  var BASE_URL = "";
+              		// var BASE_URL = "<?php echo base_url(); ?>";
+              		var placeholder = "--Search GTIN--";
+
+              		// $('#gtinid').select2({
+              		// 	placeholder: placeholder,
+              		// 	minimumInputLength: 1,
+              		// 	ajax: {
+                  //     url: "",
+                  //     // url: "<?=base_url()?>productTnT/searchGtin",
+              		// 		dataType: 'json',
+              		// 		delay: 250,
+              		// 		processResults: function (data) {
+              		// 			return {
+              		// 				results: data
+              		// 			};
+              		// 		},
+              		// 		cache: true				}
+              		// 		});
+
+              				$('#pname').select2({
+              				placeholder: "--Search Product Brand/Label--",
+              				minimumInputLength: 1,
+              				ajax: {
+                      url: "",
+                      // url: "<?=base_url()?>productTnT/searchProductName",
+              				dataType: 'json',
+              				delay: 250,
+              				processResults: function (data) {
+              				return {
+              				results: data
+              				};
+              				},
+              				cache: true
+              				}
+              				});
+
+              				function tntdata(id)
+              				{
+              				if(id) {
+              				$("#tntdata").on('submit', function() {
+
+              				var form = $(this);
+              				console.log(form);
+              				// hide the modal
+              				$("#sel2").modal('hide');
+
+              				// hide the modal
+              				$("#sel3").modal('hide');
+
+              				return false;
+              				});
+              				}
+              				}
+
+              				</script>
+
+
+          {%endif%}
+    {%endif%}
+
+    {%if i.organization_id == '5' %}
+          {%if i.role == '1' %}
+          <script src="https://code.jquery.com/jquery-2.1.1.min.js" type="text/javascript"></script>
+              <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+              <!-- Content Wrapper. Contains page content -->
+              <!-- Developed by Ravi Chand Matangi v 0.1.0 July 11, 2021 -->
+              <div class="content-wrapper">
+                  <!-- Content Header (Page header) -->
+                  <section class="content-header">
+                  <h1>Search Product -
+                    <small>Track & Trace</small>
+                  </h1>
+                  <ol class="breadcrumb">
+                    <!-- <li><a href="<?php echo base_url('dashboard') ?>"><i class="fa fa-dashboard"></i> Home</a></li> -->
+                    <li><a href="{%url 'dashboard1'%}"><i class="fa fa-dashboard"></i> Home</a></li>
+                    <li class="active"><a href="">Search Product</a></li>
+                    <!-- <li class="active"><a href="<?php echo base_url('productTnT/') ?>">Search Product</a></li> -->
+                  </ol>
+                </section>
+                  <!-- Main content -->
+                  <section class="content">
+                  <!-- Small boxes (Stat box) -->
+                  <p><b>Choose the product to Track&Trace using one of the options below...</b></p>
+                  <!--
+                    <div class="col-md-12 bg-light text-right">
+                    <a href="<?php echo base_url('productTnT/trace') ?>"><button type="button" class="btn btn-warning btn-md float-right" type="submit"><i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp; Trace&nbsp;</button></a>&nbsp;
+                    <a href="<?php echo base_url('productTnT/track') ?>"><button class="btn btn-success btn-md float-right" type="submit" ><i class="glyphicon glyphicon-screenshot"></i>&nbsp;Track&nbsp;</button></a>
+
+                  </div>  -->
+                  <!-- Small boxes (Stat box) -->
+                  <div class="row">
+                    <div id="sel1" class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="border:0.5px solid white; padding-right: 5px;padding-left: 15px;">
+                      <div class="card" style="height: 410px;">
+                        <div class="card-body">
+                          <h6 class="card-title" style="font-size:1rem;"><b><button class="btn btn-sm btn-primary btn-block" type="button">Find Product Identification Number</button></b></h6>
+                          <div class="search-container">
+                            <!-- <form role="form" action="<?php echo base_url('ProductTnT/tntdata') ?>" method="post" id="tntdata"> -->
+
+                            <!-- <form action="/searchlevel/" method="GET" enctype=multipart/form-data>
+
+                <div><label><input type="text" name="input" placeholder="Enter Serial No" size ="40"></label></div>
+                <td><p1><input type=submit   value="searchlevel" / img src="https://www.transparentpng.com/thumb/search-button/f2qMti-search-button-square-blue-free-png.png"
+                alt="search button square blue free png @transparentpng.com"></p1></td>
+                </form> -->
+                <!-- <form role="form" method="GET" action="/searchlevel/">
+
+                <div class="form-group">
+                  <input type="text" name="input" placeholder="Enter Serial No" size ="40">
+                  <input type=submit   value="" / img src="https://www.transparentpng.com/thumb/search-button/f2qMti-search-button-square-blue-free-png.png"
+                  alt="search button square blue free png @transparentpng.com">
+                  </form> -->
+                  <!-- <form action="/searchlevel/" method=post enctype=multipart/form-data> -->
+
+                    <!-- <form class="form-inline ml-auto" id="frmUsers" name="frmUsers"  method="POST" action="/searchlevel/">
+                    {%csrf_token%}
+                    <div class="form-group">
+                      <input  class="form-control" type="text" size ="40" height="20" placeholder="                         --Enter Gtin No--" aria-label="Search" id=""
+                          name="searchlevel"   required/>
+                   <input type="text" name="input" placeholder="                         --Enter Gtin No--" size ="40">
+                    <button type="submit"><i class="fa fa-search"></i></button>
+
+                  </form> -->
+
+                  <!-- <form class="form-inline ml-auto" id="frmUsers" name="frmUsers"  method="GET" action="/searchlevel/">
+                    <div class="col-md-12 text-center mt-3">
+                      <input  class="form-control" type="text" placeholder="Enter SSCC number" aria-label="Search" id=""
+                          name="searchlevel"  style="width:70%" required/>
+                          </div>
+                      <div >
+                        <button type="submit"><i class="fa fa-search"></i></button>
+
+                  </form> -->
+                  <form action="/searchlevel/" method="POST" enctype=multipart/form-data>
+                    {%csrf_token%}
+                    <div class="form-group">
+                  <select id="gtinid"  name="searchlevel"  class="itemName form-control" style="width:280px" size ="40" required>
+                    <option value="">Please Enter GTIN</option>
+                        {%for a in result%}
+                         <option value={{a}}>{{a}}</option>
+                      {%endfor%}
+                  </select>
+                    <button type="submit" onclick="ValidateGtinInput();"><i class="fa fa-search"></i></button>
+
+                  </form>
+
+                              <!-- <form role="form" method="GET" action="/searchlevel/" id="tntdata">
+                              <div class="form-group">
+                                <input  class="itemName form-control" type="text"  aria-label="Search" id=""
+                                    name="searchlevel"  style="width:280px" placeholder="--Enter SSCC Number--" required/><button id="chkgtin" type="submit" onclick="return ValidateGtinInput()"><i class="fa fa-search"></i></button>
+                                </form> -->
+
+                                <script>
+                                  $("#gtinid").select2({
+                                    placeholder:"--- Search GTIN Number ---",
+                    minimumInputLength: 1,
+                });
+
+                                </script>
+                                <p></p>
+                                <p></p>
+
+                                <small>
+                                  <b>Active GTIN Count : {{result1}}</b>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                                    <b>In-active GTIN Count : {{result3}}</b>
+                                  <br><br>
+                                  <p>Search Product Identification</p>
+                                  <p> 14 digit GS-1 Global Trade Identificaiton Number</p>
+                                  <p> Results: Found/ Not Found </p>
+                                  <p> or This helps to narrow down your search </p>
+                                  <p> You can also search with Lot /Serial /SSCC </p>
+                                  <p> GTIN+Lot  </p>
+                                  <p> GTIN+Lot+S/N (Item)</p>
+                                    <p> GTIN+S/N (Item)</p>
+                                <p> GTIN+SSCC (Pallet/Case) </p></small>
+                              </div>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div id="sel2"  class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="border:0.5px solid white; padding-right: 5px;padding-left: 5px;">
+                      <div class="card" style="height: 410px;">
+                        <div class="card-body">
+                          <h6 class="card-title" style="font-size:1rem;"><b><button class="btn btn-sm btn-primary btn-block" type="button">Find Product Brand/Label Name</button></b></h6>
+                          <div class="search-container">
+                            <div class="form-group">
+                              <select id="pname" name="pname" class="itemName form-control" style="width:280px" ></select>
+                              <button type="submit" onclick="ValidationEvent();" ><i class="fa fa-search"></i></button>
+                              <p></p>
+                              <p></p>
+                              <small>
+                                <p>Search Product by Brand/Label </p>
+                              </small>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div id="sel3"  class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="border:0.5px solid white; padding-right: 15px;padding-left: 5px;">
+                      <div class="card" style="height: 410px;">
+                        <div class="card-body">
+                          <h6 class="card-title" style="font-size:1.5rem;"><b><button class="btn btn-sm btn-primary btn-block" type="button">Find Purchase Orders/Order Between Date Range</button></b></h6>
+                          <div class="search-container">
+                                          <form action="/po_info/" method="POST"  name="po_info"  enctype=multipart/form-data>
+                              {%csrf_token%}
+                              <div class="form-group">
+                            <select id="po_listinfo"   name="po_info"  class="itemName form-control" style="width:280px" size ="40" required>
+                              <option value="">Please Enter PO</option>
+                                  {%for a in polist%}
+                                   <option value={{a}}>{{a}}</option>
+                                {%endfor%}
+                            </select>
+                              <button type="submit" id="myPo" onclick="ValidatePoInput();"><i class="fa fa-search"></i></button>
+
+                            </form>
+                              <p></p>
+                              <p></p>
+                              <small>
+                                <p>Search Purchase Orders, If you know PO No <br> or you can select orders between two dates</p>
+                              </small>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+       <script>
+                                          $("#po_listinfo").select2({
+                                            placeholder:"--- Search PO Number ---",
+                                        minimumInputLength: 1,
+                                        });
+                                        </script>
+                  </section>
+                  <!-- /.content -->
+              </div>
+              <script type="text/javascript">
+                function ValidationEvent() {
+                  var vwhid = document.getElementById("pname").value;
+                  alert(vwhid);
+                }
+                $(function() {
+                  var BASE_URL = "";
+                  // var BASE_URL = "<?php echo base_url(); ?>";
+                  var placeholder = "--Search GTIN--";
+
+                  // $('#gtinid').select2({
+                  // 	placeholder: placeholder,
+                  // 	minimumInputLength: 1,
+                  // 	ajax: {
+                  //     url: "",
+                  //     // url: "<?=base_url()?>productTnT/searchGtin",
+                  // 		dataType: 'json',
+                  // 		delay: 250,
+                  // 		processResults: function (data) {
+                  // 			return {
+                  // 				results: data
+                  // 			};
+                  // 		},
+                  // 		cache: true				}
+                  // 		});
+
+                      $('#pname').select2({
+                      placeholder: "--Search Product Brand/Label--",
+                      minimumInputLength: 1,
+                      ajax: {
+                      url: "",
+                      // url: "<?=base_url()?>productTnT/searchProductName",
+                      dataType: 'json',
+                      delay: 250,
+                      processResults: function (data) {
+                      return {
+                      results: data
+                      };
+                      },
+                      cache: true
+                      }
+                      });
+
+                      function tntdata(id)
+                      {
+                      if(id) {
+                      $("#tntdata").on('submit', function() {
+
+                      var form = $(this);
+                      console.log(form);
+                      // hide the modal
+                      $("#sel2").modal('hide');
+
+                      // hide the modal
+                      $("#sel3").modal('hide');
+
+                      return false;
+                      });
+                      }
+                      }
+
+                      </script>
+
+          {%endif%}
+    {%endif%}
+
+
+    {%endfor%}
+
+  </body>
+</html>
+{%endblock%}

@@ -1,0 +1,2220 @@
+{% extends 'mainbase.html' %}
+{%block content%}
+<!DOCTYPE html>
+{%load static%}
+
+
+
+      <script src="https://code.jquery.com/jquery-2.1.1.min.js" type="text/javascript"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+      <!-- Content Wrapper. Contains page content -->
+      <!-- Developed by Ravi Chand Matangi v 0.1.0 July 11, 2021-->
+      <script src="https://bossanova.uk/jsuites/v3/jsuites.js"></script>
+      <link rel="stylesheet" href="https://bossanova.uk/jsuites/v3/jsuites.css" type="text/css" />
+      <style>
+        .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+        color: #555;
+        cursor: default;
+        background-color: #d2d6de;
+        border: 1px solid #ddd;
+        border-bottom-color: transparent;
+        }
+
+
+      </style>
+      <style>
+        html {font-family: helvetica, arial;}
+        .htimeline { list-style: none; padding: 0; margin: 20px 0 0; }
+        /*		.htimeline .step { float: left; border-top-style: solid; border-top-width: 5px; position: relative; margin-bottom: 15px; text-align: left; padding: 3px 0 5px 10px; background-color: #ddd; color: #333; height: 160px; vertical-align: middle; border-right: solid 1px #bbb; transition: all 0.5s ease;} */
+        .htimeline .step:nth-child(odd) { background-color: #ccc; }
+        .htimeline .step:first-child { border-left: solid 1px #ccc; }
+        .htimeline .step:hover { background-color: #ccc; border-bottom-width: 6px; }
+        .htimeline .step > div { margin: 0 5px; font-size: 14px; vertical-align: top; padding: 0;}
+        .htimeline .step.green { border-top-color: #348F50;}
+        .htimeline .step.orange { border-top-color: #F09819;}
+        .htimeline .step.red { border-top-color: #C04848;}
+        .htimeline .step.blue { border-top-color: #49a09d;}
+        .htimeline .step.darkblue { border-top-color: #337ab7;}
+        /* .htimeline .step::before { width: 15px; height: 1d5px; border-radius: 150px; content: ' '; background-color: white; position: absolute; top: -10px; left: 0px; border-style: solid; border-width: 3px; transition: all 0.5s ease;} */
+        /*.htimeline .step:hover::before { width: 20px; height: 20px; bottom: -12px; } */
+        .htimeline .step.green::before {border-color: #348F50;}
+        .htimeline .step.orange::before {border-color: #F09819;}
+        .htimeline .step.red::before {border-color: #C04848;}
+        .htimeline .step.blue::before {border-color: #49a09d;}
+        .htimeline .step.darkblue { border-top-color: #337ab7;}
+        .htimeline .step::after { content: attr(data-date); position: absolute; top: -20px; left: 17px; font-size: 11px; font-style: italic; color: #888}
+        /*TASKS*/
+        .htimeline .step .tasks { margin-top: 12px; }
+        .htimeline .step .tasks .resource {position: relative; height: 60px;}
+        .htimeline .step .tasks .resource::before { position: absolute; bottom: 2px; left: -5px; content: attr(data-name); font-size: 10px; font-style: italic; color: #888}
+        .htimeline .step .tasks .task { overflow: hidden; font-size: 10px; padding: 3px; border: solid 1px white; border-radius: 4px; min-height: 20px;}
+        .htimeline .step.green .tasks .task { background-color: #348F50; color: white; }
+        .htimeline .step.orange .tasks .task { background-color: #F09819; color: white; }
+        .htimeline .step.red .tasks .task { background-color: #C04848; color: white; }
+        .htimeline .step.blue .tasks .task { background-color: #49a09d; color: white; }
+        .htimeline .step.darkblue .tasks .task { background-color: #337ab7; color: white; }
+        #div1 {
+        display: inline-block;
+        }
+        #div2 {
+        display: inline-block;
+        }
+      </style>
+      <script type="text/javascript">
+          function ValidateTextBox() {
+              if (document.getElementById("txtName").value.trim() == "") {
+                  alert("Please enter Name!");
+                  return false;
+              }
+          };
+
+
+      </script>
+      {%for i in res_token%}
+
+      {%if i.organization_id == '1' %}
+            {%if i.role == '1' %}
+
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <h1>
+            Track & Trace <small>Click <b style="color:red">Track</b> current status or  <b style=" color:green">Trace</b> to know end to end journey of your product/Logistic Asset</small>
+          </h1>
+          <ol class="breadcrumb">
+            <li><a href="{% url 'dashboard1'%}"><i class="fa fa-dashboard"></i> Home</a></li>
+            <!-- <li class="active"><a href="{% url 'tracktrace'%}">Search Product</a></li> -->
+            <li><a href="{% url 'tracktrace'%}">Search Product</a></li>
+            <li class="active"><a href="{% url 'tracktrace'%}">Product Info</a></li>
+          </ol>
+
+        </section>
+        <!--
+          <div class="bs-example" data-example-id="simple-jumbotron">
+          <div class="jumbotron">
+          </div>
+        </div>  -->
+        <!-- Main content -->
+        <section class="content">
+          <form >
+            <!-- Small boxes (Stat box) -->
+            <div class="row">
+              <div class="col-md-12 bg-light text-right"></div>
+              <!-- Start-First Box Selection options  -->
+              <div id="sel1"  class="col-lg-4" style="background-color: #fff; border:0.5px solid grey; padding-right: 5px;padding-left: 5px;">
+                <div class="card" style="height: 555px;">
+                  <div class="card card-default card-tabs">
+                    <img align = "right"; style="border:0.5px solid grey; position: float; z-index: 1;" width="120"; height= "120"; src= "{{result.product_image}}"/>
+                    <h5 class="card-title"><span class="label label-default	">Your Selected Product-NDC Details</span></h5>
+                    <div class="form-group">
+
+
+                        <input type="text" class="itemName form-control" style="width:180px"   value="{{gnum}}" disabled>
+                        <!-- <option id="inputgtin" value="">{{gnum}}</option> -->
+
+
+                      <!-- <select id="gtinid" name="ngtinid" class="itemName form-control" style="width:180px" value="" disabled ></select> -->
+                    </div>
+                    <hr style="background-color: #fff; border:0.1px solid grey;">
+                    <h5 align = "left";><b>Supplier’s Catalogue/ Master Data</b></h5>
+
+                    <section>
+
+						<div class='container-fluid'>
+							<img width="150"; height= "50"; alt="" src="http://bwipjs-api.metafloor.com/?bcid=code128&text={{gnum}}&includetext">
+                    </div>
+
+                    <ul class='htimeline'>
+                      <li class='step col-sm-12'>
+                        <div class='tasks container-fluid'>
+                          <div class='resource' data-name=''>
+                            <div class='task col-sm-5' style="font-size:90%">Generic Name</div>
+                            <div class='task col-sm-7' style="font-size:90%">&nbsp;{{result.product_name}}</div>
+							  <div class='task col-sm-5' style="font-size:90%">Product GTIN</div>
+                            <div class='task col-sm-7' style="font-size:90%">&nbsp;{{gnum}}</div>
+                            <div class='task col-sm-5' style="font-size:90%">Brand Name</div>
+                            <div class='task col-sm-7' style="font-size:90%">&nbsp;{{result.brand}}</div>
+							<div class='task col-sm-5' style="font-size:90%">Product Description</div>
+                            <div class='task col-sm-7' style="font-size:90%">&nbsp;{{result.product_discription}}</div>
+							<div class='task col-sm-5' style="font-size:90%">Strength</div>
+                            <div class='task col-sm-7' style="font-size:90%">&nbsp;{{result.strength}}</div>
+							<div class='task col-sm-5' style="font-size:90%">Dosage Form</div>
+                            <div class='task col-sm-7' style="font-size:90%">&nbsp;{{result.product_form}}</div>
+                            <div class='task col-sm-5' style="font-size:90%">Patient Instructions</div>
+              							<div class='task col-sm-7' style="font-size:90%">&nbsp;{{result.patient_instruction}}</div>
+              <div class='task col-sm-5' style="font-size:90%">Product NDC</div>
+							<div class='task col-sm-7' style="font-size:90%">&nbsp;{{result.ndc_code}}</div>
+              <div class='task col-sm-5' style="font-size:90%">Product Status</div>
+							<div class='task col-sm-7' style="font-size:90%">&nbsp;{{result.product_status}}</div>
+              <div class='task col-sm-5' style="font-size:90%">lable Name</div>
+							<div class='task col-sm-7' style="font-size:90%">&nbsp;{{result.labler_name}}</div>
+              <div class='task col-sm-5' style="font-size:90%">Last Updated Datetime</div>
+							<div class='task col-sm-7' style="font-size:90%">&nbsp;{{result.last_updated_datetime}}</div>
+
+
+                          </div>
+                        </div>
+                      <br/></li>
+                    </ul>
+                    </section>
+                  </div>
+
+                </div>
+
+              </div>
+              <!-- End - First Box Selection options  -->
+
+
+
+              <!-- Start-Second Box Selection options  -->
+              <div id="sel2"  class="col-lg-8" style="background-color: #fff; border:0.5px solid grey; padding-right: 5px;padding-left: 5px;">
+                <div class="card" style="height: 555px;">
+                  <div class="card card-primary card-tabs">
+                    <h5 class="card-title"><span class="label label-primary">Select Lot# / SSCC# / Case#... of your selected product!</span></h5>
+
+                    <!--
+                    <div class="form-group">
+                            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <button id="btn1" title="Click here to Track" name="tnttype" value="100" class="btn btn-danger btn-md float-right"  type="submit" style="margin-top : 8px; line-height: 1.3; font-size: 14px; "  ><i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp; Track&nbsp;</button>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
+                    </div> -->
+                    <div class="card-header p-0" style="padding-right: 0px;padding-left: 0px;line-height: 1.5;" >
+								<ul class="nav nav-tabs" id="custom-tabs-one-tab"  role="tablist">
+									<li class="nav-item" >
+										<a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill" href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" style=" font-size: 12px;  line-height: 0.5; margin-top : 8px; " aria-selected="true">Lot/ Batch#</a>
+									</li>
+
+									<li class="nav-item">
+										<a class="nav-link" id="custom-tabs-one-messages-tab" data-toggle="pill" href="#custom-tabs-one-messages" role="tab" aria-controls="custom-tabs-one-messages" style=" font-size: 12px;  line-height: 0.5; margin-top : 8px; " aria-selected="false">Serial Number#</a>
+									</li>
+
+									<!-- <li class="nav-item">
+										<a class="nav-link" id="custom-tabs-one-settings-tab" data-toggle="pill" href="#custom-tabs-one-settings" role="tab" aria-controls="custom-tabs-one-settings" style=" font-size: 12px;  line-height: 0.5; margin-top : 8px; " aria-selected="false">Case/Item#</a>
+									</li> -->
+									<!-- <li class="nav-item">
+										<a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" style=" font-size: 12px;  line-height: 0.5; margin-top : 8px; " aria-selected="false">SSCC#</a>
+									</li> -->
+									<!--
+									<li class="nav-item">
+										<div class="form-group">
+											&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <button id="btn1" title="Click here to Track" name="tnttype" value="100" class="btn btn-danger btn-md float-right"  type="submit" style="margin-top : 8px; line-height: 1.3; font-size: 14px; "  ><i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp; Track&nbsp;</button>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
+										</div>
+									</li>
+									<li class="nav-item">
+										<div class="form-group">
+											<button id="btn2" title="Click here to Track" name="tnttype" value="200"  class="btn btn-success btn-md float-right" type="submit"  style="margin-top : 8px; line-height: 1.3; font-size: 14px; "><i class="fa fa-share-alt-square" aria-hidden="true"></i>&nbsp; Trace&nbsp;</button>&nbsp;
+										</div>
+									</li> -->
+								</ul>
+						<br>
+								<!-- /.card body Starts-->
+								<div class="card-body">
+									<div class="tab-content" id="custom-tabs-one-tabContent">
+										<div class="tab-pane fade" id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
+											<div class="card-body">
+												<!--  <h6 class="card-title" style="font-size:1rem;"><b><button class="btn btn-sm btn-default" type="button">Select Lot/Batch#</button></b></h6> -->
+												<div class="search-container">
+													<div class="form-group" style="display: flex;">
+														<select id="mylotid" name="nmylotid" class="itemName form-control" id="txtName" style="width:300px"  required>
+															<option value="">--- Select Lot Number ---</option>
+															<!-- <option value=<?=form_dropdown('lotnumber', $tnt_lotdata, set_value( 'lotnumber',$lotnumber), array('class' => 'form-control'),"id='idsscc' ");?></option> -->
+															{% for i in lotresult %}
+															<option value={{i}}>{{i}}</option>
+															{% endfor %}
+
+                                                        </select>&nbsp;&nbsp;
+														<button class="btn btn-sm btn-primary"  type="button"  onclick="lotvalues()" id="btnCheck" value="Check Empty" onclick="return ValidateTextBox()">Use LOT#</button>
+															&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<p><b>Active Lot Count: {{lotcount.list_of_lot}}</b></p>
+													</div>
+													</div>
+                          <br><br>
+													<!-- <div id="#"  class="col-lg-12" style="height: 310px; background-color: #fff; border:0.5px solid grey; padding-right: 5px;padding-left: 5px;"> -->
+													<div id="idshowlot" class="card" style="height: 310px;margin-top: 3.4%;" >
+														<!-- <div class='container-fluid'> </div> -->
+
+													</div>
+
+														<!-- </div> -->
+													</div>
+										</div>
+										<div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
+													<div class="card-body">
+														<!-- <h6 class="card-title" style="font-size:1rem;"><b><button class="btn btn-sm btn-default" type="button">Select SSCC#</button></b></h6> -->
+														<div class="search-container">
+															<div class="form-group" style="display: flex;">
+																<select id="myssccid" name="nmyssccid" class="itemName form-control" style="width:300px" required>
+																	<!-- <option value=<?=form_dropdown('ssccnumber', $tnt_ssccdata, set_value( 'ssccnumber',$ssccnumber), array('class' => 'form-control'),"id='idsscc' ");?></option> -->
+																	<option value="">--- Select SSCC Number ---</option>
+                                  {% for i in ssccresult %}
+    															<option value={{i}}>{{i}}</option>
+    															{% endfor %}
+                                                                </select>&nbsp;&nbsp;
+																	<button class="btn btn-sm btn-primary" type="button" onclick="ssccvalues()">Use SSCC#</button>
+
+																</div>
+															</div><br><br>
+															<div id="idshowsscc" class="card" style="height: 310px;margin-top: 3.4%;" >
+														<!-- <div class='container-fluid'> </div> -->
+														<br>
+                            <br>
+                            <br>
+														</div>
+														<!-- </div> -->
+													</div>
+										</div>
+										<div class="tab-pane fade" id="custom-tabs-one-messages" role="tabpanel" aria-labelledby="custom-tabs-one-messages-tab">
+														<div class="card-body">
+															<!-- 														<h6 class="card-title" style="font-size:1rem;"><b><button class="btn btn-sm btn-default" type="button">Select Pallet#</button></b></h6> -->
+															<div class="search-container">
+																<div class="form-group" style="display: flex;">
+																	<select id="mypalletid" name="nmypalletid" class="itemName form-control" style="width:300px" required>
+
+																		<option value="">--- Select Serial Number ---</option>
+<!--																		<option value={{a.product_disp.product.serial_number}}>{{a.product_disp.product.serial_number}}</option>-->
+																		<!-- <option value=<?=form_dropdown('palletsn', $tnt_palletdata, set_value('palletsn',$palletsn), array('class' => 'form-control'),"id='idpallet' ");?></option> -->
+																		</select>&nbsp;&nbsp;
+																		<button class="btn btn-sm btn-primary" type="button" onclick="serialvalues()">Use Serial#</button>
+
+																	</div>
+																</div><br><br>
+																<div id="idshowpallet" class="card" style="height: 310px;margin-top: 3.4%;" >
+														<!-- <div class='container-fluid'> </div> -->
+														<br>
+														<!-- <ul class='htimeline' >
+															<li class='step col-sm-7'>
+																<div class='tasks container-fluid'>
+																	<div class='resource' data-name=''>
+																		<div class='task col-sm-4'>Lot Number</div>
+																		<div class='task col-sm-8'> &nbsp;{{a.product_disp.lot.lot_number}} <span id="idbase_pack_type"></span></div>
+																		<div class='task col-sm-4'>GTIN</div>
+																		<div class='task col-sm-8'> &nbsp; {{a.product_disp.product.product_code_gtin}}<span id="idproduct_code_type"></span></div>
+																		<div class='task col-sm-4'>Total Number of Items</div>
+																		<div class='task col-sm-8'> &nbsp; {{a.product_disp.lot.total_quantity}}<span id="idorigination_date"></span></div>
+																		<div class='task col-sm-4'>Manufacturing Date</div>
+																		<div class='task col-sm-8'> &nbsp; {{a.product_disp.product.mfg_date}}<span id="idlot_quantity"></span></div>
+																		<div class='task col-sm-4'>Expiry Date</div>
+																		<div class='task col-sm-8'> &nbsp;{{a.product_disp.product.expiry_date}} <span id="idlot_number"></span></div>
+																		<div class='task col-sm-4'>List of Serial Numbers </div>
+																		<div class='task col-sm-8'> &nbsp; Not Available<span id="idexpiration_date"></span></div>
+																		<div class='task col-sm-4'>Manufacturer Name</div>
+																		<div class='task col-sm-8'> &nbsp; {{a.product_disp.product.manufacturer_name}} <span id="idbest_before_date"></span></div>
+																		<div class='task col-sm-4'>Manufacturer Address</div>
+																		<div class='task col-sm-8'> &nbsp;{{a.product_disp.sender_location}} <span id="idsell_by_date"></span></div>
+																		<div class='task col-sm-4'>Manufacturer GLN</div>
+																		<div class='task col-sm-8'> &nbsp;{{a.product_disp.product.manufacturer_gln}} <span id="idretest_by_date"></span></div>
+																		<div class='task col-sm-4'>Product Status</div>
+																		<div class='task col-sm-8'> &nbsp;Active <span id="idretest_by_date"></span></div>
+																	</div>
+																</li>
+																<h5 align = "centre"; ><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Serial Data Code <small>(GS1-128)</small></b></h5>
+																<li class='col-sm-5'>
+																	<div align = "left"; class='task col-sm-4'><img  src="https://api.qrserver.com/v1/create-qr-code/?size=90x90&data={{a.product_disp.product.product_code_gtin}}"></div>
+																	<div align = "left"; class='task col-sm-8'> <span id="idbarcodemsg"></span></div>
+
+																</li>
+															</ul> -->
+														</div>
+														<!-- </div> -->
+													</div>
+										</div>
+										<div class="tab-pane fade" id="custom-tabs-one-settings" role="tabpanel" aria-labelledby="custom-tabs-one-settings-tab">
+															<div class="card-body">
+																<!--dropdown input-->
+																<!--															<h6 class="card-title" style="font-size:1rem;"><b><button class="btn btn-sm btn-default" type="button">Select Case#</button></b></h6> -->
+																<div class="search-container">
+																	<div class="form-group" style="display: flex;">
+																	<select id="mycaseid" name="nmycaseid" class="itemName form-control" style="width:300px" required>
+																		<option value="">--- Select Case Number</option>
+																		<option value={{a.product_disp.sscc_no}}>{{a.product_disp.sscc_no}}</option>
+																		<!-- <option value=<?=form_dropdown('casesn', $tnt_casedata, set_value( 'casesn',$casesn), array('class' => 'form-control'),''); ?></option> -->
+																		</select>&nbsp;&nbsp;
+																		<button class="btn btn-sm btn-primary" type="button" onclick="showDiv('idshowcase')">Use Case/Item#</button>
+																	</div>
+																	</div>
+																	<div id="idshowcase" class="card" style="height: 310px; display:none" >
+														<!-- <div class='container-fluid'> </div> -->
+														<br>
+                            <br>
+														<ul class='htimeline' >
+															<li class='step col-sm-7'>
+																<div class='tasks container-fluid'>
+																	<div class='resource' data-name=''>
+																		<div class='task col-sm-4'>Lot Number</div>
+																		<div class='task col-sm-8'> &nbsp; <span id="idlot_number"></span></div>
+																		<div class='task col-sm-4'>Lot Quantity</div>
+																		<div class='task col-sm-8'> &nbsp; <span id="idlot_quantity"></span></div>
+																		<div class='task col-sm-4'>Base Pack Type</div>
+																		<div class='task col-sm-8'> &nbsp; <span id="idbase_pack_type"></span></div>
+																		<div class='task col-sm-4'>Product Code Type</div>
+																		<div class='task col-sm-8'> &nbsp; <span id="idproduct_code_type"></span></div>
+																		<div class='task col-sm-4'>Origination Date</div>
+																		<div class='task col-sm-8'> &nbsp; <span id="idorigination_date"></span></div>
+																		<div class='task col-sm-4'>Expiration Date</div>
+																		<div class='task col-sm-8'> &nbsp; <span id="idexpiration_date"></span></div>
+																		<div class='task col-sm-4'>Best Before Date</div>
+																		<div class='task col-sm-8'> &nbsp; <span id="idbest_before_date"></span></div>
+																		<div class='task col-sm-4'>Sell By Date</div>
+																		<div class='task col-sm-8'> &nbsp; <span id="idsell_by_date"></span></div>
+																		<div class='task col-sm-4'>Retest by date</div>
+																		<div class='task col-sm-8'> &nbsp; <span id="idretest_by_date"></span></div>
+																		<div class='task col-sm-4'>Packaged by date</div>
+																		<div class='task col-sm-8'> &nbsp; <span id="idorigination_date2"></span></div>
+																		<div class='task col-sm-4'>Packaged/Quality Check Status</div>
+																		<div class='task col-sm-8'> &nbsp; Samples Tested, Packaged into Pallets/Cases/Items </div>
+																	</div>
+																</li>
+																<h5 align = "centre"; ><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Lot/Batch Data Code <small>(GS1-128)</small></b></h5>
+																<li class='col-sm-5'>
+																	<div align = "left"; class='task col-sm-4'> <span id="idbarcode"></span></div>
+																	<div align = "left"; class='task col-sm-8'> <span id="idbarcodemsg"></span></div>
+
+																</li>
+															</ul>
+														</div>
+														<!-- </div> -->
+													</div>
+										</div>
+									</div>
+								</div>
+
+					</div>
+													<!-- /.card body ends-->
+				</div>
+				</div>
+			</div>
+
+			</div>
+									<!-- End - Second Box Selection options  -->
+
+									<!-- Small boxes (Ends box) -->
+								</form>
+							</section>
+						</div>
+
+
+						<script type='text/javascript'>
+							function getLotId(vlotid) {
+								//alert(vdivid);
+								var BASE_URL = "";
+								var tempArray = "";
+								//alert(tempArray[vlotid].lot_number);
+								// 10 Batch Number(1-20) //23x Lot Number
+								document.getElementById('idlot_number').innerHTML = tempArray[vlotid].lot_number;
+								document.getElementById('idlot_quantity').innerHTML = tempArray[vlotid].lot_quantity;
+								document.getElementById('idbase_pack_type').innerHTML = tempArray[vlotid].base_pack_type;
+								document.getElementById('idproduct_code_type').innerHTML = tempArray[vlotid].product_code_type;
+								// 11 Production Date
+								document.getElementById('idorigination_date').innerHTML = tempArray[vlotid].origination_date;
+								document.getElementById('idorigination_date2').innerHTML = tempArray[vlotid].origination_date;
+								//13 Packaging Date
+								document.getElementById('idexpiration_date').innerHTML = tempArray[vlotid].expiration_date;
+								//17 Expiration Date
+								document.getElementById('idbest_before_date').innerHTML = tempArray[vlotid].best_before_date;
+								document.getElementById('idsell_by_date').innerHTML = tempArray[vlotid].sell_by_date;// 15 Sell by Date (Quality Control) YYMMDD
+								document.getElementById('idretest_by_date').innerHTML = tempArray[vlotid].retest_by_date;
+								// Generate Lot Details Barcode as per the GS-128
+								//https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Example
+								document.getElementById('idbarcode').innerHTML =
+								'<img  src="https://api.qrserver.com/v1/create-qr-code/?size=90x90&data=' + BASE_URL + '(01)' + tempArray[vlotid].product_code_gtin +'(10)'+ tempArray[vlotid].lot_number +'(11)'+tempArray[vlotid].origination_date+'(17)'+tempArray[vlotid].best_before_date+'&includetext">';
+								document.getElementById('idbarcodemsg').innerHTML = '<small style="line-height:10px;">&nbsp;&nbsp;&nbsp;&nbsp;(01) ' + tempArray[vlotid].product_code_gtin +'<br>&nbsp;&nbsp;&nbsp;&nbsp;(10) '+ tempArray[vlotid].lot_number +'<br>&nbsp;&nbsp;&nbsp;&nbsp;(11) '+tempArray[vlotid].origination_date+'<br>&nbsp;&nbsp;&nbsp;&nbsp;(17) '+tempArray[vlotid].best_before_date+'</small>'
+
+								//document.getElementById('idbarcode').innerHTML =  '<img alt="Barcoded value'+tempArray[vlotid].product_code_gtin+'"src="http://bwipjs-api.metafloor.com/?bcid=code128&text= ' + tempArray[vlotid].product_code_gtin + '&includetext">';
+
+							}
+							</script>
+
+							<script type="text/javascript">
+								function showDiv(vdivid) {
+									div = document.getElementById(vdivid);
+									if (div.style.display !== "none") {
+										div.style.display = "none";
+										} else {
+										div.style.display = "block";
+									}
+
+								}
+
+							</script>
+
+
+              <script type="text/javascript">
+
+//               $( document ).ready(function() {
+//   $("#mypalletid").empty();
+// });
+
+                $("#mylotid").select2({
+                  placeholder:"--- Search Lot Number ---",
+                  minimumInputLength: 1,
+                  });
+
+                async function lotvalues(){
+                  var searchInput = $("#mylotid").val()
+
+                  //console.log(searchInput)
+                  let url = "http://www.tracepharm.io:5000/api/v1/product/identification/lot/info/{{gnum}}?lotNumber=" + searchInput;
+                  await $.get(url, function(data, status){
+                      data=JSON.stringify(data)
+                      obj = JSON.parse(data)
+                      obj1=obj[0]
+                      res=obj1.lot_info
+
+                      // console.log(res)
+                      // console.log(res)
+
+                  });
+                  let url1 = "http://www.tracepharm.io:5000/api/v1/product/identification/lot/serial_list/{{gnum}}?lotNumber=" + searchInput;
+
+                  await $.get(url1, function(data1, status){
+                    // console.log(data1)
+                    // console.log(obj1)
+
+                      data1=JSON.stringify(data1)
+                      obj1 = JSON.parse(data1)
+                      // console.log(obj1)
+                      obj2=obj1[0]
+                      // console.log(obj2)
+                      snum_list = obj2.serial_list
+                      // delete snum_list
+                      // console.log(snum_list)
+                  });
+
+                  //console.log(res)
+                  //console.log(url)
+                  var html_to_append = '';
+
+                  html_to_append +="<ul class='htimeline' ><li class='step col-sm-7'><div class='tasks container-fluid'><div class='resource' data-name=''><div class='task col-sm-4' style='font-size:90%'>Lot Number</div><div class='task col-sm-8' style='font-size:90%'>&nbsp;"+searchInput+ "<span id='idbase_pack_type'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>NDC</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;{{gnum}}<span id='idproduct_code_type'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>Manufacturing Date</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.manufacturing_date +"<span id='idorigination_date'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>Expiry Date</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.expiry_date+"<span id='idorigination_date'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>Manufacturer Name</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+res.company_name+"<span id='idorigination_date'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>Manufacturer Location<br/></div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+res.mfg_address+"<span id='idorigination_date'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>Lot Qty(Tablets/Ml)</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+res.quantiy+"<span id='idorigination_date'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>Manufacturer GLN</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.company_gln+"<span id='idorigination_date'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>Status</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+res.status+"<span id='idorigination_date'></span></div></div></div><br/></li></ul>"+
+
+                    "<h5 align = 'centre'; ><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Lot/Batch Data Code <small>(GS1-128)</small></b></h5>"+
+                    "<li class='col-sm-5'><div align = 'left' class='task col-sm-4'><img  src='https://api.qrserver.com/v1/create-qr-code/?size=90x90&data=http://www.tracepharm.io:5000/api/v1/product/identification/lot/info/{{gnum}}?lotNumber=" + searchInput +"'></div><div align = 'left' class='task col-sm-8'>"+
+                    "<small style='line-height:10px;'>&nbsp;&nbsp;&nbsp;&nbsp;(01){{gnum}}<br>&nbsp;&nbsp;&nbsp;&nbsp;(10)"+searchInput +"<br>&nbsp;&nbsp;&nbsp;&nbsp;(11)"+res.manufacturing_date+"<br>&nbsp;&nbsp;&nbsp;&nbsp;(17)"+res.expiry_date+"</small></div></li></ul>"
+                   $("#idshowlot").html(html_to_append);
+
+
+                   var html_append1 = '';
+                   for(var key in snum_list) {
+                          var value = snum_list[key];
+                            html_append1+="<option value="+value+">"+value+"</option>"
+                            }
+                         // console.log(html_append1)
+                   $("#mypalletid").empty()
+                   $("#mypalletid").append("<option value='0'>--- Select Serial Number ---</option>");
+                   $("#mypalletid").append(html_append1);
+                   delete snum_list
+                }
+                //
+                //                 $(document).ready(function() {
+                //     $('select').on('change', function() {
+                //         alert(this.value);
+                //     });
+                // });
+
+
+                async function serialvalues(){
+                  var searchInput = $("#mylotid").val()
+                  var serialInput = $("#mypalletid").val()
+                  //console.log(searchInput)
+                  // let url = "http://api.tracepharm.io:8083/api/v3/products/gtins/{{gnum}}?serialNumber=" + serialInput ;
+                  let url = "http://www.tracepharm.io:5000/api/v1/product/identification/item/serial_info/{{gnum}}?lotNumber=" +searchInput+ "&serialNumber=" + serialInput ;
+                  await $.get(url, function(data, status){
+                      data=JSON.stringify(data)
+                      obj1 = JSON.parse(data)
+                      obj2=obj1[0]
+                      res = obj2.serial_info
+                      // res=obj.Transaction
+                      // console.log(searchInput)
+                  });
+
+
+                  var html_to_appendserial = '';
+
+                  html_to_appendserial +="<ul class='htimeline' ><li class='step col-sm-7'><div class='tasks container-fluid'><div class='resource' data-name=''><div class='task col-sm-4' style='font-size:90%'>Lot Number</div><div class='task col-sm-8' style='font-size:90%'>&nbsp;"+searchInput+ "<span id='idbase_pack_type'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>NDC</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;{{gnum}}<span id='idproduct_code_type'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>Serial Number</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+serialInput+"<span id='idproduct_code_type'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>Manufacturing Date</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.manufacturing_date +"<span id='idorigination_date'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>Expiry Date</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.expiry_date+"<span id='idorigination_date'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>Manufacturer Name</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.company_name+"<span id='idorigination_date'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>Manufacturer Location</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.mfg_address+"<span id='idorigination_date'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>Manufacturer GLN</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.company_gln+"<span id='idorigination_date'></span></div>"+
+
+                    "<div class='task col-sm-4' style='font-size:90%'>Product Status</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.status+"<span id='idorigination_date'></span></div></div></div><br/></li>"+
+                    "<span style='float:right; padding-bottom: 8px;' ><a class='btn btn-success' href='/tracenew/{{gnum}}/"+searchInput+"/"+serialInput+"'> <i class='fa fa-share-alt-square' aria-hidden='true'></i>&nbsp; Trace&nbsp;</a>&nbsp; &nbsp; &nbsp;</span></ul>"+
+                    "<span style='float:right; padding-bottom: 8px;' ><a class='btn btn-danger' href='/distrack/{{gnum}}/"+serialInput+"'> <i class='fa fa-map-marker' aria-hidden='true'></i>&nbsp; Track&nbsp;</a>&nbsp; &nbsp; &nbsp;</span></ul>"+
+                    // "<span style='float:right; padding-bottom: 8px;' ><a class='btn btn-danger' href='/distrack/{{gnum}}/"+searchInput+"/"+serialInput+"'> <i class='fa fa-map-marker' aria-hidden='true'></i>&nbsp; Track&nbsp;</a>&nbsp; &nbsp; &nbsp;</span></ul>"+
+                    "<br><br><h5 align = 'centre'; ><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Serial Data Code <small>(GS1-128)</small></b></h5>"+
+                    // "<li class='col-sm-5'><div align = 'left'; class='task col-sm-4'><img  src='https://api.qrserver.com/v1/create-qr-code/?size=90x90&data=(01){{gnum}}/+(10)serialInput/+(11)res.manufacturing_date/+(17)res.expiry_date'></div><div align = 'left'; class='task col-sm-8'>"+
+                    // "<small style='line-height:10px;'>&nbsp;&nbsp;&nbsp;&nbsp;(01){{gnum}}<br>&nbsp;&nbsp;&nbsp;&nbsp;(21)"+serialInput +"<br>&nbsp;&nbsp;&nbsp;&nbsp;(11)"+res.manufacturing_date+"<br>&nbsp;&nbsp;&nbsp;&nbsp;(17)"+res.expiry_date+"</small></div></li>"
+                  // "<li class='col-sm-5'><div align = 'left'; class='task col-sm-4'><img  src='https://api.qrserver.com/v1/create-qr-code/?size=90x90&data=http://www.tracepharm.io:5000/api/v2.1/exp/product/track/item/08906096620196?serialNumber=9167301'></div><div align = 'left'; class='task col-sm-8'>"+"<small style='line-height:10px;'>&nbsp;&nbsp;&nbsp;&nbsp;(01){{gnum}}<br>&nbsp;&nbsp;&nbsp;&nbsp;(21)"+serialInput +"<br>&nbsp;&nbsp;&nbsp;&nbsp;(11)"+res.manufacturing_date+"<br>&nbsp;&nbsp;&nbsp;&nbsp;(17)"+res.expiry_date+"</small></div></li>"
+
+                  "<li class='col-sm-5'><div align = 'left'; class='task col-sm-4'><img  src='https://api.qrserver.com/v1/create-qr-code/?size=90x90&data=http://www.tracepharm.io:5000/api/v2.1/exp/product/item/{{gnum}}?serialNumber=" +serialInput+ "'></div><div align = 'left'; class='task col-sm-8'>"+"<small style='line-height:10px;'>&nbsp;&nbsp;&nbsp;&nbsp;(01){{gnum}}<br>&nbsp;&nbsp;&nbsp;&nbsp;(21)"+serialInput
+                 +"<br>&nbsp;&nbsp;&nbsp;&nbsp;(11)"+res.manufacturing_date+"<br>&nbsp;&nbsp;&nbsp;&nbsp;(17)"+res.expiry_date+"</small></div></li>"
+
+                   $("#idshowpallet").html(html_to_appendserial);
+
+
+                }
+
+                async function ssccvalues(){
+                  var ssccInput = $("#myssccid").val()
+                  //console.log(searchInput)
+                  // let url2 = "http://api.tracepharm.io:8083/api/v3/package/gtins/{{gnum}}?sscc=" + ssccInput ;
+                  let url2 = "http://www.tracepharm.io:5000/api/v1/package/identification/sscc/info/" + ssccInput ;
+                  await $.get(url2, function(data, status){
+                      data=JSON.stringify(data)
+                      obj1 = JSON.parse(data)
+                      obj2=obj1[0]
+                      res=obj2.sscc_list
+                      // console.log(url2)
+                  });
+                  var html_to_appendsscc = '';
+                  html_to_appendsscc +="<ul class='htimeline' ><li class='step col-sm-7'><div class='tasks container-fluid'><div class='resource' data-name=''><div class='task col-sm-4' style='font-size:90%'>SSCC Number</div><div class='task col-sm-8' style='font-size:90%'>&nbsp;"+ssccInput+ "<span id='idbase_pack_type'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>NDC</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;{{gnum}}<span id='idproduct_code_type'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>Package Type</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.package_type +"<span id='idorigination_date'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>Serial No Count</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.inner_serail_count+"<span id='idorigination_date'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>Package Dimensions</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.total_dimensions+"<span id='idorigination_date'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>Package Width</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.width+"<span id='idorigination_date'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>Package Depth</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.depth+"<span id='idorigination_date'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>Package Weight</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.package_gross_weight+"<span id='idorigination_date'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>Package Shape</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.shape+"<span id='idorigination_date'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>Is Active</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.is_active+"<span id='idorigination_date'></span></div>"+
+                    // "<div class='task col-sm-4' style='font-size:90%'>Package Evidence</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;<img style='height:80px;width:220px' src="+ 1 +" /><span id='idorigination_date'></span></div>"+
+                    // "<div class='task col-sm-4' style='font-size:90%'>Package Evidence</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;<video width="120" height="120" controls ><source src="+ res.evidence +" type="video/mp4"></video><span id='idorigination_date'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>Package Status</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+res.Package_status +"<span id='idorigination_date'></span></div></div></div><br/></li>"+
+                    // "<h5 align = 'centre'; ><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SSCC Data Code <small>(GS1-128)</small></b></h5>"+
+                    "<span style='float:right; padding-bottom: 8px;' ><a class='btn btn-danger' href='/tracknew/"+ssccInput+"'> <i class='fa fa-map-marker' aria-hidden='true'></i>&nbsp; Track&nbsp;</a>&nbsp; &nbsp; &nbsp;</span></ul>"+
+                    // "<li class='col-sm-5'><div align = 'left'; class='task col-sm-4'><img  src='https://api.qrserver.com/v1/create-qr-code/?size=90x90&data=(01){{gnum}}/+(10)ssccInput/+(11)res.manufacturing_date/+(17)res.expiry_date'></div><div align = 'left'; class='task col-sm-8'>"+
+                    // "<small style='line-height:10px;'>&nbsp;&nbsp;&nbsp;&nbsp;(01){{gnum}}<br>&nbsp;&nbsp;&nbsp;&nbsp;(00)"+ssccInput +"</small></div></li>"
+                    "<li class='col-sm-5'><div align = 'left'; class='task col-sm-4'><img  src='https://api.qrserver.com/v1/create-qr-code/?size=90x90&data=http://www.tracepharm.io:5000/api/v1/package/identification/sscc/info/" + ssccInput + "'></div><div align = 'left'; class='task col-sm-8'>"+
+	                  "<small style='line-height:10px;'>&nbsp;&nbsp;&nbsp;&nbsp;(01){{gnum}}<br>&nbsp;&nbsp;&nbsp;&nbsp;(00)"+ssccInput +"</small></div></li>"
+
+
+                   $("#idshowsscc").html(html_to_appendsscc);
+
+                }
+
+
+                  $('#mycaseid').select2({
+                  placeholder:"--- Search Case Number ---",
+
+                  });
+                  $('#myssccid').select2({
+                    placeholder:"--- Search SSCC Number ---",
+                                    minimumInputLength: 1,
+                  });
+
+                  $('#mypalletid').select2({
+                    placeholder:"--- Search Serial Number ---",
+                    minimumInputLength: 1,
+
+
+                  });
+
+                  // window.onload = function() {
+                  // 	var selectedgtin = localStorage.getItem("gtininput");
+                  //
+                  // 	document.getElementById("inputgtin").value = selectedgtin;
+                  // };
+
+              </script>
+
+
+
+      {%endif%}
+
+      {%if i.role == '7' %}
+
+    <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+    <h1>
+      Track & Trace <small>Click <b style="color:red">Track</b> current status or  <b style=" color:green">Trace</b> to know end to end journey of your product/Logistic Asset</small>
+    </h1>
+    <ol class="breadcrumb">
+      <li><a href="{% url 'dashboard1'%}"><i class="fa fa-dashboard"></i> Home</a></li>
+      <!-- <li class="active"><a href="{% url 'tracktrace'%}">Search Product</a></li> -->
+      <li><a href="{% url 'tracktrace'%}">Search Product</a></li>
+      <li class="active"><a href="{% url 'tracktrace'%}">Product Info</a></li>
+    </ol>
+
+    </section>
+    <!--
+    <div class="bs-example" data-example-id="simple-jumbotron">
+    <div class="jumbotron">
+    </div>
+    </div>  -->
+    <!-- Main content -->
+    <section class="content">
+    <form >
+      <!-- Small boxes (Stat box) -->
+      <div class="row">
+        <div class="col-md-12 bg-light text-right"></div>
+        <!-- Start-First Box Selection options  -->
+        <div id="sel1"  class="col-lg-4" style="background-color: #fff; border:0.5px solid grey; padding-right: 5px;padding-left: 5px;">
+          <div class="card" style="height: 555px;">
+            <div class="card card-default card-tabs">
+              <img align = "right"; style="border:0.5px solid grey; position: float; z-index: 1;" width="120"; height= "120"; src= "{{result.product_image}}"/>
+              <h5 class="card-title"><span class="label label-default	">Your Selected Product-NDC & GTIN Details</span></h5>
+              <div class="form-group">
+
+
+                  <input type="text" class="itemName form-control" style="width:180px"   value="{{gnum}}" disabled>
+                  <!-- <option id="inputgtin" value="">{{gnum}}</option> -->
+
+
+                <!-- <select id="gtinid" name="ngtinid" class="itemName form-control" style="width:180px" value="" disabled ></select> -->
+              </div>
+              <hr style="background-color: #fff; border:0.1px solid grey;">
+              <h5 align = "left";><b>Supplier’s Catalogue/ Master Data</b></h5>
+
+
+
+
+              <section>
+      <div class='container-fluid'>
+        <img width="150"; height= "50"; alt="" src="http://bwipjs-api.metafloor.com/?bcid=code128&text={{gnum}}&includetext">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" style="margin-left:220px;margin-top:-80px;">
+        More Information</button>
+              </div>
+
+              <ul class='htimeline' style="margin-top:1px;">
+                <li class='step col-sm-12'>
+                  <div class='tasks container-fluid'>
+                    <div class='resource' data-name=''>
+                      <div class='task col-sm-5' style="font-size:90%">Generic Name</div>
+                      <div class='task col-sm-7' style="font-size:90%">&nbsp;{{result.product_name}}</div>
+          <div class='task col-sm-5' style="font-size:90%">Product GTIN</div>
+                      <div class='task col-sm-7' style="font-size:90%">&nbsp;{{gnum}}</div>
+                      <div class='task col-sm-5' style="font-size:90%">Brand Name</div>
+                      <div class='task col-sm-7' style="font-size:90%">&nbsp;{{result.brand}}</div>
+        <div class='task col-sm-5' style="font-size:90%">Product Description</div>
+                      <div class='task col-sm-7' style="font-size:90%">&nbsp;{{result.product_discription}}</div>
+        <div class='task col-sm-5' style="font-size:90%">Strength</div>
+                      <div class='task col-sm-7' style="font-size:90%">&nbsp;{{result.strength}}</div>
+        <div class='task col-sm-5' style="font-size:90%">Dosage Form</div>
+                      <div class='task col-sm-7' style="font-size:90%">&nbsp;{{result.product_form}}</div>
+                      <div class='task col-sm-5' style="font-size:90%">Patient Instructions</div>
+                      <div class='task col-sm-7' style="font-size:90%">&nbsp;{{result.patient_instruction}}</div>
+         <div class='task col-sm-5' style="font-size:90%">Product NDC</div>
+        <div class='task col-sm-7' style="font-size:90%">&nbsp;{{result.product_ndc}}</div>
+        <div class='task col-sm-5' style="font-size:90%">Product Status</div>
+        <div class='task col-sm-7' style="font-size:90%">&nbsp;{{result.product_status}}</div>
+        <div class='task col-sm-5' style="font-size:90%">lable Name</div>
+        <div class='task col-sm-7' style="font-size:90%">&nbsp;{{result.labler_name}}</div>
+        <div class='task col-sm-5' style="font-size:90%">Last Updated Datetime</div>
+        <div class='task col-sm-7' style="font-size:90%">&nbsp;{{result.last_updated_datetime}}</div>
+
+
+                    </div>
+                  </div>
+                <br/></li>
+              </ul>
+              </section>
+            </div>
+
+          </div>
+
+        </div>
+        <!-- End - First Box Selection options  -->
+
+
+
+        <!-- Start-Second Box Selection options  -->
+        <div id="sel2"  class="col-lg-8" style="background-color: #fff; border:0.5px solid grey; padding-right: 5px;padding-left: 5px;">
+          <div class="card" style="height: 555px;">
+            <div class="card card-primary card-tabs">
+              <h5 class="card-title"><span class="label label-primary">Select Lot# / SSCC# / Case#... of your selected product!</span></h5>
+
+              <!--
+              <div class="form-group">
+                      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <button id="btn1" title="Click here to Track" name="tnttype" value="100" class="btn btn-danger btn-md float-right"  type="submit" style="margin-top : 8px; line-height: 1.3; font-size: 14px; "  ><i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp; Track&nbsp;</button>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
+              </div> -->
+              <div class="card-header p-0" style="padding-right: 0px;padding-left: 0px;line-height: 1.5;" >
+          <ul class="nav nav-tabs" id="custom-tabs-one-tab"  role="tablist">
+            <li class="nav-item" >
+              <a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill" href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" style=" font-size: 12px;  line-height: 0.5; margin-top : 8px; " aria-selected="true">Lot/ Batch#</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" id="custom-tabs-one-messages-tab" data-toggle="pill" href="#custom-tabs-one-messages" role="tab" aria-controls="custom-tabs-one-messages" style=" font-size: 12px;  line-height: 0.5; margin-top : 8px; " aria-selected="false">Serial Number#</a>
+            </li>
+
+            <!-- <li class="nav-item">
+              <a class="nav-link" id="custom-tabs-one-settings-tab" data-toggle="pill" href="#custom-tabs-one-settings" role="tab" aria-controls="custom-tabs-one-settings" style=" font-size: 12px;  line-height: 0.5; margin-top : 8px; " aria-selected="false">Case/Item#</a>
+            </li> -->
+            <!-- <li class="nav-item">
+              <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" style=" font-size: 12px;  line-height: 0.5; margin-top : 8px; " aria-selected="false">SSCC#</a>
+            </li> -->
+            <!--
+            <li class="nav-item">
+              <div class="form-group">
+                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <button id="btn1" title="Click here to Track" name="tnttype" value="100" class="btn btn-danger btn-md float-right"  type="submit" style="margin-top : 8px; line-height: 1.3; font-size: 14px; "  ><i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp; Track&nbsp;</button>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
+              </div>
+            </li>
+            <li class="nav-item">
+              <div class="form-group">
+                <button id="btn2" title="Click here to Track" name="tnttype" value="200"  class="btn btn-success btn-md float-right" type="submit"  style="margin-top : 8px; line-height: 1.3; font-size: 14px; "><i class="fa fa-share-alt-square" aria-hidden="true"></i>&nbsp; Trace&nbsp;</button>&nbsp;
+              </div>
+            </li> -->
+          </ul>
+      <br>
+          <!-- /.card body Starts-->
+          <div class="card-body">
+            <div class="tab-content" id="custom-tabs-one-tabContent">
+              <div class="tab-pane fade" id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
+                <div class="card-body">
+                  <!--  <h6 class="card-title" style="font-size:1rem;"><b><button class="btn btn-sm btn-default" type="button">Select Lot/Batch#</button></b></h6> -->
+                  <div class="search-container">
+                    <div class="form-group" style="display: flex;">
+                      <select id="mylotid" name="nmylotid" class="itemName form-control" id="txtName" style="width:300px"  required>
+                        <option value="">--- Select Lot Number ---</option>
+                        <!-- <option value=<?=form_dropdown('lotnumber', $tnt_lotdata, set_value( 'lotnumber',$lotnumber), array('class' => 'form-control'),"id='idsscc' ");?></option> -->
+                        {% for i in lotresult %}
+                        <option value={{i}}>{{i}}</option>
+                        {% endfor %}
+
+                                                  </select>&nbsp;&nbsp;
+                      <button class="btn btn-sm btn-primary"  type="button"  onclick="lotvalues()" id="btnCheck" value="Check Empty" onclick="return ValidateTextBox()">Use LOT#</button>
+                        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<p><b>Active Lot Count: {{lotcount.list_of_lot}}</b></p>
+                    </div>
+                    </div>
+                    <br><br>
+                    <!-- <div id="#"  class="col-lg-12" style="height: 310px; background-color: #fff; border:0.5px solid grey; padding-right: 5px;padding-left: 5px;"> -->
+                    <div id="idshowlot" class="card" style="height: 310px;margin-top: 3.4%;" >
+                      <!-- <div class='container-fluid'> </div> -->
+
+                    </div>
+
+                      <!-- </div> -->
+                    </div>
+              </div>
+              <div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
+                    <div class="card-body">
+                      <!-- <h6 class="card-title" style="font-size:1rem;"><b><button class="btn btn-sm btn-default" type="button">Select SSCC#</button></b></h6> -->
+                      <div class="search-container">
+                        <div class="form-group" style="display: flex;">
+                          <select id="myssccid" name="nmyssccid" class="itemName form-control" style="width:300px" required>
+                            <!-- <option value=<?=form_dropdown('ssccnumber', $tnt_ssccdata, set_value( 'ssccnumber',$ssccnumber), array('class' => 'form-control'),"id='idsscc' ");?></option> -->
+                            <option value="">--- Select SSCC Number ---</option>
+                            {% for i in ssccresult %}
+                            <option value={{i}}>{{i}}</option>
+                            {% endfor %}
+                                                          </select>&nbsp;&nbsp;
+                            <button class="btn btn-sm btn-primary" type="button" onclick="ssccvalues()">Use SSCC#</button>
+
+                          </div>
+                        </div><br><br>
+                        <div id="idshowsscc" class="card" style="height: 310px;margin-top: 3.4%;" >
+                      <!-- <div class='container-fluid'> </div> -->
+                      <br>
+                      <br>
+                      <br>
+                      </div>
+                      <!-- </div> -->
+                    </div>
+              </div>
+              <div class="tab-pane fade" id="custom-tabs-one-messages" role="tabpanel" aria-labelledby="custom-tabs-one-messages-tab">
+                      <div class="card-body">
+                        <!-- 														<h6 class="card-title" style="font-size:1rem;"><b><button class="btn btn-sm btn-default" type="button">Select Pallet#</button></b></h6> -->
+                        <div class="search-container">
+                          <div class="form-group" style="display: flex;">
+                            <select id="mypalletid" name="nmypalletid" class="itemName form-control" style="width:300px" required>
+
+                              <option value="">--- Select Serial Number ---</option>
+    <!--																		<option value={{a.product_disp.product.serial_number}}>{{a.product_disp.product.serial_number}}</option>-->
+                              <!-- <option value=<?=form_dropdown('palletsn', $tnt_palletdata, set_value('palletsn',$palletsn), array('class' => 'form-control'),"id='idpallet' ");?></option> -->
+                              </select>&nbsp;&nbsp;
+                              <button class="btn btn-sm btn-primary" type="button" onclick="serialvalues()">Use Serial#</button>
+
+                            </div>
+                          </div><br><br>
+                          <div id="idshowpallet" class="card" style="height: 310px;margin-top: 3.4%;" >
+                      <!-- <div class='container-fluid'> </div> -->
+                      <br>
+                      <!-- <ul class='htimeline' >
+                        <li class='step col-sm-7'>
+                          <div class='tasks container-fluid'>
+                            <div class='resource' data-name=''>
+                              <div class='task col-sm-4'>Lot Number</div>
+                              <div class='task col-sm-8'> &nbsp;{{a.product_disp.lot.lot_number}} <span id="idbase_pack_type"></span></div>
+                              <div class='task col-sm-4'>GTIN</div>
+                              <div class='task col-sm-8'> &nbsp; {{a.product_disp.product.product_code_gtin}}<span id="idproduct_code_type"></span></div>
+                              <div class='task col-sm-4'>Total Number of Items</div>
+                              <div class='task col-sm-8'> &nbsp; {{a.product_disp.lot.total_quantity}}<span id="idorigination_date"></span></div>
+                              <div class='task col-sm-4'>Manufacturing Date</div>
+                              <div class='task col-sm-8'> &nbsp; {{a.product_disp.product.mfg_date}}<span id="idlot_quantity"></span></div>
+                              <div class='task col-sm-4'>Expiry Date</div>
+                              <div class='task col-sm-8'> &nbsp;{{a.product_disp.product.expiry_date}} <span id="idlot_number"></span></div>
+                              <div class='task col-sm-4'>List of Serial Numbers </div>
+                              <div class='task col-sm-8'> &nbsp; Not Available<span id="idexpiration_date"></span></div>
+                              <div class='task col-sm-4'>Manufacturer Name</div>
+                              <div class='task col-sm-8'> &nbsp; {{a.product_disp.product.manufacturer_name}} <span id="idbest_before_date"></span></div>
+                              <div class='task col-sm-4'>Manufacturer Address</div>
+                              <div class='task col-sm-8'> &nbsp;{{a.product_disp.sender_location}} <span id="idsell_by_date"></span></div>
+                              <div class='task col-sm-4'>Manufacturer GLN</div>
+                              <div class='task col-sm-8'> &nbsp;{{a.product_disp.product.manufacturer_gln}} <span id="idretest_by_date"></span></div>
+                              <div class='task col-sm-4'>Product Status</div>
+                              <div class='task col-sm-8'> &nbsp;Active <span id="idretest_by_date"></span></div>
+                            </div>
+                          </li>
+                          <h5 align = "centre"; ><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Serial Data Code <small>(GS1-128)</small></b></h5>
+                          <li class='col-sm-5'>
+                            <div align = "left"; class='task col-sm-4'><img  src="https://api.qrserver.com/v1/create-qr-code/?size=90x90&data={{a.product_disp.product.product_code_gtin}}"></div>
+                            <div align = "left"; class='task col-sm-8'> <span id="idbarcodemsg"></span></div>
+
+                          </li>
+                        </ul> -->
+                      </div>
+                      <!-- </div> -->
+                    </div>
+              </div>
+              <div class="tab-pane fade" id="custom-tabs-one-settings" role="tabpanel" aria-labelledby="custom-tabs-one-settings-tab">
+                        <div class="card-body">
+                          <!--dropdown input-->
+                          <!--															<h6 class="card-title" style="font-size:1rem;"><b><button class="btn btn-sm btn-default" type="button">Select Case#</button></b></h6> -->
+                          <div class="search-container">
+                            <div class="form-group" style="display: flex;">
+                            <select id="mycaseid" name="nmycaseid" class="itemName form-control" style="width:300px" required>
+                              <option value="">--- Select Case Number</option>
+                              <option value={{a.product_disp.sscc_no}}>{{a.product_disp.sscc_no}}</option>
+                              <!-- <option value=<?=form_dropdown('casesn', $tnt_casedata, set_value( 'casesn',$casesn), array('class' => 'form-control'),''); ?></option> -->
+                              </select>&nbsp;&nbsp;
+                              <button class="btn btn-sm btn-primary" type="button" onclick="showDiv('idshowcase')">Use Case/Item#</button>
+                            </div>
+                            </div>
+                            <div id="idshowcase" class="card" style="height: 310px; display:none" >
+                      <!-- <div class='container-fluid'> </div> -->
+                      <br>
+                      <br>
+                      <ul class='htimeline' >
+                        <li class='step col-sm-7'>
+                          <div class='tasks container-fluid'>
+                            <div class='resource' data-name=''>
+                              <div class='task col-sm-4'>Lot Number</div>
+                              <div class='task col-sm-8'> &nbsp; <span id="idlot_number"></span></div>
+                              <div class='task col-sm-4'>Lot Quantity</div>
+                              <div class='task col-sm-8'> &nbsp; <span id="idlot_quantity"></span></div>
+                              <div class='task col-sm-4'>Base Pack Type</div>
+                              <div class='task col-sm-8'> &nbsp; <span id="idbase_pack_type"></span></div>
+                              <div class='task col-sm-4'>Product Code Type</div>
+                              <div class='task col-sm-8'> &nbsp; <span id="idproduct_code_type"></span></div>
+                              <div class='task col-sm-4'>Origination Date</div>
+                              <div class='task col-sm-8'> &nbsp; <span id="idorigination_date"></span></div>
+                              <div class='task col-sm-4'>Expiration Date</div>
+                              <div class='task col-sm-8'> &nbsp; <span id="idexpiration_date"></span></div>
+                              <div class='task col-sm-4'>Best Before Date</div>
+                              <div class='task col-sm-8'> &nbsp; <span id="idbest_before_date"></span></div>
+                              <div class='task col-sm-4'>Sell By Date</div>
+                              <div class='task col-sm-8'> &nbsp; <span id="idsell_by_date"></span></div>
+                              <div class='task col-sm-4'>Retest by date</div>
+                              <div class='task col-sm-8'> &nbsp; <span id="idretest_by_date"></span></div>
+                              <div class='task col-sm-4'>Packaged by date</div>
+                              <div class='task col-sm-8'> &nbsp; <span id="idorigination_date2"></span></div>
+                              <div class='task col-sm-4'>Packaged/Quality Check Status</div>
+                              <div class='task col-sm-8'> &nbsp; Samples Tested, Packaged into Pallets/Cases/Items </div>
+                            </div>
+                          </li>
+                          <h5 align = "centre"; ><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Lot/Batch Data Code <small>(GS1-128)</small></b></h5>
+                          <li class='col-sm-5'>
+                            <div align = "left"; class='task col-sm-4'> <span id="idbarcode"></span></div>
+                            <div align = "left"; class='task col-sm-8'> <span id="idbarcodemsg"></span></div>
+
+                          </li>
+                        </ul>
+                      </div>
+                      <!-- </div> -->
+                    </div>
+              </div>
+            </div>
+          </div>
+
+    </div>
+                    <!-- /.card body ends-->
+    </div>
+    </div>
+    </div>
+
+    </div>
+            <!-- End - Second Box Selection options  -->
+
+            <!-- Small boxes (Ends box) -->
+          </form>
+        </section>
+      </div>
+
+
+      <script type='text/javascript'>
+        function getLotId(vlotid) {
+          //alert(vdivid);
+          var BASE_URL = "";
+          var tempArray = "";
+          //alert(tempArray[vlotid].lot_number);
+          // 10 Batch Number(1-20) //23x Lot Number
+          document.getElementById('idlot_number').innerHTML = tempArray[vlotid].lot_number;
+          document.getElementById('idlot_quantity').innerHTML = tempArray[vlotid].lot_quantity;
+          document.getElementById('idbase_pack_type').innerHTML = tempArray[vlotid].base_pack_type;
+          document.getElementById('idproduct_code_type').innerHTML = tempArray[vlotid].product_code_type;
+          // 11 Production Date
+          document.getElementById('idorigination_date').innerHTML = tempArray[vlotid].origination_date;
+          document.getElementById('idorigination_date2').innerHTML = tempArray[vlotid].origination_date;
+          //13 Packaging Date
+          document.getElementById('idexpiration_date').innerHTML = tempArray[vlotid].expiration_date;
+          //17 Expiration Date
+          document.getElementById('idbest_before_date').innerHTML = tempArray[vlotid].best_before_date;
+          document.getElementById('idsell_by_date').innerHTML = tempArray[vlotid].sell_by_date;// 15 Sell by Date (Quality Control) YYMMDD
+          document.getElementById('idretest_by_date').innerHTML = tempArray[vlotid].retest_by_date;
+          // Generate Lot Details Barcode as per the GS-128
+          //https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Example
+          document.getElementById('idbarcode').innerHTML =
+          '<img  src="https://api.qrserver.com/v1/create-qr-code/?size=90x90&data=' + BASE_URL + '(01)' + tempArray[vlotid].product_code_gtin +'(10)'+ tempArray[vlotid].lot_number +'(11)'+tempArray[vlotid].origination_date+'(17)'+tempArray[vlotid].best_before_date+'&includetext">';
+          document.getElementById('idbarcodemsg').innerHTML = '<small style="line-height:10px;">&nbsp;&nbsp;&nbsp;&nbsp;(01) ' + tempArray[vlotid].product_code_gtin +'<br>&nbsp;&nbsp;&nbsp;&nbsp;(10) '+ tempArray[vlotid].lot_number +'<br>&nbsp;&nbsp;&nbsp;&nbsp;(11) '+tempArray[vlotid].origination_date+'<br>&nbsp;&nbsp;&nbsp;&nbsp;(17) '+tempArray[vlotid].best_before_date+'</small>'
+
+          //document.getElementById('idbarcode').innerHTML =  '<img alt="Barcoded value'+tempArray[vlotid].product_code_gtin+'"src="http://bwipjs-api.metafloor.com/?bcid=code128&text= ' + tempArray[vlotid].product_code_gtin + '&includetext">';
+
+        }
+        </script>
+
+        <script type="text/javascript">
+          function showDiv(vdivid) {
+            div = document.getElementById(vdivid);
+            if (div.style.display !== "none") {
+              div.style.display = "none";
+              } else {
+              div.style.display = "block";
+            }
+
+          }
+
+        </script>
+
+
+        <script type="text/javascript">
+
+    //               $( document ).ready(function() {
+    //   $("#mypalletid").empty();
+    // });
+
+          $("#mylotid").select2({
+            placeholder:"--- Search Lot Number ---",
+            minimumInputLength: 1,
+            });
+
+          async function lotvalues(){
+            var searchInput = $("#mylotid").val()
+
+            //console.log(searchInput)
+            let url = "http://www.tracepharm.io:5000/api/v1/product/identification/lot/info/{{gnum}}?lotNumber=" + searchInput;
+            await $.get(url, function(data, status){
+                data=JSON.stringify(data)
+                obj = JSON.parse(data)
+                obj1=obj[0]
+                res=obj1.lot_info
+
+                // console.log(res)
+                // console.log(res)
+
+            });
+            let url1 = "http://www.tracepharm.io:5000/api/v1/product/identification/lot/serial_list/{{gnum}}?lotNumber=" + searchInput;
+
+            await $.get(url1, function(data1, status){
+              console.log(data1)
+              console.log(obj1)
+
+                data1=JSON.stringify(data1)
+                obj1 = JSON.parse(data1)
+                console.log(obj1)
+                obj2=obj1[0]
+                console.log(obj2)
+                snum_list = obj2.serial_list
+                // delete snum_list
+                console.log(snum_list)
+            });
+
+            //console.log(res)
+            //console.log(url)
+            var html_to_append = '';
+
+            html_to_append +="<ul class='htimeline' ><li class='step col-sm-7'><div class='tasks container-fluid'><div class='resource' data-name=''><div class='task col-sm-4' style='font-size:90%'>Lot Number</div><div class='task col-sm-8' style='font-size:90%'>&nbsp;"+searchInput+ "<span id='idbase_pack_type'></span></div>"+
+              "<div class='task col-sm-4' style='font-size:90%'>NDC</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;{{gnum}}<span id='idproduct_code_type'></span></div>"+
+              "<div class='task col-sm-4' style='font-size:90%'>Manufacturing Date</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.manufacturing_date +"<span id='idorigination_date'></span></div>"+
+              "<div class='task col-sm-4' style='font-size:90%'>Expiry Date</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.expiry_date+"<span id='idorigination_date'></span></div>"+
+              "<div class='task col-sm-4' style='font-size:90%'>Manufacturer Name</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+res.company_name+"<span id='idorigination_date'></span></div>"+
+              "<div class='task col-sm-4' style='font-size:90%'>Manufacturer Location<br/></div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+res.mfg_address+"<span id='idorigination_date'></span></div>"+
+              "<div class='task col-sm-4' style='font-size:90%'>Lot Qty(Tablets/Ml)</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+res.quantiy+"<span id='idorigination_date'></span></div>"+
+              "<div class='task col-sm-4' style='font-size:90%'>Manufacturer GLN</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.company_gln+"<span id='idorigination_date'></span></div>"+
+              "<div class='task col-sm-4' style='font-size:90%'>Status</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+res.status+"<span id='idorigination_date'></span></div></div></div><br/></li></ul>"+
+
+              "<h5 align = 'centre'; ><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Lot/Batch Data Code <small>(GS1-128)</small></b></h5>"+
+              "<li class='col-sm-5'><div align = 'left' class='task col-sm-4'><img  src='https://api.qrserver.com/v1/create-qr-code/?size=90x90&data=http://www.tracepharm.io:5000/api/v1/product/identification/lot/info/{{gnum}}?lotNumber=" + searchInput +"'></div><div align = 'left' class='task col-sm-8'>"+
+              "<small style='line-height:10px;'>&nbsp;&nbsp;&nbsp;&nbsp;(01){{gnum}}<br>&nbsp;&nbsp;&nbsp;&nbsp;(10)"+searchInput +"<br>&nbsp;&nbsp;&nbsp;&nbsp;(11)"+res.manufacturing_date+"<br>&nbsp;&nbsp;&nbsp;&nbsp;(17)"+res.expiry_date+"</small></div></li></ul>"
+             $("#idshowlot").html(html_to_append);
+
+
+             var html_append1 = '';
+             for(var key in snum_list) {
+                    var value = snum_list[key];
+                      html_append1+="<option value="+value+">"+value+"</option>"
+                      }
+                   // console.log(html_append1)
+             $("#mypalletid").empty()
+             $("#mypalletid").append("<option value='0'>--- Select Serial Number ---</option>");
+             $("#mypalletid").append(html_append1);
+             delete snum_list
+          }
+          //
+          //                 $(document).ready(function() {
+          //     $('select').on('change', function() {
+          //         alert(this.value);
+          //     });
+          // });
+
+
+          async function serialvalues(){
+            var searchInput = $("#mylotid").val()
+            var serialInput = $("#mypalletid").val()
+            //console.log(searchInput)
+            // let url = "http://api.tracepharm.io:8083/api/v3/products/gtins/{{gnum}}?serialNumber=" + serialInput ;
+            let url = "http://www.tracepharm.io:5000/api/v1/product/identification/item/serial_info/{{gnum}}?lotNumber=" +searchInput+ "&serialNumber=" + serialInput ;
+            await $.get(url, function(data, status){
+                data=JSON.stringify(data)
+                obj1 = JSON.parse(data)
+                obj2=obj1[0]
+                res = obj2.serial_info
+                // res=obj.Transaction
+                // console.log(searchInput)
+            });
+
+
+            var html_to_appendserial = '';
+
+            html_to_appendserial +="<ul class='htimeline' ><li class='step col-sm-7'><div class='tasks container-fluid'><div class='resource' data-name=''><div class='task col-sm-4' style='font-size:90%'>Lot Number</div><div class='task col-sm-8' style='font-size:90%'>&nbsp;"+searchInput+ "<span id='idbase_pack_type'></span></div>"+
+              "<div class='task col-sm-4' style='font-size:90%'>NDC</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;{{gnum}}<span id='idproduct_code_type'></span></div>"+
+              "<div class='task col-sm-4' style='font-size:90%'>Serial Number</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+serialInput+"<span id='idproduct_code_type'></span></div>"+
+              "<div class='task col-sm-4' style='font-size:90%'>Manufacturing Date</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.manufacturing_date +"<span id='idorigination_date'></span></div>"+
+              "<div class='task col-sm-4' style='font-size:90%'>Expiry Date</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.expiry_date+"<span id='idorigination_date'></span></div>"+
+              "<div class='task col-sm-4' style='font-size:90%'>Manufacturer Name</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.company_name+"<span id='idorigination_date'></span></div>"+
+              "<div class='task col-sm-4' style='font-size:90%'>Manufacturer Location</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.mfg_address+"<span id='idorigination_date'></span></div>"+
+              "<div class='task col-sm-4' style='font-size:90%'>Manufacturer GLN</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.company_gln+"<span id='idorigination_date'></span></div>"+
+
+              "<div class='task col-sm-4' style='font-size:90%'>Product Status</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.status+"<span id='idorigination_date'></span></div></div></div><br/></li>"+
+              "<span style='float:right; padding-bottom: 8px;' ><a class='btn btn-success' href='/tracenew/{{gnum}}/"+searchInput+"/"+serialInput+"'> <i class='fa fa-share-alt-square' aria-hidden='true'></i>&nbsp; Trace&nbsp;</a>&nbsp; &nbsp; &nbsp;</span></ul>"+
+              "<span style='float:right; padding-bottom: 8px;' ><a class='btn btn-danger' href='/distrack/{{gnum}}/"+serialInput+"'> <i class='fa fa-map-marker' aria-hidden='true'></i>&nbsp; Track&nbsp;</a>&nbsp; &nbsp; &nbsp;</span></ul>"+
+              // "<span style='float:right; padding-bottom: 8px;' ><a class='btn btn-danger' href='/distrack/{{gnum}}/"+searchInput+"/"+serialInput+"'> <i class='fa fa-map-marker' aria-hidden='true'></i>&nbsp; Track&nbsp;</a>&nbsp; &nbsp; &nbsp;</span></ul>"+
+              "<br><br><h5 align = 'centre'; ><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Serial Data Code <small>(GS1-128)</small></b></h5>"+
+              // "<li class='col-sm-5'><div align = 'left'; class='task col-sm-4'><img  src='https://api.qrserver.com/v1/create-qr-code/?size=90x90&data=(01){{gnum}}/+(10)serialInput/+(11)res.manufacturing_date/+(17)res.expiry_date'></div><div align = 'left'; class='task col-sm-8'>"+
+              // "<small style='line-height:10px;'>&nbsp;&nbsp;&nbsp;&nbsp;(01){{gnum}}<br>&nbsp;&nbsp;&nbsp;&nbsp;(21)"+serialInput +"<br>&nbsp;&nbsp;&nbsp;&nbsp;(11)"+res.manufacturing_date+"<br>&nbsp;&nbsp;&nbsp;&nbsp;(17)"+res.expiry_date+"</small></div></li>"
+            // "<li class='col-sm-5'><div align = 'left'; class='task col-sm-4'><img  src='https://api.qrserver.com/v1/create-qr-code/?size=90x90&data=http://www.tracepharm.io:5000/api/v2.1/exp/product/track/item/08906096620196?serialNumber=9167301'></div><div align = 'left'; class='task col-sm-8'>"+"<small style='line-height:10px;'>&nbsp;&nbsp;&nbsp;&nbsp;(01){{gnum}}<br>&nbsp;&nbsp;&nbsp;&nbsp;(21)"+serialInput +"<br>&nbsp;&nbsp;&nbsp;&nbsp;(11)"+res.manufacturing_date+"<br>&nbsp;&nbsp;&nbsp;&nbsp;(17)"+res.expiry_date+"</small></div></li>"
+
+            "<li class='col-sm-5'><div align = 'left'; class='task col-sm-4'><img  src='https://api.qrserver.com/v1/create-qr-code/?size=90x90&data=http://www.tracepharm.io:5000/api/v2.1/exp/product/item/{{gnum}}?serialNumber=" +serialInput+ "'></div><div align = 'left'; class='task col-sm-8'>"+"<small style='line-height:10px;'>&nbsp;&nbsp;&nbsp;&nbsp;(01){{gnum}}<br>&nbsp;&nbsp;&nbsp;&nbsp;(21)"+serialInput
+           +"<br>&nbsp;&nbsp;&nbsp;&nbsp;(11)"+res.manufacturing_date+"<br>&nbsp;&nbsp;&nbsp;&nbsp;(17)"+res.expiry_date+"</small></div></li>"
+
+             $("#idshowpallet").html(html_to_appendserial);
+
+
+          }
+
+          async function ssccvalues(){
+            var ssccInput = $("#myssccid").val()
+            //console.log(searchInput)
+            // let url2 = "http://api.tracepharm.io:8083/api/v3/package/gtins/{{gnum}}?sscc=" + ssccInput ;
+            let url2 = "http://www.tracepharm.io:5000/api/v1/package/identification/sscc/info/" + ssccInput ;
+            await $.get(url2, function(data, status){
+                data=JSON.stringify(data)
+                obj1 = JSON.parse(data)
+                obj2=obj1[0]
+                res=obj2.sscc_list
+                // console.log(url2)
+            });
+            var html_to_appendsscc = '';
+            html_to_appendsscc +="<ul class='htimeline' ><li class='step col-sm-7'><div class='tasks container-fluid'><div class='resource' data-name=''><div class='task col-sm-4' style='font-size:90%'>SSCC Number</div><div class='task col-sm-8' style='font-size:90%'>&nbsp;"+ssccInput+ "<span id='idbase_pack_type'></span></div>"+
+              "<div class='task col-sm-4' style='font-size:90%'>NDC </div><div class='task col-sm-8' style='font-size:90%'> &nbsp;{{gnum}}<span id='idproduct_code_type'></span></div>"+
+              "<div class='task col-sm-4' style='font-size:90%'>Package Type</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.package_type +"<span id='idorigination_date'></span></div>"+
+              "<div class='task col-sm-4' style='font-size:90%'>Serial No Count</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.inner_serail_count+"<span id='idorigination_date'></span></div>"+
+              "<div class='task col-sm-4' style='font-size:90%'>Package Dimensions</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.total_dimensions+"<span id='idorigination_date'></span></div>"+
+              "<div class='task col-sm-4' style='font-size:90%'>Package Width</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.width+"<span id='idorigination_date'></span></div>"+
+              "<div class='task col-sm-4' style='font-size:90%'>Package Depth</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.depth+"<span id='idorigination_date'></span></div>"+
+              "<div class='task col-sm-4' style='font-size:90%'>Package Weight</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.package_gross_weight+"<span id='idorigination_date'></span></div>"+
+              "<div class='task col-sm-4' style='font-size:90%'>Package Shape</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.shape+"<span id='idorigination_date'></span></div>"+
+              "<div class='task col-sm-4' style='font-size:90%'>Is Active</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.is_active+"<span id='idorigination_date'></span></div>"+
+              // "<div class='task col-sm-4' style='font-size:90%'>Package Evidence</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;<img style='height:80px;width:220px' src="+ 1 +" /><span id='idorigination_date'></span></div>"+
+              // "<div class='task col-sm-4' style='font-size:90%'>Package Evidence</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;<video width="120" height="120" controls ><source src="+ res.evidence +" type="video/mp4"></video><span id='idorigination_date'></span></div>"+
+              "<div class='task col-sm-4' style='font-size:90%'>Package Status</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+res.Package_status +"<span id='idorigination_date'></span></div></div></div><br/></li>"+
+              // "<h5 align = 'centre'; ><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SSCC Data Code <small>(GS1-128)</small></b></h5>"+
+              "<span style='float:right; padding-bottom: 8px;' ><a class='btn btn-danger' href='/tracknew/"+ssccInput+"'> <i class='fa fa-map-marker' aria-hidden='true'></i>&nbsp; Track&nbsp;</a>&nbsp; &nbsp; &nbsp;</span></ul>"+
+              // "<li class='col-sm-5'><div align = 'left'; class='task col-sm-4'><img  src='https://api.qrserver.com/v1/create-qr-code/?size=90x90&data=(01){{gnum}}/+(10)ssccInput/+(11)res.manufacturing_date/+(17)res.expiry_date'></div><div align = 'left'; class='task col-sm-8'>"+
+              // "<small style='line-height:10px;'>&nbsp;&nbsp;&nbsp;&nbsp;(01){{gnum}}<br>&nbsp;&nbsp;&nbsp;&nbsp;(00)"+ssccInput +"</small></div></li>"
+              "<li class='col-sm-5'><div align = 'left'; class='task col-sm-4'><img  src='https://api.qrserver.com/v1/create-qr-code/?size=90x90&data=http://www.tracepharm.io:5000/api/v1/package/identification/sscc/info/" + ssccInput + "'></div><div align = 'left'; class='task col-sm-8'>"+
+              "<small style='line-height:10px;'>&nbsp;&nbsp;&nbsp;&nbsp;(01){{gnum}}<br>&nbsp;&nbsp;&nbsp;&nbsp;(00)"+ssccInput +"</small></div></li>"
+
+
+             $("#idshowsscc").html(html_to_appendsscc);
+
+          }
+
+
+            $('#mycaseid').select2({
+            placeholder:"--- Search Case Number ---",
+
+            });
+            $('#myssccid').select2({
+              placeholder:"--- Search SSCC Number ---",
+                              minimumInputLength: 1,
+            });
+
+            $('#mypalletid').select2({
+              placeholder:"--- Search Serial Number ---",
+              minimumInputLength: 1,
+
+
+            });
+
+            // window.onload = function() {
+            // 	var selectedgtin = localStorage.getItem("gtininput");
+            //
+            // 	document.getElementById("inputgtin").value = selectedgtin;
+            // };
+
+        </script>
+
+        <!-- The Modal -->
+        <div class="modal" id="myModal">
+          <div class="modal-dialog">
+            <div class="modal-content" style="background:#ebebeb">
+
+              <!-- Modal Header -->
+              <div class="modal-header">
+                <h3 class="modal-title">More Information of NDC</h3>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+              </div>
+
+              <!-- Modal body -->
+              <div class="modal-body">
+                <p><b>Labler Name:</b><span>{{result.labler_name}}</span></p>
+                <p><b>Last Updated datetime:</b><span>{{result.last_updated_datetime}}</span></p>
+                <p><b>Mfg Name:</b><span>{{result.openfda_manufacturer_name}}</span></p>
+                <p><b>Ingredients Name:</b><span>{{result.Ingredients_name}}</span></p>
+                <p><b>Generic Name:</b><span>{{result.generic_name}}</span></p>
+                <p><b>Brand Name:</b><span>{{result.brand_name_base}}</span></p>
+                <p><b>Product OTC:</b><span>{{result.is_prod_otc}}</span></p>
+                <p><b>Marketing Category:</b><span>{{result.marketing_category}}</span></p>
+                <p><b>Marketing Start date:</b><span>{{result.marketing_start_date}}</span></p>
+                <p><b>Listing Expiration date:</b><span>{{result.listing_expiration_date}}</span></p>
+                <p><b>Ingredients:</b><span>{{result.Ingredients_name}}</span></p>
+                <p><b>Application Number:</b><span>{{result.application_number}}</span></p>
+                <p><b>Gtin:</b><span>{{result.gtin}}</span></p>
+                <p><b>Is Orginica Packages:</b><span>{{result.is_original_packager}}</span></p>
+                <p><b>Route:</b><span>{{result.route}}</span></p>
+                <p><b>Spl set id:</b><span>{{result.spl_set_id}}</span></p>
+                <p><b>Upc:</b><span>{{result.upc}}</span></p>
+                <p><b>Unii:</b><span>{{result.unii}}</span></p>
+              </div>
+
+              <!-- Modal footer -->
+              <div class="modal-footer">
+                <!-- <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button> -->
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+    {%endif%}
+
+      {%endif%}
+
+
+{%if i.organization_id == '3' %}
+      {%if i.role == '1' %}
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <h1>
+            Track & Trace <small>Click <b style="color:red">Track</b> current status or  <b style=" color:green">Trace</b> to know end to end journey of your product/Logistic Asset</small>
+          </h1>
+          <ol class="breadcrumb">
+            <li><a href="{% url 'dashboard1'%}"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active"><a href="{% url 'tracktrace'%}">Search Product</a></li>
+            <li class="active"><a href="{% url 'tracktrace'%}">Track & Trace</a></li>
+          </ol>
+
+        </section>
+        <!--
+          <div class="bs-example" data-example-id="simple-jumbotron">
+          <div class="jumbotron">
+          </div>
+        </div>  -->
+        <!-- Main content -->
+        <section class="content">
+          <form >
+            <!-- Small boxes (Stat box) -->
+            <div class="row">
+              <div class="col-md-12 bg-light text-right"></div>
+              <!-- Start-First Box Selection options  -->
+              <div id="sel1"  class="col-lg-4" style="background-color: #fff; border:0.5px solid grey; padding-right: 5px;padding-left: 5px;">
+                <div class="card" style="height: 555px;">
+                  <div class="card card-default card-tabs">
+                    <img align = "right"; style="border:0.5px solid grey; position: float; z-index: 1;" width="120"; height= "120"; src= "{{result.image}}"/>
+                    <h5 class="card-title"><span class="label label-default	">Your Selected Product-NDC Details</span></h5>
+                    <div class="form-group">
+
+                      <select id="" name="" class="itemName form-control" style="width:180px" value="" disabled >
+
+                        <option value="">{{gnum}}</option>
+                      </select>
+
+                      <!-- <select id="gtinid" name="ngtinid" class="itemName form-control" style="width:180px" value="" disabled ></select> -->
+                    </div>
+                    <hr style="background-color: #fff; border:0.1px solid grey;">
+                    <h5 align = "left";><b>Supplier’s Catalogue/ Master Data</b></h5>
+                    <section>
+            <div class='container-fluid'>
+              <img width="150"; height= "50"; alt="Barcoded value <?php echo $tntmasterdata['product_code_gtin'];?>" src="http://bwipjs-api.metafloor.com/?bcid=code128&text=<?php echo $tntmasterdata['product_code_gtin'];?>&includetext">
+                    </div>
+
+                    <ul class='htimeline'>
+                      <li class='step col-sm-12'>
+                        <div class='tasks container-fluid'>
+                          <div class='resource' data-name=''>
+                            <div class='task col-sm-4' style="font-size:90%">Generic Name</div>
+                            <div class='task col-sm-8' style="font-size:90%">&nbsp;{{result.product_name}}</div>
+                <div class='task col-sm-4' style="font-size:90%">Product GTIN</div>
+                            <div class='task col-sm-8' style="font-size:90%">&nbsp;{{gnum}}</div>
+                            <div class='task col-sm-4' style="font-size:90%">Brand Name</div>
+                            <div class='task col-sm-8' style="font-size:90%">&nbsp;{{result.brand_name}}</div>
+              <div class='task col-sm-4' style="font-size:90%">Product Description</div>
+                            <div class='task col-sm-8' style="font-size:90%">&nbsp;{{result.product_description}}</div>
+              <div class='task col-sm-4' style="font-size:90%">Strength</div>
+                            <div class='task col-sm-8' style="font-size:90%">&nbsp;{{result.dosage_strength}}</div>
+              <div class='task col-sm-4' style="font-size:90%">Dosage Form</div>
+                            <div class='task col-sm-8' style="font-size:90%">&nbsp;{{result.dosage_from}}</div>
+              <div class='task col-sm-4' style="font-size:90%">Product NDC</div>
+              <div class='task col-sm-8' style="font-size:90%">&nbsp;{{result.product_ndc}}</div>
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                    </section>
+                  </div>
+
+                </div>
+
+              </div>
+              <!-- End - First Box Selection options  -->
+
+
+
+              <!-- Start-Second Box Selection options  -->
+              <div id="sel2"  class="col-lg-8" style="background-color: #fff; border:0.5px solid grey; padding-right: 5px;padding-left: 5px;">
+                <div class="card" style="height: 555px;">
+                  <div class="card card-primary card-tabs">
+                    <h5 class="card-title"><span class="label label-primary">Select Lot# / SSCC# / Case#... of your selected product!</span></h5>
+
+                    <!--
+                    <div class="form-group">
+                            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <button id="btn1" title="Click here to Track" name="tnttype" value="100" class="btn btn-danger btn-md float-right"  type="submit" style="margin-top : 8px; line-height: 1.3; font-size: 14px; "  ><i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp; Track&nbsp;</button>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
+                    </div> -->
+                    <div class="card-header p-0" style="padding-right: 0px;padding-left: 0px;line-height: 1.5;" >
+                <ul class="nav nav-tabs" id="custom-tabs-one-tab"  role="tablist">
+                  <li class="nav-item" >
+                    <a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill" href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" style=" font-size: 12px;  line-height: 0.5; margin-top : 8px; " aria-selected="true">Lot/ Batch#</a>
+                  </li>
+
+                  <li class="nav-item">
+                    <a class="nav-link" id="custom-tabs-one-messages-tab" data-toggle="pill" href="#custom-tabs-one-messages" role="tab" aria-controls="custom-tabs-one-messages" style=" font-size: 12px;  line-height: 0.5; margin-top : 8px; " aria-selected="false">Serial Number#</a>
+                  </li>
+
+                  <!-- <li class="nav-item">
+                    <a class="nav-link" id="custom-tabs-one-settings-tab" data-toggle="pill" href="#custom-tabs-one-settings" role="tab" aria-controls="custom-tabs-one-settings" style=" font-size: 12px;  line-height: 0.5; margin-top : 8px; " aria-selected="false">Case/Item#</a>
+                  </li> -->
+                  <li class="nav-item">
+                    <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" style=" font-size: 12px;  line-height: 0.5; margin-top : 8px; " aria-selected="false">SSCC#</a>
+                  </li>
+                  <!--
+                  <li class="nav-item">
+                    <div class="form-group">
+                      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <button id="btn1" title="Click here to Track" name="tnttype" value="100" class="btn btn-danger btn-md float-right"  type="submit" style="margin-top : 8px; line-height: 1.3; font-size: 14px; "  ><i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp; Track&nbsp;</button>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
+                    </div>
+                  </li>
+                  <li class="nav-item">
+                    <div class="form-group">
+                      <button id="btn2" title="Click here to Track" name="tnttype" value="200"  class="btn btn-success btn-md float-right" type="submit"  style="margin-top : 8px; line-height: 1.3; font-size: 14px; "><i class="fa fa-share-alt-square" aria-hidden="true"></i>&nbsp; Trace&nbsp;</button>&nbsp;
+                    </div>
+                  </li> -->
+                </ul>
+            <br>
+                <!-- /.card body Starts-->
+                <div class="card-body">
+                  <div class="tab-content" id="custom-tabs-one-tabContent">
+                    <div class="tab-pane fade" id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
+                      <div class="card-body">
+                        <!--  <h6 class="card-title" style="font-size:1rem;"><b><button class="btn btn-sm btn-default" type="button">Select Lot/Batch#</button></b></h6> -->
+                        <div class="search-container">
+                          <div class="form-group" style="display: flex;">
+                            <select id="mylotid" name="nmylotid" class="itemName form-control" style="width:300px"  required>
+                              <option value="">--- Select Lot Number ---</option>
+                              <!-- <option value=<?=form_dropdown('lotnumber', $tnt_lotdata, set_value( 'lotnumber',$lotnumber), array('class' => 'form-control'),"id='idsscc' ");?></option> -->
+                              {% for i in lotresult %}
+                              <option value={{i}}>{{i}}</option>
+                              {% endfor %}
+
+                                                        </select>
+                            <button class="btn btn-sm btn-primary"  type="button" onclick="lotvalues()">Use LOT#</button>
+                              &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<p><b>Active Lot Count : {{lotresultcount}}</b></p>
+                          </div>
+                          </div>
+                        <br><br>
+                          <!-- <div id="#"  class="col-lg-12" style="height: 310px; background-color: #fff; border:0.5px solid grey; padding-right: 5px;padding-left: 5px;"> -->
+                          <div id="idshowlot" class="card" style="height: 310px;" >
+                            <!-- <div class='container-fluid'> </div> -->
+
+                          </div>
+
+                            <!-- </div> -->
+                          </div>
+                    </div>
+                    <div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
+                          <div class="card-body">
+                            <!-- <h6 class="card-title" style="font-size:1rem;"><b><button class="btn btn-sm btn-default" type="button">Select SSCC#</button></b></h6> -->
+                            <div class="search-container">
+                              <div class="form-group" style="display: flex;">
+                                <select id="myssccid" name="nmyssccid" class="itemName form-control" style="width:300px" required>
+                                  <!-- <option value=<?=form_dropdown('ssccnumber', $tnt_ssccdata, set_value( 'ssccnumber',$ssccnumber), array('class' => 'form-control'),"id='idsscc' ");?></option> -->
+                                  <option value="">--- Select SSCC Number ---</option>
+                                  {% for i in ssccresult %}
+                                  <option value={{i}}>{{i}}</option>
+                                  {% endfor %}
+                                                                </select>
+                                  <button class="btn btn-sm btn-primary" type="button" onclick="ssccvalues()">Use SSCC#</button>
+
+                                </div>
+                              </div><br>
+                              <div id="idshowsscc" class="card" style="height: 310px;" >
+                            <!-- <div class='container-fluid'> </div> -->
+                            <br>
+                            </div>
+                            <!-- </div> -->
+                          </div>
+                    </div>
+                    <div class="tab-pane fade" id="custom-tabs-one-messages" role="tabpanel" aria-labelledby="custom-tabs-one-messages-tab">
+                            <div class="card-body">
+                              <!-- 														<h6 class="card-title" style="font-size:1rem;"><b><button class="btn btn-sm btn-default" type="button">Select Pallet#</button></b></h6> -->
+                              <div class="search-container">
+                                <div class="form-group" style="display: flex;">
+                                  <select id="mypalletid" name="nmypalletid" class="itemName form-control" style="width:300px" required>
+
+                                    <option value="">--- Select Serial Number ---</option>
+      <!--																		<option value={{a.product_disp.product.serial_number}}>{{a.product_disp.product.serial_number}}</option>-->
+                                    <!-- <option value=<?=form_dropdown('palletsn', $tnt_palletdata, set_value('palletsn',$palletsn), array('class' => 'form-control'),"id='idpallet' ");?></option> -->
+                                    </select>
+                                    <button class="btn btn-sm btn-primary" type="button" onclick="serialvalues()">Use Serial#</button>
+
+                                  </div>
+                                </div><br><br>
+                                <div id="idshowpallet" class="card" style="height: 310px;" >
+                            <!-- <div class='container-fluid'> </div> -->
+                            <br>
+                            <!-- <ul class='htimeline' >
+                              <li class='step col-sm-7'>
+                                <div class='tasks container-fluid'>
+                                  <div class='resource' data-name=''>
+                                    <div class='task col-sm-4'>Lot Number</div>
+                                    <div class='task col-sm-8'> &nbsp;{{a.product_disp.lot.lot_number}} <span id="idbase_pack_type"></span></div>
+                                    <div class='task col-sm-4'>GTIN</div>
+                                    <div class='task col-sm-8'> &nbsp; {{a.product_disp.product.product_code_gtin}}<span id="idproduct_code_type"></span></div>
+                                    <div class='task col-sm-4'>Total Number of Items</div>
+                                    <div class='task col-sm-8'> &nbsp; {{a.product_disp.lot.total_quantity}}<span id="idorigination_date"></span></div>
+                                    <div class='task col-sm-4'>Manufacturing Date</div>
+                                    <div class='task col-sm-8'> &nbsp; {{a.product_disp.product.mfg_date}}<span id="idlot_quantity"></span></div>
+                                    <div class='task col-sm-4'>Expiry Date</div>
+                                    <div class='task col-sm-8'> &nbsp;{{a.product_disp.product.expiry_date}} <span id="idlot_number"></span></div>
+                                    <div class='task col-sm-4'>List of Serial Numbers </div>
+                                    <div class='task col-sm-8'> &nbsp; Not Available<span id="idexpiration_date"></span></div>
+                                    <div class='task col-sm-4'>Manufacturer Name</div>
+                                    <div class='task col-sm-8'> &nbsp; {{a.product_disp.product.manufacturer_name}} <span id="idbest_before_date"></span></div>
+                                    <div class='task col-sm-4'>Manufacturer Address</div>
+                                    <div class='task col-sm-8'> &nbsp;{{a.product_disp.sender_location}} <span id="idsell_by_date"></span></div>
+                                    <div class='task col-sm-4'>Manufacturer GLN</div>
+                                    <div class='task col-sm-8'> &nbsp;{{a.product_disp.product.manufacturer_gln}} <span id="idretest_by_date"></span></div>
+                                    <div class='task col-sm-4'>Product Status</div>
+                                    <div class='task col-sm-8'> &nbsp;Active <span id="idretest_by_date"></span></div>
+                                  </div>
+                                </li>
+                                <h5 align = "centre"; ><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Serial Data Code <small>(GS1-128)</small></b></h5>
+                                <li class='col-sm-5'>
+                                  <div align = "left"; class='task col-sm-4'><img  src="https://api.qrserver.com/v1/create-qr-code/?size=90x90&data={{a.product_disp.product.product_code_gtin}}"></div>
+                                  <div align = "left"; class='task col-sm-8'> <span id="idbarcodemsg"></span></div>
+
+                                </li>
+                              </ul> -->
+                            </div>
+                            <!-- </div> -->
+                          </div>
+                    </div>
+                    <div class="tab-pane fade" id="custom-tabs-one-settings" role="tabpanel" aria-labelledby="custom-tabs-one-settings-tab">
+                              <div class="card-body">
+                                <!--dropdown input-->
+                                <!--															<h6 class="card-title" style="font-size:1rem;"><b><button class="btn btn-sm btn-default" type="button">Select Case#</button></b></h6> -->
+                                <div class="search-container">
+                                  <div class="form-group" style="display: flex;">
+                                  <select id="mycaseid" name="nmycaseid" class="itemName form-control" style="width:300px" required>
+                                    <option value="">--- Select Case Number</option>
+                                    <option value={{a.product_disp.sscc_no}}>{{a.product_disp.sscc_no}}</option>
+                                    <!-- <option value=<?=form_dropdown('casesn', $tnt_casedata, set_value( 'casesn',$casesn), array('class' => 'form-control'),''); ?></option> -->
+                                    </select>
+                                    <button class="btn btn-sm btn-primary" type="button" onclick="showDiv('idshowcase')">Use Case/Item#</button>
+                                  </div>
+                                  </div>
+                                  <div id="idshowcase" class="card" style="height: 310px; display:none" >
+                            <!-- <div class='container-fluid'> </div> -->
+                            <br>
+                            <ul class='htimeline' >
+                              <li class='step col-sm-7'>
+                                <div class='tasks container-fluid'>
+                                  <div class='resource' data-name=''>
+                                    <div class='task col-sm-4'>Lot Number</div>
+                                    <div class='task col-sm-8'> &nbsp; <span id="idlot_number"></span></div>
+                                    <div class='task col-sm-4'>Lot Quantity</div>
+                                    <div class='task col-sm-8'> &nbsp; <span id="idlot_quantity"></span></div>
+                                    <div class='task col-sm-4'>Base Pack Type</div>
+                                    <div class='task col-sm-8'> &nbsp; <span id="idbase_pack_type"></span></div>
+                                    <div class='task col-sm-4'>Product Code Type</div>
+                                    <div class='task col-sm-8'> &nbsp; <span id="idproduct_code_type"></span></div>
+                                    <div class='task col-sm-4'>Origination Date</div>
+                                    <div class='task col-sm-8'> &nbsp; <span id="idorigination_date"></span></div>
+                                    <div class='task col-sm-4'>Expiration Date</div>
+                                    <div class='task col-sm-8'> &nbsp; <span id="idexpiration_date"></span></div>
+                                    <div class='task col-sm-4'>Best Before Date</div>
+                                    <div class='task col-sm-8'> &nbsp; <span id="idbest_before_date"></span></div>
+                                    <div class='task col-sm-4'>Sell By Date</div>
+                                    <div class='task col-sm-8'> &nbsp; <span id="idsell_by_date"></span></div>
+                                    <div class='task col-sm-4'>Retest by date</div>
+                                    <div class='task col-sm-8'> &nbsp; <span id="idretest_by_date"></span></div>
+                                    <div class='task col-sm-4'>Packaged by date</div>
+                                    <div class='task col-sm-8'> &nbsp; <span id="idorigination_date2"></span></div>
+                                    <div class='task col-sm-4'>Packaged/Quality Check Status</div>
+                                    <div class='task col-sm-8'> &nbsp; Samples Tested, Packaged into Pallets/Cases/Items </div>
+                                  </div>
+                                </li>
+                                <h5 align = "centre"; ><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Lot/Batch Data Code <small>(GS1-128)</small></b></h5>
+                                <li class='col-sm-5'>
+                                  <div align = "left"; class='task col-sm-4'> <span id="idbarcode"></span></div>
+                                  <div align = "left"; class='task col-sm-8'> <span id="idbarcodemsg"></span></div>
+
+                                </li>
+                              </ul>
+                            </div>
+                            <!-- </div> -->
+                          </div>
+                    </div>
+                  </div>
+                </div>
+
+          </div>
+                          <!-- /.card body ends-->
+        </div>
+        </div>
+      </div>
+
+      </div>
+                  <!-- End - Second Box Selection options  -->
+
+                  <!-- Small boxes (Ends box) -->
+                </form>
+              </section>
+            </div>
+
+
+            <script type='text/javascript'>
+              function getLotId(vlotid) {
+                //alert(vdivid);
+                var BASE_URL = "";
+                var tempArray = "";
+                //alert(tempArray[vlotid].lot_number);
+                // 10 Batch Number(1-20) //23x Lot Number
+                document.getElementById('idlot_number').innerHTML = tempArray[vlotid].lot_number;
+                document.getElementById('idlot_quantity').innerHTML = tempArray[vlotid].lot_quantity;
+                document.getElementById('idbase_pack_type').innerHTML = tempArray[vlotid].base_pack_type;
+                document.getElementById('idproduct_code_type').innerHTML = tempArray[vlotid].product_code_type;
+                // 11 Production Date
+                document.getElementById('idorigination_date').innerHTML = tempArray[vlotid].origination_date;
+                document.getElementById('idorigination_date2').innerHTML = tempArray[vlotid].origination_date;
+                //13 Packaging Date
+                document.getElementById('idexpiration_date').innerHTML = tempArray[vlotid].expiration_date;
+                //17 Expiration Date
+                document.getElementById('idbest_before_date').innerHTML = tempArray[vlotid].best_before_date;
+                document.getElementById('idsell_by_date').innerHTML = tempArray[vlotid].sell_by_date;// 15 Sell by Date (Quality Control) YYMMDD
+                document.getElementById('idretest_by_date').innerHTML = tempArray[vlotid].retest_by_date;
+                // Generate Lot Details Barcode as per the GS-128
+                //https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Example
+                document.getElementById('idbarcode').innerHTML =
+                '<img  src="https://api.qrserver.com/v1/create-qr-code/?size=90x90&data=' + BASE_URL + '(01)' + tempArray[vlotid].product_code_gtin +'(10)'+ tempArray[vlotid].lot_number +'(11)'+tempArray[vlotid].origination_date+'(17)'+tempArray[vlotid].best_before_date+'&includetext">';
+                document.getElementById('idbarcodemsg').innerHTML = '<small style="line-height:10px;">&nbsp;&nbsp;&nbsp;&nbsp;(01) ' + tempArray[vlotid].product_code_gtin +'<br>&nbsp;&nbsp;&nbsp;&nbsp;(10) '+ tempArray[vlotid].lot_number +'<br>&nbsp;&nbsp;&nbsp;&nbsp;(11) '+tempArray[vlotid].origination_date+'<br>&nbsp;&nbsp;&nbsp;&nbsp;(17) '+tempArray[vlotid].best_before_date+'</small>'
+
+                //document.getElementById('idbarcode').innerHTML =  '<img alt="Barcoded value'+tempArray[vlotid].product_code_gtin+'"src="http://bwipjs-api.metafloor.com/?bcid=code128&text= ' + tempArray[vlotid].product_code_gtin + '&includetext">';
+
+              }
+              </script>
+
+              <script type="text/javascript">
+                function showDiv(vdivid) {
+                  div = document.getElementById(vdivid);
+                  if (div.style.display !== "none") {
+                    div.style.display = "none";
+                    } else {
+                    div.style.display = "block";
+                  }
+
+                }
+
+              </script>
+
+
+              <script type="text/javascript">
+
+                $("#mylotid").select2({
+                  placeholder:"--- Search Lot Number ---",
+                  minimumInputLength: 1,
+                  });
+
+
+                async function lotvalues(){
+                  var searchInput = $("#mylotid").val()
+                  //console.log(searchInput)
+                  let url = "http://api.tracepharm.io:8083/api/v3/products/gtins/{{gnum}}?lot_number=" + searchInput;
+                  await $.get(url, function(data, status){
+                      data=JSON.stringify(data)
+                      obj = JSON.parse(data)
+                      res=obj.Transaction
+
+                  });
+                  let url1 = "http://api.tracepharm.io:8083/api/v3/products/gtins/{{gnum}}/" + searchInput + "/serialnumbers_list";
+                  await $.get(url1, function(data1, status){
+                      data1=JSON.stringify(data1)
+                      obj1 = JSON.parse(data1)
+                      //console.log(obj1.active_serial_list.active__lot_serial_number)
+                      snum_list = obj1.active_serial_list.active__lot_serial_number
+                      //res=obj1.Transaction
+
+                  });
+                  //console.log(res)
+                  //console.log(url)
+                  var html_to_append = '';
+
+                  html_to_append +="<ul class='htimeline' ><li class='step col-sm-7'><div class='tasks container-fluid'><div class='resource' data-name=''><div class='task col-sm-4' style='font-size:90%'>Lot Number</div><div class='task col-sm-8' style='font-size:90%'>&nbsp;"+searchInput+ "<span id='idbase_pack_type'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>NDC</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;{{gnum}}<span id='idproduct_code_type'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>Manufacturer Date</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.manufacturing_date +"<span id='idorigination_date'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>Expiry Date</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.expiry_date+"<span id='idorigination_date'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>Total No of Items</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.total_items_count+"<span id='idorigination_date'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>Manufacturer Name</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.manufacturer_name+"<span id='idorigination_date'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>Manufacturer Location</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.manufacturer_location+"<span id='idorigination_date'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>Manufacturer GLN</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.manufacturer_gln+"<span id='idorigination_date'></span></div></li>"+
+                    "<h5 align = 'centre'; ><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Lot/Batch Data Code <small>(GS1-128)</small></b></h5>"+
+                    "<li class='col-sm-5'><div align = 'left' class='task col-sm-4'><img  src='https://api.qrserver.com/v1/create-qr-code/?size=90x90&data=(01){{gnum}}/(10)"+searchInput+'/(11)'+res.manufacturing_date+'/(17)'+res.expiry_date+"'></div><div align = 'left' class='task col-sm-8'>"+
+                    "<small style='line-height:10px;'>&nbsp;&nbsp;&nbsp;&nbsp;(01){{gnum}}<br>&nbsp;&nbsp;&nbsp;&nbsp;(10)"+searchInput +"<br>&nbsp;&nbsp;&nbsp;&nbsp;(11)"+res.manufacturing_date+"<br>&nbsp;&nbsp;&nbsp;&nbsp;(17)"+res.expiry_date+"</small></div></li></ul>"
+                   $("#idshowlot").html(html_to_append);
+                   var html_append1 = '';
+                   for(var key in snum_list) {
+                          var value = snum_list[key];
+                            html_append1+="<option value="+value+">"+value+"</option>"
+                            }
+                         //console.log(html_append1)
+                   $("#mypalletid").append(html_append1);
+
+                }
+
+
+                async function serialvalues(){
+                  var searchInput = $("#mylotid").val()
+                  var serialInput = $("#mypalletid").val()
+                  //console.log(searchInput)
+                  let url = "http://api.tracepharm.io:8083/api/v3/products/gtins/{{gnum}}?lot_number=" + searchInput +"&serialNumber=" + serialInput ;
+                  await $.get(url, function(data, status){
+                      data=JSON.stringify(data)
+                      obj = JSON.parse(data)
+                      res=obj.Transaction
+
+                  });
+
+
+                  var html_to_appendserial = '';
+
+                  html_to_appendserial +="<ul class='htimeline' ><li class='step col-sm-7'><div class='tasks container-fluid'><div class='resource' data-name=''><div class='task col-sm-4' style='font-size:90%'>Lot Number</div><div class='task col-sm-8' style='font-size:90%'>&nbsp;"+searchInput+ "<span id='idbase_pack_type'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>NDC</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;{{gnum}}<span id='idproduct_code_type'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>Manufacturer Date</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.manufacturing_date +"<span id='idorigination_date'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>Expiry Date</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.expiry_date+"<span id='idorigination_date'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>Total No of Items</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.total_items_count+"<span id='idorigination_date'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>Manufacturer Name</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.manufacturer_name+"<span id='idorigination_date'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>Manufacturer Location</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.manufacturer_location+"<span id='idorigination_date'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>Manufacturer GLN</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.manufacturer_gln+"<span id='idorigination_date'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>Product Status</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.product_status+"<span id='idorigination_date'></span></div></div></div></li>"+
+                    "<h5 align = 'centre'; ><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Serial Data Code <small>(GS1-128)</small></b></h5>"+
+                    "<li class='col-sm-5'><div align = 'left'; class='task col-sm-4'><img  src='https://api.qrserver.com/v1/create-qr-code/?size=90x90&data=(01){{gnum}}/+(10)serialInput/+(11)res.manufacturing_date/+(17)res.expiry_date'></div><div align = 'left'; class='task col-sm-8'>"+
+                    "<small style='line-height:10px;'>&nbsp;&nbsp;&nbsp;&nbsp;(01){{gnum}}<br>&nbsp;&nbsp;&nbsp;&nbsp;(21)"+serialInput +"<br>&nbsp;&nbsp;&nbsp;&nbsp;(11)"+res.manufacturing_date+"<br>&nbsp;&nbsp;&nbsp;&nbsp;(17)"+res.expiry_date+"</small></div></li>"+
+                    "<br><br><br><br><br><br><br><br><br><br><br><br><br><br><span style='float:right; padding-bottom: 8px;' ><a class='btn btn-success' href='/tracenew/{{gnum}}/"+serialInput+"'> <i class='fa fa-share-alt-square' aria-hidden='true'></i>&nbsp; Trace&nbsp;</a>&nbsp; &nbsp; &nbsp;</span></ul>"
+                   $("#idshowpallet").html(html_to_appendserial);
+
+
+                }
+
+
+
+
+                async function ssccvalues(){
+
+                  var ssccInput = $("#myssccid").val()
+                  //console.log(searchInput)
+                  let url2 = "http://api.tracepharm.io:8083/api/v3/package/gtins/{{gnum}}?sscc=" + ssccInput ;
+                  await $.get(url2, function(data, status){
+                      data=JSON.stringify(data)
+                      obj = JSON.parse(data)
+                      res=obj.Transaction
+                      console.log(res)
+                      console.log(url2)
+                  });
+
+
+                  var html_to_appendsscc = '';
+
+                  html_to_appendsscc +="<ul class='htimeline' ><li class='step col-sm-7'><div class='tasks container-fluid'><div class='resource' data-name=''><div class='task col-sm-4' style='font-size:90%'>SSCC Number</div><div class='task col-sm-8' style='font-size:90%'>&nbsp;"+ssccInput+ "<span id='idbase_pack_type'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>NDC</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;{{gnum}}<span id='idproduct_code_type'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>Package Type</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.package_type +"<span id='idorigination_date'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>Inner Contents</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.inner_content_count+"<span id='idorigination_date'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>Package Dimensions</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.pcakge_dimensions+"<span id='idorigination_date'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>Package Weight</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.package_weight+"<span id='idorigination_date'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>Package Evidence</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.package_evidence+"<span id='idorigination_date'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>Product Status</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.product_status+"<span id='idorigination_date'></span></div></div></div></li>"+
+                    "<h5 align = 'centre'; ><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SSCC Data Code <small>(GS1-128)</small></b></h5>"+
+                    "<li class='col-sm-5'><div align = 'left'; class='task col-sm-4'><img  src='https://api.qrserver.com/v1/create-qr-code/?size=90x90&data=(01){{gnum}}/+(10)ssccInput/+(11)res.manufacturing_date/+(17)res.expiry_date'></div><div align = 'left'; class='task col-sm-8'>"+
+                    "<small style='line-height:10px;'>&nbsp;&nbsp;&nbsp;&nbsp;(01){{gnum}}<br>&nbsp;&nbsp;&nbsp;&nbsp;(00)"+ssccInput +"</small></div></li>"+
+                    "<br><br><br><br><br><br><br><br><br><br><br><br><br><br><span style='float:right; padding-bottom: 8px;' ><a class='btn btn-danger' href='/tracknew/{{gnum}}/"+ssccInput+"'> <i class='fa fa-map-marker' aria-hidden='true'></i>&nbsp; Track&nbsp;</a>&nbsp; &nbsp; &nbsp;</span></ul>"
+
+                   $("#idshowsscc").html(html_to_appendsscc);
+                }
+
+
+                  $('#mycaseid').select2({
+                  placeholder:"--- Search Case Number ---",
+
+                  });
+                  $('#myssccid').select2({
+                    placeholder:"--- Search SSCC Number ---",
+                                    minimumInputLength: -1,
+                  });
+                  $('#mypalletid').select2({
+                    placeholder:"--- Search Serial Number ---",
+                    minimumInputLength: 1,
+
+
+                  });
+              </script>
+
+
+
+
+{%endif%}
+{%endif%}
+
+
+
+{%if i.organization_id == '5' %}
+      {%if i.role == '1' %}
+
+
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <h1>
+            Track & Trace <small>Click <b style="color:red">Track</b> current status or  <b style=" color:green">Trace</b> to know end to end journey of your product/Logistic Asset</small>
+          </h1>
+          <ol class="breadcrumb">
+            <li><a href="{% url 'dashboard1'%}"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active"><a href="{% url 'tracktrace'%}">Search Product</a></li>
+            <li class="active"><a href="{% url 'tracktrace'%}">Track & Trace</a></li>
+          </ol>
+
+        </section>
+        <!--
+          <div class="bs-example" data-example-id="simple-jumbotron">
+          <div class="jumbotron">
+          </div>
+        </div>  -->
+        <!-- Main content -->
+        <section class="content">
+          <form >
+            <!-- Small boxes (Stat box) -->
+            <div class="row">
+              <div class="col-md-12 bg-light text-right"></div>
+              <!-- Start-First Box Selection options  -->
+              <div id="sel1"  class="col-lg-4" style="background-color: #fff; border:0.5px solid grey; padding-right: 5px;padding-left: 5px;">
+                <div class="card" style="height: 555px;">
+                  <div class="card card-default card-tabs">
+                    <img align = "right"; style="border:0.5px solid grey; position: float; z-index: 1;" width="120"; height= "120"; src= "{{result.image}}"/>
+                    <h5 class="card-title"><span class="label label-default	">Your Selected Product-NDC & GTIN Details</span></h5>
+                    <div class="form-group">
+
+                      <select id="" name="" class="itemName form-control" style="width:180px" value="" disabled >
+
+                        <option value="">{{gnum}}</option>
+                      </select>
+
+                      <!-- <select id="gtinid" name="ngtinid" class="itemName form-control" style="width:180px" value="" disabled ></select> -->
+                    </div>
+                    <hr style="background-color: #fff; border:0.1px solid grey;">
+                    <h5 align = "left";><b>Supplier’s Catalogue/ Master Data</b></h5>
+                    <section>
+            <div class='container-fluid'>
+              <img width="150"; height= "50"; alt="Barcoded value <?php echo $tntmasterdata['product_code_gtin'];?>" src="http://bwipjs-api.metafloor.com/?bcid=code128&text=<?php echo $tntmasterdata['product_code_gtin'];?>&includetext">
+                    </div>
+
+                    <ul class='htimeline'>
+                      <li class='step col-sm-12'>
+                        <div class='tasks container-fluid'>
+                          <div class='resource' data-name=''>
+                            <div class='task col-sm-4' style="font-size:90%">Generic Name</div>
+                            <div class='task col-sm-8' style="font-size:90%">&nbsp;{{result.product_name}}</div>
+                <div class='task col-sm-4' style="font-size:90%">Product GTIN</div>
+                            <div class='task col-sm-8' style="font-size:90%">&nbsp;{{gnum}}</div>
+               <div class='task col-sm-4' style="font-size:90%">Product NDC</div>
+              <div class='task col-sm-8' style="font-size:90%">&nbsp;{{result.product_ndc}}</div>
+                            <div class='task col-sm-4' style="font-size:90%">Brand Name</div>
+                            <div class='task col-sm-8' style="font-size:90%">&nbsp;{{result.brand_name}}</div>
+              <div class='task col-sm-4' style="font-size:90%">Product Description</div>
+                            <div class='task col-sm-8' style="font-size:90%">&nbsp;{{result.product_description}}</div>
+              <div class='task col-sm-4' style="font-size:90%">Strength</div>
+                            <div class='task col-sm-8' style="font-size:90%">&nbsp;{{result.dosage_strength}}</div>
+              <div class='task col-sm-4' style="font-size:90%">Dosage Form</div>
+                            <div class='task col-sm-8' style="font-size:90%">&nbsp;{{result.dosage_from}}</div>
+
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                    </section>
+                  </div>
+
+                </div>
+
+              </div>
+              <!-- End - First Box Selection options  -->
+
+
+
+              <!-- Start-Second Box Selection options  -->
+              <div id="sel2"  class="col-lg-8" style="background-color: #fff; border:0.5px solid grey; padding-right: 5px;padding-left: 5px;">
+                <div class="card" style="height: 555px;">
+                  <div class="card card-primary card-tabs">
+                    <h5 class="card-title"><span class="label label-primary">Select Lot# / SSCC# / Case#... of your selected product!</span></h5>
+
+                    <!--
+                    <div class="form-group">
+                            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <button id="btn1" title="Click here to Track" name="tnttype" value="100" class="btn btn-danger btn-md float-right"  type="submit" style="margin-top : 8px; line-height: 1.3; font-size: 14px; "  ><i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp; Track&nbsp;</button>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
+                    </div> -->
+                    <div class="card-header p-0" style="padding-right: 0px;padding-left: 0px;line-height: 1.5;" >
+                <ul class="nav nav-tabs" id="custom-tabs-one-tab"  role="tablist">
+                  <li class="nav-item" >
+                    <a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill" href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" style=" font-size: 12px;  line-height: 0.5; margin-top : 8px; " aria-selected="true">Lot/ Batch#</a>
+                  </li>
+
+                  <li class="nav-item">
+                    <a class="nav-link" id="custom-tabs-one-messages-tab" data-toggle="pill" href="#custom-tabs-one-messages" role="tab" aria-controls="custom-tabs-one-messages" style=" font-size: 12px;  line-height: 0.5; margin-top : 8px; " aria-selected="false">Serial Number#</a>
+                  </li>
+
+                  <!-- <li class="nav-item">
+                    <a class="nav-link" id="custom-tabs-one-settings-tab" data-toggle="pill" href="#custom-tabs-one-settings" role="tab" aria-controls="custom-tabs-one-settings" style=" font-size: 12px;  line-height: 0.5; margin-top : 8px; " aria-selected="false">Case/Item#</a>
+                  </li> -->
+                  <li class="nav-item">
+                    <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" style=" font-size: 12px;  line-height: 0.5; margin-top : 8px; " aria-selected="false">SSCC#</a>
+                  </li>
+                  <!--
+                  <li class="nav-item">
+                    <div class="form-group">
+                      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <button id="btn1" title="Click here to Track" name="tnttype" value="100" class="btn btn-danger btn-md float-right"  type="submit" style="margin-top : 8px; line-height: 1.3; font-size: 14px; "  ><i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp; Track&nbsp;</button>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
+                    </div>
+                  </li>
+                  <li class="nav-item">
+                    <div class="form-group">
+                      <button id="btn2" title="Click here to Track" name="tnttype" value="200"  class="btn btn-success btn-md float-right" type="submit"  style="margin-top : 8px; line-height: 1.3; font-size: 14px; "><i class="fa fa-share-alt-square" aria-hidden="true"></i>&nbsp; Trace&nbsp;</button>&nbsp;
+                    </div>
+                  </li> -->
+                </ul>
+            <br>
+                <!-- /.card body Starts-->
+                <div class="card-body">
+                  <div class="tab-content" id="custom-tabs-one-tabContent">
+                    <div class="tab-pane fade" id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
+                      <div class="card-body">
+                        <!--  <h6 class="card-title" style="font-size:1rem;"><b><button class="btn btn-sm btn-default" type="button">Select Lot/Batch#</button></b></h6> -->
+                        <div class="search-container">
+                          <div class="form-group" style="display: flex;">
+                            <select id="mylotid" name="nmylotid" class="itemName form-control" style="width:300px"  required>
+                              <option value="">--- Select Lot Number ---</option>
+                              <!-- <option value=<?=form_dropdown('lotnumber', $tnt_lotdata, set_value( 'lotnumber',$lotnumber), array('class' => 'form-control'),"id='idsscc' ");?></option> -->
+                              {% for i in lotresult %}
+                              <option value={{i}}>{{i}}</option>
+                              {% endfor %}
+
+                                                        </select>
+                            <button class="btn btn-sm btn-primary"  type="button" onclick="lotvalues()">Use LOT#</button>
+                              &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<p><b>Active Lot Count : {{lotresultcount}}</b></p>
+                          </div>
+                          </div>
+                        <br><br>
+                          <!-- <div id="#"  class="col-lg-12" style="height: 310px; background-color: #fff; border:0.5px solid grey; padding-right: 5px;padding-left: 5px;"> -->
+                          <div id="idshowlot" class="card" style="height: 310px;" >
+                            <!-- <div class='container-fluid'> </div> -->
+
+                          </div>
+
+                            <!-- </div> -->
+                          </div>
+                    </div>
+                    <div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
+                          <div class="card-body">
+                            <!-- <h6 class="card-title" style="font-size:1rem;"><b><button class="btn btn-sm btn-default" type="button">Select SSCC#</button></b></h6> -->
+                            <div class="search-container">
+                              <div class="form-group" style="display: flex;">
+                                <select id="myssccid" name="nmyssccid" class="itemName form-control" style="width:300px" required>
+                                  <!-- <option value=<?=form_dropdown('ssccnumber', $tnt_ssccdata, set_value( 'ssccnumber',$ssccnumber), array('class' => 'form-control'),"id='idsscc' ");?></option> -->
+                                  <option value="">--- Select SSCC Number ---</option>
+                                  {% for i in ssccresult %}
+                                  <option value={{i}}>{{i}}</option>
+                                  {% endfor %}
+                                                                </select>
+                                  <button class="btn btn-sm btn-primary" type="button" onclick="ssccvalues()">Use SSCC#</button>
+
+                                </div>
+                              </div><br>
+                              <div id="idshowsscc" class="card" style="height: 310px;" >
+                            <!-- <div class='container-fluid'> </div> -->
+                            <br>
+                            </div>
+                            <!-- </div> -->
+                          </div>
+                    </div>
+                    <div class="tab-pane fade" id="custom-tabs-one-messages" role="tabpanel" aria-labelledby="custom-tabs-one-messages-tab">
+                            <div class="card-body">
+                              <!-- 														<h6 class="card-title" style="font-size:1rem;"><b><button class="btn btn-sm btn-default" type="button">Select Pallet#</button></b></h6> -->
+                              <div class="search-container">
+                                <div class="form-group" style="display: flex;">
+                                  <select id="mypalletid" name="nmypalletid" class="itemName form-control" style="width:300px" required>
+
+                                    <option value="">--- Select Serial Number ---</option>
+      <!--																		<option value={{a.product_disp.product.serial_number}}>{{a.product_disp.product.serial_number}}</option>-->
+                                    <!-- <option value=<?=form_dropdown('palletsn', $tnt_palletdata, set_value('palletsn',$palletsn), array('class' => 'form-control'),"id='idpallet' ");?></option> -->
+                                    </select>
+                                    <button class="btn btn-sm btn-primary" type="button" onclick="serialvalues()">Use Serial#</button>
+
+                                  </div>
+                                </div><br><br>
+                                <div id="idshowpallet" class="card" style="height: 310px;" >
+                            <!-- <div class='container-fluid'> </div> -->
+                            <br>
+                            <!-- <ul class='htimeline' >
+                              <li class='step col-sm-7'>
+                                <div class='tasks container-fluid'>
+                                  <div class='resource' data-name=''>
+                                    <div class='task col-sm-4'>Lot Number</div>
+                                    <div class='task col-sm-8'> &nbsp;{{a.product_disp.lot.lot_number}} <span id="idbase_pack_type"></span></div>
+                                    <div class='task col-sm-4'>GTIN</div>
+                                    <div class='task col-sm-8'> &nbsp; {{a.product_disp.product.product_code_gtin}}<span id="idproduct_code_type"></span></div>
+                                    <div class='task col-sm-4'>Total Number of Items</div>
+                                    <div class='task col-sm-8'> &nbsp; {{a.product_disp.lot.total_quantity}}<span id="idorigination_date"></span></div>
+                                    <div class='task col-sm-4'>Manufacturing Date</div>
+                                    <div class='task col-sm-8'> &nbsp; {{a.product_disp.product.mfg_date}}<span id="idlot_quantity"></span></div>
+                                    <div class='task col-sm-4'>Expiry Date</div>
+                                    <div class='task col-sm-8'> &nbsp;{{a.product_disp.product.expiry_date}} <span id="idlot_number"></span></div>
+                                    <div class='task col-sm-4'>List of Serial Numbers </div>
+                                    <div class='task col-sm-8'> &nbsp; Not Available<span id="idexpiration_date"></span></div>
+                                    <div class='task col-sm-4'>Manufacturer Name</div>
+                                    <div class='task col-sm-8'> &nbsp; {{a.product_disp.product.manufacturer_name}} <span id="idbest_before_date"></span></div>
+                                    <div class='task col-sm-4'>Manufacturer Address</div>
+                                    <div class='task col-sm-8'> &nbsp;{{a.product_disp.sender_location}} <span id="idsell_by_date"></span></div>
+                                    <div class='task col-sm-4'>Manufacturer GLN</div>
+                                    <div class='task col-sm-8'> &nbsp;{{a.product_disp.product.manufacturer_gln}} <span id="idretest_by_date"></span></div>
+                                    <div class='task col-sm-4'>Product Status</div>
+                                    <div class='task col-sm-8'> &nbsp;Active <span id="idretest_by_date"></span></div>
+                                  </div>
+                                </li>
+                                <h5 align = "centre"; ><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Serial Data Code <small>(GS1-128)</small></b></h5>
+                                <li class='col-sm-5'>
+                                  <div align = "left"; class='task col-sm-4'><img  src="https://api.qrserver.com/v1/create-qr-code/?size=90x90&data={{a.product_disp.product.product_code_gtin}}"></div>
+                                  <div align = "left"; class='task col-sm-8'> <span id="idbarcodemsg"></span></div>
+
+                                </li>
+                              </ul> -->
+                            </div>
+                            <!-- </div> -->
+                          </div>
+                    </div>
+                    <div class="tab-pane fade" id="custom-tabs-one-settings" role="tabpanel" aria-labelledby="custom-tabs-one-settings-tab">
+                              <div class="card-body">
+                                <!--dropdown input-->
+                                <!--															<h6 class="card-title" style="font-size:1rem;"><b><button class="btn btn-sm btn-default" type="button">Select Case#</button></b></h6> -->
+                                <div class="search-container">
+                                  <div class="form-group" style="display: flex;">
+                                  <select id="mycaseid" name="nmycaseid" class="itemName form-control" style="width:300px" required>
+                                    <option value="">--- Select Case Number</option>
+                                    <option value={{a.product_disp.sscc_no}}>{{a.product_disp.sscc_no}}</option>
+                                    <!-- <option value=<?=form_dropdown('casesn', $tnt_casedata, set_value( 'casesn',$casesn), array('class' => 'form-control'),''); ?></option> -->
+                                    </select>
+                                    <button class="btn btn-sm btn-primary" type="button" onclick="showDiv('idshowcase')">Use Case/Item#</button>
+                                  </div>
+                                  </div>
+                                  <div id="idshowcase" class="card" style="height: 310px; display:none" >
+                            <!-- <div class='container-fluid'> </div> -->
+                            <br>
+                            <ul class='htimeline' >
+                              <li class='step col-sm-7'>
+                                <div class='tasks container-fluid'>
+                                  <div class='resource' data-name=''>
+                                    <div class='task col-sm-4'>Lot Number</div>
+                                    <div class='task col-sm-8'> &nbsp; <span id="idlot_number"></span></div>
+                                    <div class='task col-sm-4'>Lot Quantity</div>
+                                    <div class='task col-sm-8'> &nbsp; <span id="idlot_quantity"></span></div>
+                                    <div class='task col-sm-4'>Base Pack Type</div>
+                                    <div class='task col-sm-8'> &nbsp; <span id="idbase_pack_type"></span></div>
+                                    <div class='task col-sm-4'>Product Code Type</div>
+                                    <div class='task col-sm-8'> &nbsp; <span id="idproduct_code_type"></span></div>
+                                    <div class='task col-sm-4'>Origination Date</div>
+                                    <div class='task col-sm-8'> &nbsp; <span id="idorigination_date"></span></div>
+                                    <div class='task col-sm-4'>Expiration Date</div>
+                                    <div class='task col-sm-8'> &nbsp; <span id="idexpiration_date"></span></div>
+                                    <div class='task col-sm-4'>Best Before Date</div>
+                                    <div class='task col-sm-8'> &nbsp; <span id="idbest_before_date"></span></div>
+                                    <div class='task col-sm-4'>Sell By Date</div>
+                                    <div class='task col-sm-8'> &nbsp; <span id="idsell_by_date"></span></div>
+                                    <div class='task col-sm-4'>Retest by date</div>
+                                    <div class='task col-sm-8'> &nbsp; <span id="idretest_by_date"></span></div>
+                                    <div class='task col-sm-4'>Packaged by date</div>
+                                    <div class='task col-sm-8'> &nbsp; <span id="idorigination_date2"></span></div>
+                                    <div class='task col-sm-4'>Packaged/Quality Check Status</div>
+                                    <div class='task col-sm-8'> &nbsp; Samples Tested, Packaged into Pallets/Cases/Items </div>
+                                  </div>
+                                </li>
+                                <h5 align = "centre"; ><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Lot/Batch Data Code <small>(GS1-128)</small></b></h5>
+                                <li class='col-sm-5'>
+                                  <div align = "left"; class='task col-sm-4'> <span id="idbarcode"></span></div>
+                                  <div align = "left"; class='task col-sm-8'> <span id="idbarcodemsg"></span></div>
+
+                                </li>
+                              </ul>
+                            </div>
+                            <!-- </div> -->
+                          </div>
+                    </div>
+                  </div>
+                </div>
+
+          </div>
+                          <!-- /.card body ends-->
+        </div>
+        </div>
+      </div>
+
+      </div>
+                  <!-- End - Second Box Selection options  -->
+
+                  <!-- Small boxes (Ends box) -->
+                </form>
+              </section>
+            </div>
+
+
+            <script type='text/javascript'>
+              function getLotId(vlotid) {
+                //alert(vdivid);
+                var BASE_URL = "";
+                var tempArray = "";
+                //alert(tempArray[vlotid].lot_number);
+                // 10 Batch Number(1-20) //23x Lot Number
+                document.getElementById('idlot_number').innerHTML = tempArray[vlotid].lot_number;
+                document.getElementById('idlot_quantity').innerHTML = tempArray[vlotid].lot_quantity;
+                document.getElementById('idbase_pack_type').innerHTML = tempArray[vlotid].base_pack_type;
+                document.getElementById('idproduct_code_type').innerHTML = tempArray[vlotid].product_code_type;
+                // 11 Production Date
+                document.getElementById('idorigination_date').innerHTML = tempArray[vlotid].origination_date;
+                document.getElementById('idorigination_date2').innerHTML = tempArray[vlotid].origination_date;
+                //13 Packaging Date
+                document.getElementById('idexpiration_date').innerHTML = tempArray[vlotid].expiration_date;
+                //17 Expiration Date
+                document.getElementById('idbest_before_date').innerHTML = tempArray[vlotid].best_before_date;
+                document.getElementById('idsell_by_date').innerHTML = tempArray[vlotid].sell_by_date;// 15 Sell by Date (Quality Control) YYMMDD
+                document.getElementById('idretest_by_date').innerHTML = tempArray[vlotid].retest_by_date;
+                // Generate Lot Details Barcode as per the GS-128
+                //https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Example
+                document.getElementById('idbarcode').innerHTML =
+                '<img  src="https://api.qrserver.com/v1/create-qr-code/?size=90x90&data=' + BASE_URL + '(01)' + tempArray[vlotid].product_code_gtin +'(10)'+ tempArray[vlotid].lot_number +'(11)'+tempArray[vlotid].origination_date+'(17)'+tempArray[vlotid].best_before_date+'&includetext">';
+                document.getElementById('idbarcodemsg').innerHTML = '<small style="line-height:10px;">&nbsp;&nbsp;&nbsp;&nbsp;(01) ' + tempArray[vlotid].product_code_gtin +'<br>&nbsp;&nbsp;&nbsp;&nbsp;(10) '+ tempArray[vlotid].lot_number +'<br>&nbsp;&nbsp;&nbsp;&nbsp;(11) '+tempArray[vlotid].origination_date+'<br>&nbsp;&nbsp;&nbsp;&nbsp;(17) '+tempArray[vlotid].best_before_date+'</small>'
+
+                //document.getElementById('idbarcode').innerHTML =  '<img alt="Barcoded value'+tempArray[vlotid].product_code_gtin+'"src="http://bwipjs-api.metafloor.com/?bcid=code128&text= ' + tempArray[vlotid].product_code_gtin + '&includetext">';
+
+              }
+              </script>
+
+              <script type="text/javascript">
+                function showDiv(vdivid) {
+                  div = document.getElementById(vdivid);
+                  if (div.style.display !== "none") {
+                    div.style.display = "none";
+                    } else {
+                    div.style.display = "block";
+                  }
+
+                }
+
+              </script>
+
+
+              <script type="text/javascript">
+
+                $("#mylotid").select2({
+                  placeholder:"--- Search Lot Number ---",
+                  minimumInputLength: 1,
+                  });
+                async function lotvalues(){
+                  var searchInput = $("#mylotid").val()
+                  //console.log(searchInput)
+                  let url = "http://api.tracepharm.io:8083/api/v3/products/gtins/{{gnum}}?lot_number=" + searchInput;
+                  await $.get(url, function(data, status){
+                      data=JSON.stringify(data)
+                      obj = JSON.parse(data)
+                      res=obj.Transaction
+
+                  });
+                  let url1 = "http://api.tracepharm.io:8083/api/v3/products/gtins/{{gnum}}/" + searchInput + "/serialnumbers_list";
+                  await $.get(url1, function(data1, status){
+                      data1=JSON.stringify(data1)
+                      obj1 = JSON.parse(data1)
+                      //console.log(obj1.active_serial_list.active__lot_serial_number)
+                      snum_list = obj1.active_serial_list.active__lot_serial_number
+                      //res=obj1.Transaction
+
+                  });
+                  //console.log(res)
+                  //console.log(url)
+                  var html_to_append = '';
+
+                  html_to_append +="<ul class='htimeline' ><li class='step col-sm-7'><div class='tasks container-fluid'><div class='resource' data-name=''><div class='task col-sm-4' style='font-size:90%'>Lot Number</div><div class='task col-sm-8' style='font-size:90%'>&nbsp;"+searchInput+ "<span id='idbase_pack_type'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>NDC</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;{{gnum}}<span id='idproduct_code_type'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>Manufacturer Date</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.manufacturing_date +"<span id='idorigination_date'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>Expiry Date</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.expiry_date+"<span id='idorigination_date'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>Total No of Items</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.total_items_count+"<span id='idorigination_date'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>Manufacturer Name</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.manufacturer_name+"<span id='idorigination_date'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>Manufacturer Location</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.manufacturer_location+"<span id='idorigination_date'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>Manufacturer GLN</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.manufacturer_gln+"<span id='idorigination_date'></span></div></li>"+
+                    "<h5 align = 'centre'; ><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Lot/Batch Data Code <small>(GS1-128)</small></b></h5>"+
+                    "<li class='col-sm-5'><div align = 'left' class='task col-sm-4'><img  src='https://api.qrserver.com/v1/create-qr-code/?size=90x90&data=(01){{gnum}}/(10)"+searchInput+'/(11)'+res.manufacturing_date+'/(17)'+res.expiry_date+"'></div><div align = 'left' class='task col-sm-8'>"+
+                    "<small style='line-height:10px;'>&nbsp;&nbsp;&nbsp;&nbsp;(01){{gnum}}<br>&nbsp;&nbsp;&nbsp;&nbsp;(10)"+searchInput +"<br>&nbsp;&nbsp;&nbsp;&nbsp;(11)"+res.manufacturing_date+"<br>&nbsp;&nbsp;&nbsp;&nbsp;(17)"+res.expiry_date+"</small></div></li></ul>"
+                   $("#idshowlot").html(html_to_append);
+                   var html_append1 = '';
+                   for(var key in snum_list) {
+                          var value = snum_list[key];
+                            html_append1+="<option value="+value+">"+value+"</option>"
+                            }
+                         //console.log(html_append1)
+                   $("#mypalletid").append(html_append1);
+
+                }
+
+
+                async function serialvalues(){
+                  var searchInput = $("#mylotid").val()
+                  var serialInput = $("#mypalletid").val()
+                  //console.log(searchInput)
+                  let url = "http://api.tracepharm.io:8083/api/v3/products/gtins/{{gnum}}?lot_number=" + searchInput +"&serialNumber=" + serialInput ;
+                  await $.get(url, function(data, status){
+                      data=JSON.stringify(data)
+                      obj = JSON.parse(data)
+                      res=obj.Transaction
+
+                  });
+
+
+                  var html_to_appendserial = '';
+
+                  html_to_appendserial +="<ul class='htimeline' ><li class='step col-sm-7'><div class='tasks container-fluid'><div class='resource' data-name=''><div class='task col-sm-4' style='font-size:90%'>Lot Number</div><div class='task col-sm-8' style='font-size:90%'>&nbsp;"+searchInput+ "<span id='idbase_pack_type'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>NDC</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;{{gnum}}<span id='idproduct_code_type'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>Manufacturer Date</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.manufacturing_date +"<span id='idorigination_date'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>Expiry Date</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.expiry_date+"<span id='idorigination_date'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>Total No of Items</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.total_items_count+"<span id='idorigination_date'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>Manufacturer Name</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.manufacturer_name+"<span id='idorigination_date'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>Manufacturer Location</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.manufacturer_location+"<span id='idorigination_date'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>Manufacturer GLN</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.manufacturer_gln+"<span id='idorigination_date'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>Product Status</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.product_status+"<span id='idorigination_date'></span></div></div></div></li>"+
+                    "<h5 align = 'centre'; ><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Serial Data Code <small>(GS1-128)</small></b></h5>"+
+                    "<li class='col-sm-5'><div align = 'left'; class='task col-sm-4'><img  src='https://api.qrserver.com/v1/create-qr-code/?size=90x90&data=(01){{gnum}}/+(10)serialInput/+(11)res.manufacturing_date/+(17)res.expiry_date'></div><div align = 'left'; class='task col-sm-8'>"+
+                    "<small style='line-height:10px;'>&nbsp;&nbsp;&nbsp;&nbsp;(01){{gnum}}<br>&nbsp;&nbsp;&nbsp;&nbsp;(21)"+serialInput +"<br>&nbsp;&nbsp;&nbsp;&nbsp;(11)"+res.manufacturing_date+"<br>&nbsp;&nbsp;&nbsp;&nbsp;(17)"+res.expiry_date+"</small></div></li>"+
+                    "<br><br><br><br><br><br><br><br><br><br><br><br><br><br><span style='float:right; padding-bottom: 8px;' ><a class='btn btn-success' href='/tracenew/{{gnum}}/"+serialInput+"'> <i class='fa fa-share-alt-square' aria-hidden='true'></i>&nbsp; Trace&nbsp;</a>&nbsp; &nbsp; &nbsp;</span></ul>"
+                   $("#idshowpallet").html(html_to_appendserial);
+
+
+                }
+
+
+
+
+                async function ssccvalues(){
+
+                  var ssccInput = $("#myssccid").val()
+                  //console.log(searchInput)
+                  let url2 = "http://api.tracepharm.io:8083/api/v3/package/gtins/{{gnum}}?sscc=" + ssccInput ;
+                  await $.get(url2, function(data, status){
+                      data=JSON.stringify(data)
+                      obj = JSON.parse(data)
+                      res=obj.Transaction
+                      console.log(res)
+                      console.log(url2)
+                  });
+
+
+                  var html_to_appendsscc = '';
+
+                  html_to_appendsscc +="<ul class='htimeline' ><li class='step col-sm-7'><div class='tasks container-fluid'><div class='resource' data-name=''><div class='task col-sm-4' style='font-size:90%'>SSCC Number</div><div class='task col-sm-8' style='font-size:90%'>&nbsp;"+ssccInput+ "<span id='idbase_pack_type'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>NDC</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;{{gnum}}<span id='idproduct_code_type'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>Package Type</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.package_type +"<span id='idorigination_date'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>Inner Contents</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.inner_content_count+"<span id='idorigination_date'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>Package Dimensions</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.pcakge_dimensions+"<span id='idorigination_date'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>Package Weight</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.package_weight+"<span id='idorigination_date'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>Package Evidence</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.package_evidence+"<span id='idorigination_date'></span></div>"+
+                    "<div class='task col-sm-4' style='font-size:90%'>Product Status</div><div class='task col-sm-8' style='font-size:90%'> &nbsp;"+ res.product_status+"<span id='idorigination_date'></span></div></div></div></li>"+
+                    "<h5 align = 'centre'; ><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SSCC Data Code <small>(GS1-128)</small></b></h5>"+
+                    "<li class='col-sm-5'><div align = 'left'; class='task col-sm-4'><img  src='https://api.qrserver.com/v1/create-qr-code/?size=90x90&data=(01){{gnum}}/+(10)ssccInput/+(11)res.manufacturing_date/+(17)res.expiry_date'></div><div align = 'left'; class='task col-sm-8'>"+
+                    "<small style='line-height:10px;'>&nbsp;&nbsp;&nbsp;&nbsp;(01){{gnum}}<br>&nbsp;&nbsp;&nbsp;&nbsp;(00)"+ssccInput +"</small></div></li>"+
+                    "<br><br><br><br><br><br><br><br><br><br><br><br><br><br><span style='float:right; padding-bottom: 8px;' ><a class='btn btn-danger' href='/tracknew/{{gnum}}/"+ssccInput+"'> <i class='fa fa-map-marker' aria-hidden='true'></i>&nbsp; Track&nbsp;</a>&nbsp; &nbsp; &nbsp;</span></ul>"
+
+                   $("#idshowsscc").html(html_to_appendsscc);
+                }
+
+
+                  $('#mycaseid').select2({
+                  placeholder:"--- Search Case Number ---",
+
+                  });
+                  $('#myssccid').select2({
+                    placeholder:"--- Search SSCC Number ---",
+                                    minimumInputLength: -1,
+                  });
+                  $('#mypalletid').select2({
+                    placeholder:"--- Search Serial Number ---",
+                    minimumInputLength: 1,
+
+
+                  });
+              </script>
+
+<script>
+    $("#mypalletid").empty();
+</script>
+
+
+{%endif%}
+{%endif%}
+
+									{%endfor%}
+
+{%endblock%}

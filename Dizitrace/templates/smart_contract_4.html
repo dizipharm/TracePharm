@@ -1,0 +1,204 @@
+{% extends 'mainbase.html' %}
+{%block content%}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Smart Contract</title>
+</head>
+
+<style type="text/css">
+	body {
+  font-family: 'lato', sans-serif;
+  background: #fff;
+  height:100vh;
+  overflow:hidden;
+
+}
+.reciept {
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+th {
+    background-color: #95A5A6;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .tr {
+    background-color: #ffffff;
+    box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.1);
+  }
+
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+.button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 10px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  align-content: center;
+}
+input[type=text] {
+  width: 30%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+}
+
+/* Removes the clear button from date inputs */
+input[type="date"]::-webkit-clear-button {
+    display: none;
+}
+
+/* Removes the spin button */
+input[type="date"]::-webkit-inner-spin-button {
+    display: none;
+}
+
+/* Always display the drop down caret */
+input[type="date"]::-webkit-calendar-picker-indicator {
+    color: #2c3e50;
+}
+
+/* A few custom styles for date inputs */
+input[type="date"] {
+    appearance: none;
+    -webkit-appearance: none;
+    color: #95a5a6;
+    font-family: "Helvetica", arial, sans-serif;
+    font-size: 18px;
+    border:1px solid #ecf0f1;
+    background:#ecf0f1;
+    padding:5px;
+    display: inline-block !important;
+    visibility: visible !important;
+}
+
+input[type="date"], focus {
+    color: #95a5a6;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+}
+
+.request_form{
+
+	text-align: left;
+	width: 70%;
+	margin: 0 auto;
+
+}
+</style>
+<body>
+<div class="content-wrapper">
+<section class="content-header">
+              		<h1>Smart Contract
+<!--              			<small>Track & Trace</small>-->
+              		</h1>
+              		<ol class="breadcrumb">
+                    <!-- <li><a href="<?php echo base_url('dashboard') ?>"><i class="fa fa-dashboard"></i> Home</a></li> -->
+              			<li><a href="{%url 'dashboard1'%}"><i class="fa fa-dashboard"></i> Home</a></li>
+                    <!-- <li class="active"><a href="">Search Product</a></li> -->
+              			<!-- <li class="active"><a href="<?php echo base_url('productTnT/') ?>">Search Product</a></li> -->
+              		</ol>
+</section>
+<br>
+<div class="request_form">
+		<form>
+			<select name="contract_type" id="contract_type" style="padding: 10px 16px;">
+    <option value="">---- Please Select Your Contract Type ----</option>
+    <option value="supplychain" selected="selected">Supply Chain</option>
+    <option value="realestate">Real Estate</option>
+    <option value="fintech">Fintech</option>
+	<option value="item4">Item4</option>
+  </select>
+		</form>
+	</div>
+
+
+	<br><br><div class="" id="" style="background-color: white;" >
+
+<div class="col-sm-12">
+		<label class="col control-label">Order Number</label>
+													<div class="col"><input name="" value="ON2345"></div><br>
+									<div class="col-sm-4">
+												<div class="form-row">
+													<label class="col control-label">Product Name</label>
+													<div class="col"><input name="" value="Aspirin"></div>
+													<label class="col control-label">Product Description</label>
+													<div class="col"><input name="" value="Fever"></div>
+													<label class="col control-label">Lot Number</label>
+													<div class="col"><input name="" value="LO1234"></div>
+													<label class="col control-label">Product GTIN</label>
+													<div class="col"><input name="" value="01234567891594"></div>
+													<label class="col control-label">Quantity</label>
+													<div class="col"><input name="" value="100 bottles"></div>
+													<label class="col control-label">Package Type</label>
+													<div class="col"><input name="" value="Case"></div>
+													<label class="col control-label">Transaction Status</label>
+													<div class="col"><select name="contract_type" id="contract_type" style="padding: 5px 8px;">
+    <option value="">-- Please Select --</option>
+    <option value="intransit" selected="selected">In Transit</option>
+    <option value="delivered">Delivered</option>
+
+  </select></div>
+												</div>
+
+									</div>
+
+									<div class="col-sm-4">
+												<div class="form-row">
+													<label class="col control-label">Sender Name</label>
+													<div class="col"><input name="" value="Pfizer"></div>
+												<label class="col control-label">Sender Location</label>
+												<div class="col"><input name="" value="USA"></div>
+												<label class="col control-label">Receiver Name</label>
+												<div class="col"><input name="" value="Yodel"></div>
+												<label class="col control-label">Receiver Address</label>
+													<div class="col"><input name="" value="UK"></div>
+													<label class="col control-label">Team</label>
+													<div class="col"><input name="" value="4 Degree C"></div>
+													<label class="col control-label">Humidity</label>
+													<div class="col"><input name="" value="12"></div><br>
+
+
+											</div>
+								</div>
+    					<div class="col-sm-4">
+												<div class="form-row">
+													<label class="col control-label"></label>
+													<div class="col"></div>
+												<label class="col control-label">Team violation</label>
+												<div class="col"><input name="" value="9 Degree C"></div>
+												<label class="col control-label">Humidity violation</label>
+												<div class="col"><input name="" value="14"></div>
+												<label class="col control-label">Penalty Description</label>
+													<div class="col"><input name="" value=""></div>
+													<label class="col control-label">Penalty Amount</label>
+													<div class="col"><input name="" value=""></div>
+													<label class="col control-label"></label>
+													<div class="col"></div><br><br><br>
+													<input type="button" name="" value="Submit" class="button" onclick="">
+
+											</div>
+								</div>
+</div>
+</div>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+</div>
+</body>
+</html>
+{%endblock%}

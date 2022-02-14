@@ -1,0 +1,421 @@
+{% extends 'mainbase.html' %}
+{%block content%}
+<!DOCTYPE html>
+{%load static%}
+<script src="https://code.jquery.com/jquery-2.1.1.min.js" type="text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+<!-- Content Wrapper. Contains page content -->
+<!-- Developed by Ravi Chand Matangi v 0.1.0 July 11, 2021-->
+<script src="https://bossanova.uk/jsuites/v3/jsuites.js"></script>
+<link rel="stylesheet" href="https://bossanova.uk/jsuites/v3/jsuites.css" type="text/css" />
+<style>
+	.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+	color: #555;
+	cursor: default;
+	background-color: #d2d6de;
+	border: 1px solid #ddd;
+	border-bottom-color: transparent;
+	}
+</style>
+<style>
+	html {font-family: helvetica, arial;}
+	.htimeline { list-style: none; padding: 0; margin: 20px 0 0; }
+	/*		.htimeline .step { float: left; border-top-style: solid; border-top-width: 5px; position: relative; margin-bottom: 15px; text-align: left; padding: 3px 0 5px 10px; background-color: #ddd; color: #333; height: 160px; vertical-align: middle; border-right: solid 1px #bbb; transition: all 0.5s ease;} */
+	.htimeline .step:nth-child(odd) { background-color: #eee; }
+	.htimeline .step:first-child { border-left: solid 1px #bbb; }
+	.htimeline .step:hover { background-color: #ccc; border-bottom-width: 6px; }
+	.htimeline .step > div { margin: 0 5px; font-size: 14px; vertical-align: top; padding: 0;}
+	.htimeline .step.green { border-top-color: #348F50;}
+	.htimeline .step.orange { border-top-color: #F09819;}
+	.htimeline .step.red { border-top-color: #C04848;}
+	.htimeline .step.blue { border-top-color: #49a09d;}
+	.htimeline .step.darkblue { border-top-color: #337ab7;}
+	/* .htimeline .step::before { width: 15px; height: 1d5px; border-radius: 150px; content: ' '; background-color: white; position: absolute; top: -10px; left: 0px; border-style: solid; border-width: 3px; transition: all 0.5s ease;} */
+	/*.htimeline .step:hover::before { width: 20px; height: 20px; bottom: -12px; } */
+	.htimeline .step.green::before {border-color: #348F50;}
+	.htimeline .step.orange::before {border-color: #F09819;}
+	.htimeline .step.red::before {border-color: #C04848;}
+	.htimeline .step.blue::before {border-color: #49a09d;}
+	.htimeline .step.darkblue { border-top-color: #337ab7;}
+	.htimeline .step::after { content: attr(data-date); position: absolute; top: -20px; left: 17px; font-size: 11px; font-style: italic; color: #888}
+	/*TASKS*/
+	.htimeline .step .tasks { margin-top: 10px; }
+	.htimeline .step .tasks .resource {position: relative; height: 40px;}
+	.htimeline .step .tasks .resource::before { position: absolute; bottom: 2px; left: -5px; content: attr(data-name); font-size: 10px; font-style: italic; color: #888}
+	.htimeline .step .tasks .task { overflow: hidden; font-size: 10px; padding: 3px; border: solid 1px white; border-radius: 4px; min-height: 20px;}
+	.htimeline .step.green .tasks .task { background-color: #348F50; color: white; }
+	.htimeline .step.orange .tasks .task { background-color: #F09819; color: white; }
+	.htimeline .step.red .tasks .task { background-color: #C04848; color: white; }
+	.htimeline .step.blue .tasks .task { background-color: #49a09d; color: white; }
+	.htimeline .step.darkblue .tasks .task { background-color: #337ab7; color: white; }
+	#div1 {
+	display: inline-block;
+	}
+	#div2 {
+	display: inline-block;
+	}
+</style>
+<div class="content-wrapper">
+	<!-- Content Header (Page header) -->
+	<section class="content-header">
+		<h1>
+			Track & Trace <small>Click <b style="color:red">Track</b> current status or  <b style=" color:green">Trace</b> to know end to end journey of your product/Logistic Asset</small>
+		</h1>
+		<ol class="breadcrumb">
+			<li><a href="<?php echo base_url('dashboard') ?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li class="active"><a href="<?php echo base_url('productTnT/') ?>">Search Product</a></li>
+			<li class="active"><a href="<?php echo base_url('productTnT/tntdata') ?>">Track & Trace</a></li>
+		</ol>
+
+
+	</section>
+	<!--
+		<div class="bs-example" data-example-id="simple-jumbotron">
+		<div class="jumbotron">
+		</div>
+	</div>  -->
+	<!-- Main content -->
+	<section class="content">
+		<form >
+			<!-- Small boxes (Stat box) -->
+			<div class="row">
+				<div class="col-md-12 bg-light text-right"></div>
+				<!-- Start-First Box Selection options  -->
+				<div id="sel1"  class="col-lg-4" style="background-color: #fff; border:0.5px solid grey; padding-right: 5px;padding-left: 5px;">
+					<div class="card" style="height: 450px;">
+						<div class="card card-default card-tabs">
+							<img align = "right"; style="border:0.5px solid grey; position: float; z-index: 1;" width="120"; height= "120"; src= "<?php echo $tntmasterdata['product_image_url'];?>"/>
+							<h5 class="card-title"><span class="label label-default	">Your Selected Product-GTIN Details</span></h5>
+							<div class="form-group">
+								<select id="gtinid" name="ngtinid" class="itemName form-control" style="width:180px" value="" disabled ></select>
+							</div>
+							<hr style="background-color: #fff; border:0.1px solid grey;">
+							<h5 align = "left";><b>Supplier’s Catalogue/ Master Data</b></h5>
+							<section> 									<div class='container-fluid'>
+
+								<img width="150"; height= "50"; alt="Barcoded value <?php echo $tntmasterdata['product_code_gtin'];?>" src="http://bwipjs-api.metafloor.com/?bcid=code128&text=<?php echo $tntmasterdata['product_code_gtin'];?>&includetext">
+							</div>
+
+							<ul class='htimeline'>
+								<li class='step col-sm-12'>
+									<div class='tasks container-fluid'>
+										<div class='resource' data-name=''>
+											<div class='task col-sm-4'>Company Name</div>
+											<div class='task col-sm-8'>&nbsp;<?php echo $tntmasterdata['company_name'];?></div>
+											<div class='task col-sm-4'>Company GLN</div>
+											<div class='task col-sm-8'>&nbsp;<?php echo $tntmasterdata['company_gln'];?></div>
+											<div class='task col-sm-4'>Product GTIN</div>
+											<div class='task col-sm-8'>&nbsp;<?php echo $tntmasterdata['product_code_gtin'];?></div>
+											<div class='task col-sm-4'>Product Name</div>
+											<div class='task col-sm-8'>&nbsp;<?php echo $tntmasterdata['product_name'];?></div>
+											<div class='task col-sm-4'>Brand Name</div>
+											<div class='task col-sm-8'>&nbsp;<?php echo $tntmasterdata['brand_name'];?></div>
+											<div class='task col-sm-4'>Dosage Form</div>
+											<div class='task col-sm-8'>&nbsp;<?php echo $tntmasterdata['dosage_form'];?></div>
+											<div class='task col-sm-4'>Strength</div>
+											<div class='task col-sm-8'>&nbsp;<?php echo $tntmasterdata['contact_person'];?></div>
+											<div class='task col-sm-4'>MAH</div>
+											<div class='task col-sm-8'>&nbsp;<?php echo $tntmasterdata['market_holder_name'];?></div>
+											<div class='task col-sm-4'>Avialable Stock</div>
+											<div class='task col-sm-8'>&nbsp;1xPallet, 23xCases</div>
+
+										</div>
+									</div>
+								</li>
+							</ul>
+							</section>
+						</div>
+
+					</div>
+
+				</div>
+				<!-- End - First Box Selection options  -->
+
+
+
+				<!-- Start-Second Box Selection options  -->
+				<div id="sel2"  class="col-lg-8" style="background-color: #fff; border:0.5px solid grey; padding-right: 5px;padding-left: 5px;">
+					<div class="card" style="height: 450px;">
+						<div class="card card-primary card-tabs">
+							<h5 class="card-title"><span class="label label-primary">Select Lot# / SSCC# / Case#... of your selected product!</span></h5>
+							<span style="float:right; padding-bottom: 8px; " ><button id="btn1" title="Click here to Track" name="tnttype" value="100" class="btn btn-danger btn-md float-right"  type="submit" style="margin-top : 8px; line-height: 1.3; font-size: 14px; "  ><i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp; Track&nbsp;</button>&nbsp; &nbsp; &nbsp;
+							<button id="btn2" title="Click here to Trace" name="tnttype" value="200" class="btn btn-success btn-md float-right"  type="submit" style="margin-top : 8px; line-height: 1.3; font-size: 14px; "  ><i class="fa fa-share-alt-square" aria-hidden="true"></i>&nbsp; Trace&nbsp;</button></span>
+							<!--
+							<div class="form-group">
+											&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <button id="btn1" title="Click here to Track" name="tnttype" value="100" class="btn btn-danger btn-md float-right"  type="submit" style="margin-top : 8px; line-height: 1.3; font-size: 14px; "  ><i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp; Track&nbsp;</button>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
+							</div> -->
+							<div class="card-header p-0" style="padding-right: 0px;padding-left: 0px;line-height: 1.5;" >
+								<ul class="nav nav-tabs" id="custom-tabs-one-tab"  role="tablist">
+									<li class="nav-item" >
+										<a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill" href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" style=" font-size: 12px;  line-height: 0.5; margin-top : 8px; " aria-selected="true">Lot/ Batch#</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" style=" font-size: 12px;  line-height: 0.5; margin-top : 8px; " aria-selected="false">SSCC#</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" id="custom-tabs-one-messages-tab" data-toggle="pill" href="#custom-tabs-one-messages" role="tab" aria-controls="custom-tabs-one-messages" style=" font-size: 12px;  line-height: 0.5; margin-top : 8px; " aria-selected="false">Pallet#</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" id="custom-tabs-one-settings-tab" data-toggle="pill" href="#custom-tabs-one-settings" role="tab" aria-controls="custom-tabs-one-settings" style=" font-size: 12px;  line-height: 0.5; margin-top : 8px; " aria-selected="false">Case/Item#</a>
+									</li>
+									<!--
+									<li class="nav-item">
+										<div class="form-group">
+											&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <button id="btn1" title="Click here to Track" name="tnttype" value="100" class="btn btn-danger btn-md float-right"  type="submit" style="margin-top : 8px; line-height: 1.3; font-size: 14px; "  ><i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp; Track&nbsp;</button>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
+										</div>
+									</li>
+									<li class="nav-item">
+										<div class="form-group">
+											<button id="btn2" title="Click here to Track" name="tnttype" value="200"  class="btn btn-success btn-md float-right" type="submit"  style="margin-top : 8px; line-height: 1.3; font-size: 14px; "><i class="fa fa-share-alt-square" aria-hidden="true"></i>&nbsp; Trace&nbsp;</button>&nbsp;
+										</div>
+									</li> -->
+								</ul>
+								<!-- /.card body Starts-->
+								<div class="card-body">
+									<div class="tab-content" id="custom-tabs-one-tabContent">
+										<div class="tab-pane fade" id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
+											<div class="card-body">
+												<!--  <h6 class="card-title" style="font-size:1rem;"><b><button class="btn btn-sm btn-default" type="button">Select Lot/Batch#</button></b></h6> -->
+												<div class="search-container">
+													<div class="form-group">
+														<select id="mylotid" name="nmylotid" class="itemName form-control" style="width:300px" onchange="getLotId(this.value)" >
+															<option value=<?=form_dropdown('lotnumber', $tnt_lotdata, set_value( 'lotnumber',$lotnumber), array('class' => 'form-control'),"id='idsscc' ");?></option>
+															</select>
+															<button class="btn btn-sm btn-primary" type="button" onclick="showDiv('idshowlot')">Use LOT#</button>
+														</div>
+													</div>
+													<!-- <div id="#"  class="col-lg-12" style="height: 310px; background-color: #fff; border:0.5px solid grey; padding-right: 5px;padding-left: 5px;"> -->
+													<div id="idshowlot" class="card" style="height: 310px; display:none" >
+														<!-- <div class='container-fluid'> </div> -->
+														<br>
+														<ul class='htimeline' >
+															<li class='step col-sm-7'>
+																<div class='tasks container-fluid'>
+																	<div class='resource' data-name=''>
+																		<div class='task col-sm-4'>Lot Number</div>
+																		<div class='task col-sm-8'> &nbsp; <span id="idlot_number"></span></div>
+																		<div class='task col-sm-4'>Lot Quantity</div>
+																		<div class='task col-sm-8'> &nbsp; <span id="idlot_quantity"></span></div>
+																		<div class='task col-sm-4'>Base Pack Type</div>
+																		<div class='task col-sm-8'> &nbsp; <span id="idbase_pack_type"></span></div>
+																		<div class='task col-sm-4'>Product Code Type</div>
+																		<div class='task col-sm-8'> &nbsp; <span id="idproduct_code_type"></span></div>
+																		<div class='task col-sm-4'>Origination Date</div>
+																		<div class='task col-sm-8'> &nbsp; <span id="idorigination_date"></span></div>
+																		<div class='task col-sm-4'>Expiration Date</div>
+																		<div class='task col-sm-8'> &nbsp; <span id="idexpiration_date"></span></div>
+																		<div class='task col-sm-4'>Best Before Date</div>
+																		<div class='task col-sm-8'> &nbsp; <span id="idbest_before_date"></span></div>
+																		<div class='task col-sm-4'>Sell By Date</div>
+																		<div class='task col-sm-8'> &nbsp; <span id="idsell_by_date"></span></div>
+																		<div class='task col-sm-4'>Retest by date</div>
+																		<div class='task col-sm-8'> &nbsp; <span id="idretest_by_date"></span></div>
+																		<div class='task col-sm-4'>Packaged by date</div>
+																		<div class='task col-sm-8'> &nbsp; <span id="idorigination_date2"></span></div>
+																		<div class='task col-sm-4'>Packaged/Quality Check Status</div>
+																		<div class='task col-sm-8'> &nbsp; Samples Tested, Packaged into Pallets/Cases/Items </div>
+																	</div>
+																</li>
+																<h5 align = "centre"; ><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Lot/Batch Data Code <small>(GS1-128)</small></b></h5>
+																<li class='col-sm-5'>
+																	<div align = "left"; class='task col-sm-4'> <span id="idbarcode"></span></div>
+																	<div align = "left"; class='task col-sm-8'> <span id="idbarcodemsg"></span></div>
+
+																</li>
+															</ul>
+														</div>
+														<!-- </div> -->
+													</div>
+												</div>
+												<div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
+													<div class="card-body">
+														<!-- <h6 class="card-title" style="font-size:1rem;"><b><button class="btn btn-sm btn-default" type="button">Select SSCC#</button></b></h6> -->
+														<div class="search-container">
+															<div class="form-group">
+																<select id="myssccid" name="nmyssccid" class="itemName form-control" style="width:300px">
+																	<option value=<?=form_dropdown('ssccnumber', $tnt_ssccdata, set_value( 'ssccnumber',$ssccnumber), array('class' => 'form-control'),"id='idsscc' ");?></option>
+																	</select>
+																	<button class="btn btn-sm btn-primary" type="button">Use SSCC#</button>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="tab-pane fade" id="custom-tabs-one-messages" role="tabpanel" aria-labelledby="custom-tabs-one-messages-tab">
+														<div class="card-body">
+															<!-- 														<h6 class="card-title" style="font-size:1rem;"><b><button class="btn btn-sm btn-default" type="button">Select Pallet#</button></b></h6> -->
+															<div class="search-container">
+																<div class="form-group">
+																	<select id="mypalletid" name="nmypalletid" class="itemName form-control" style="width:300px">
+																		<option value=<?=form_dropdown('palletsn', $tnt_palletdata, set_value('palletsn',$palletsn), array('class' => 'form-control'),"id='idpallet' ");?></option>
+																		</select>
+																		<button class="btn btn-sm btn-primary" type="button">Use Pallet#</button>
+																	</div>
+																</div>
+															</div>
+														</div>
+														<div class="tab-pane fade" id="custom-tabs-one-settings" role="tabpanel" aria-labelledby="custom-tabs-one-settings-tab">
+															<div class="card-body">
+																<!--dropdown input-->
+																<!--															<h6 class="card-title" style="font-size:1rem;"><b><button class="btn btn-sm btn-default" type="button">Select Case#</button></b></h6> -->
+																<div class="search-container">
+																	<select id="mycaseid" name="nmycaseid" class="itemName form-control" style="width:300px">
+																		<option value=<?=form_dropdown('casesn', $tnt_casedata, set_value( 'casesn',$casesn), array('class' => 'form-control'),''); ?></option>
+																		</select>
+																		<button class="btn btn-sm btn-primary" type="button">Use Case/Item#</button>
+																	</div>
+																</div>
+															</div>
+
+														</div>
+														<input type="hidden" name="ngtinid" value="<?php echo $ngtinid ?>" id="gtinid" />
+													</div>
+													<!-- /.card body ends-->
+												</div>
+											</div>
+										</div>
+
+									</div>
+									<!-- End - Second Box Selection options  -->
+								</div>
+
+								<div>
+									<!-- Small boxes (Ends box) -->
+								</form>
+							</section>
+						</div>
+						<script type='text/javascript'>
+							function getLotId(vlotid) {
+								//alert(vdivid);
+								var BASE_URL = "<?php echo base_url(); ?>";
+								var tempArray = <?php echo json_encode($tntlotdetails); ?>;
+								//alert(tempArray[vlotid].lot_number);
+								// 10 Batch Number(1-20) //23x Lot Number
+								document.getElementById('idlot_number').innerHTML = tempArray[vlotid].lot_number;
+								document.getElementById('idlot_quantity').innerHTML = tempArray[vlotid].lot_quantity;
+								document.getElementById('idbase_pack_type').innerHTML = tempArray[vlotid].base_pack_type;
+								document.getElementById('idproduct_code_type').innerHTML = tempArray[vlotid].product_code_type;
+								// 11 Production Date
+								document.getElementById('idorigination_date').innerHTML = tempArray[vlotid].origination_date;
+								document.getElementById('idorigination_date2').innerHTML = tempArray[vlotid].origination_date;
+								//13 Packaging Date
+								document.getElementById('idexpiration_date').innerHTML = tempArray[vlotid].expiration_date;
+								//17 Expiration Date
+								document.getElementById('idbest_before_date').innerHTML = tempArray[vlotid].best_before_date;
+								document.getElementById('idsell_by_date').innerHTML = tempArray[vlotid].sell_by_date;// 15 Sell by Date (Quality Control) YYMMDD
+								document.getElementById('idretest_by_date').innerHTML = tempArray[vlotid].retest_by_date;
+								// Generate Lot Details Barcode as per the GS-128
+								//https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Example
+								document.getElementById('idbarcode').innerHTML =
+								'<img  src="https://api.qrserver.com/v1/create-qr-code/?size=90x90&data=' + BASE_URL + '(01)' + tempArray[vlotid].product_code_gtin +'(10)'+ tempArray[vlotid].lot_number +'(11)'+tempArray[vlotid].origination_date+'(17)'+tempArray[vlotid].best_before_date+'&includetext">';
+								document.getElementById('idbarcodemsg').innerHTML = '<small style="line-height:10px;">&nbsp;&nbsp;&nbsp;&nbsp;(01) ' + tempArray[vlotid].product_code_gtin +'<br>&nbsp;&nbsp;&nbsp;&nbsp;(10) '+ tempArray[vlotid].lot_number +'<br>&nbsp;&nbsp;&nbsp;&nbsp;(11) '+tempArray[vlotid].origination_date+'<br>&nbsp;&nbsp;&nbsp;&nbsp;(17) '+tempArray[vlotid].best_before_date+'</small>'
+
+								//document.getElementById('idbarcode').innerHTML =  '<img alt="Barcoded value'+tempArray[vlotid].product_code_gtin+'"src="http://bwipjs-api.metafloor.com/?bcid=code128&text= ' + tempArray[vlotid].product_code_gtin + '&includetext">';
+
+							}
+							</script>
+
+							<script type="text/javascript">
+								function showDiv(vdivid) {
+									div = document.getElementById(vdivid);
+									if (div.style.display !== "none") {
+										div.style.display = "none";
+										} else {
+										div.style.display = "block";
+									}
+
+								}
+
+							</script>
+							<script type="text/javascript">
+								$(function() {
+
+
+									var BASE_URL = "<?php echo base_url(); ?>";
+									var vplaceholder = "<?php echo $vproduct_code_gtin; ?>";
+									//alert(vplaceholder);
+									$('#gtinid').select2({
+										placeholder: vplaceholder,
+										minimumInputLength: 1,
+										ajax: {
+											url: "#",
+											dataType: 'json',
+											delay: 250,
+											processResults: function (data) {
+												return {
+													results: data
+												};
+											},
+											cache: true
+										}
+									});
+									$('#mylotid').select2({
+									});
+									$('#mycaseid').select2({
+									});
+									$('#myssccid').select2({
+									});
+									$('#mypalletid').select2({
+									});
+									$('#pname').select2({
+									placeholder: "--Search Product Brand/Lable--",
+									minimumInputLength: 1,
+									ajax: {
+									url: "<?=base_url()?>productTnT/searchProductName",
+									dataType: 'json',
+									delay: 250,
+									processResults: function (data) {
+									return {
+									results: data
+									};
+									},
+									cache: true
+									}
+									});
+									$('#pono').select2({
+									placeholder: "--Search PO No--",
+									minimumInputLength: 1,
+									ajax: {
+									url: "<?=base_url()?>productTnT/searchGtinData",
+									dataType: 'json',
+									delay: 250,
+									processResults: function (data) {
+									return {
+									results: data
+									};
+									},
+									cache: true
+									}
+									});
+									$('#lotid').select2({
+									placeholder: "--Search Lot/Batch No--",
+									minimumInputLength: 1,
+									ajax: {
+									url: "<?=base_url()?>productTnT/searchGtinsLots/",
+									dataType: 'json',
+									delay: 250,
+									processResults: function (data) {
+									return {
+									results: data
+									};
+									},
+									cache: true
+									}
+									});
+									});
+									// this is to Refresh page
+									function tntdata(id)
+									{
+									if(id) {
+									$("#tntdata").on('submit', function() {
+									var form = $(this);
+									console.log(form);
+									// hide the modal
+									$("#sel2").modal('hide');
+									// hide the modal
+									$("#sel3").modal('hide');
+									return false;
+									});
+									}
+									}
+									</script>
+{%endblock%}

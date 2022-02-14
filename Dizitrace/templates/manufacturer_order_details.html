@@ -1,0 +1,54 @@
+{% extends 'mainbase.html' %}
+{%block content%}
+{%load static%}
+<title>Dashboard</title>
+
+<body>
+
+<div class="tab-content border bg-white" id="myTabContent">
+
+  <div class="d-flex flex-wrap center-content-end my-2">
+<center><h2>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspManufacturer Transactions</h2></center>
+  </div>
+  <table class="table tt">
+    <thead>
+      <tr>
+        <th >SSCC</th>
+        <th >Product Name</th>
+        <th >Order Status</th>
+        <th >Accept Order</th>
+        <!-- <th style="width: 130px;">Product Name</th>
+        <th style="width: 130px;">Mfg Date</th>
+        <th style="width: 130px;">Expiry Date</th>
+        <th style="width: 130px;">Status</th>
+        <th style="width: 130px;">Action</th> -->
+      </tr>
+    </thead>
+    <tbody>
+
+      {%for a in result %}
+
+                        <tr>
+                        <!-- <td>{{a.Sno}}</td> -->
+      <td><span class="glyphicon glyphicon-pencil" >{{a.sscc}}</span></td>
+      <td><span class="glyphicon glyphicon-pencil" >{{a.product.product_name}}</span></td>
+      <td><span class="glyphicon glyphicon-pencil" >{{a.product_disp.order_status}}</span></td>
+      <!-- <td><span class="glyphicon glyphicon-pencil" >{{a.em_drug_name}}</span></td>
+      <td><span class="glyphicon glyphicon-pencil" >{{a.em_mfg_date}}</span></td>
+      <td><span class="glyphicon glyphicon-pencil" >{{a.em_expiry_date}}</span></td>
+        <td><span class="glyphicon glyphicon-pencil" >{{a.em_status}}</span></td> -->
+
+
+        <td><a href="/manufacturer_order_details_edit/{{ a.url|slice:'-2:-1' }}"><span class="glyphicon glyphicon-pencil" >View Data</span></a></td>
+
+
+
+{%endfor%}
+
+    </tbody>
+</table>
+</div>
+
+</body>
+
+{%endblock%}
